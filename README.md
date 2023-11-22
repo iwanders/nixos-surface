@@ -86,6 +86,14 @@ Remember to edit `configuration.nix` to include [these options](https://github.c
 
 Be sure to add `vim` to the system packages.
 
+I did add myself as a user (as per the install manual) with
+```
+useradd -c 'Ivor' -m ivor
+passwd ivor
+```
+and then added that user to `wheel` with [these lines](https://github.com/iwanders/nixos-surface/blob/1390c857bdce481f25ad90bfe0f543bcf82ede7a/configuration.nix#L61-L69). I'm not sure
+why users need to be added manually if they're also in the `configuration.nix`.
+
 ### Connecting via SSH
 
 Boot from minimal nixos image from usb, then run the 'start wifi' from the motd, then use:
