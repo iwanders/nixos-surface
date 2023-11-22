@@ -3,6 +3,17 @@
 Trying out NixOS on a Microsoft Surface Pro 9. Mostly keeping notes for myself and just to store the
 NixOS configuration for it.
 
+Hostname for my system is [papyrus](https://en.wikipedia.org/wiki/Papyrus), so that will pop up in
+random commands.
+
+## Useful bits;
+
+To build the top level filesystem result;
+```
+nix build .#nixosConfigurations.papyrus.config.system.build.toplevel
+```
+From Brian McGee's [post](https://bmcgee.ie/posts/2022/12/setting-up-my-new-laptop-nix-style/) on
+how to setup a nix machine.
 
 
 ## Installation
