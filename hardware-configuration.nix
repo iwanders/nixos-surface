@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
@@ -14,25 +15,29 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
+    {
+      device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
       fsType = "btrfs";
       options = [ "subvol=root" ];
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
+    {
+      device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
       fsType = "btrfs";
       options = [ "subvol=nix" ];
     };
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
+    {
+      device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
       fsType = "btrfs";
       options = [ "subvol=home" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/EE47-BABE";
+    {
+      device = "/dev/disk/by-uuid/EE47-BABE";
       fsType = "vfat";
     };
 

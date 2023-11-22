@@ -8,7 +8,8 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -62,20 +63,20 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ivor = {
-     isNormalUser = true;
-     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-     #packages = with pkgs; [
-     # vim
-     # tree
-     #];
+    isNormalUser = true;
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    #packages = with pkgs; [
+    # vim
+    # tree
+    #];
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     wget
-   ];
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

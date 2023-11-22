@@ -8,12 +8,18 @@ random commands.
 
 ## Useful bits;
 
+### Build top level:
 To build the top level filesystem result;
 ```
 nix build .#nixosConfigurations.papyrus.config.system.build.toplevel
 ```
 From Brian McGee's [post](https://bmcgee.ie/posts/2022/12/setting-up-my-new-laptop-nix-style/) on
 how to setup a nix machine.
+
+### Format
+```
+nix run nixpkgs/23.05#nixpkgs-fmt -- *.nix
+```
 
 
 ## Installation
