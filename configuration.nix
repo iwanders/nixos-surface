@@ -38,7 +38,11 @@
   # services.xserver.enable = true;
 
 
-  
+  fileSystems = {
+    "/".options = [ "compress=zstd" ];
+    "/home".options = [ "compress=zstd" ];
+    "/nix".options = [ "compress=zstd" "noatime" ];
+  };
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
