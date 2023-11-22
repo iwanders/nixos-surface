@@ -16,19 +16,19 @@
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
       fsType = "btrfs";
-      options = [ "subvol=root,compress=zstd" ];
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
-      fsType = "btrfs";
-      options = [ "subvol=home,compress=zstd" ];
+      options = [ "subvol=root" ];
     };
 
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
       fsType = "btrfs";
-      options = [ "subvol=nix,compress=zstd,noatime" ];
+      options = [ "subvol=nix" ];
+    };
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/133b8540-8114-44a8-b376-c6e092c78b1a";
+      fsType = "btrfs";
+      options = [ "subvol=home" ];
     };
 
   fileSystems."/boot" =
@@ -43,6 +43,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp0s20f0u6u2.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
