@@ -3,8 +3,7 @@
   imports = [
   ];
 
-  options = {
-  };
+  options = { };
 
   config = {
     # https://github.com/NixOS/nixpkgs/blob/4ecab3273592f27479a583fb6d975d4aba3486fe/nixos/modules/services/x11/desktop-managers/gnome.nix#L459
@@ -21,27 +20,45 @@
     # https://github.com/NixOS/nixpkgs/blob/4ecab3273592f27479a583fb6d975d4aba3486fe/nixos/modules/services/x11/desktop-managers/gnome.nix#L459
     # https://discourse.nixos.org/t/howto-disable-most-gnome-default-applications-and-what-they-are/13505
     environment.gnome.excludePackages = (with pkgs.gnome; [
-      baobab      # disk usage analyzer
-      eog         # image viewer
-      epiphany    # web browser
-      gedit       # text editor
+      baobab # disk usage analyzer
+      eog # image viewer
+      epiphany # web browser
+      gedit # text editor
       simple-scan # document scanner
-      totem       # video player
-      yelp        # help viewer
-      evince      # document viewer
+      totem # video player
+      yelp # help viewer
+      evince # document viewer
       file-roller # archive manager
-      geary       # email client
-      seahorse    # password manager
-      gnome-calculator gnome-calendar gnome-characters gnome-clocks gnome-contacts
-      gnome-font-viewer gnome-logs gnome-maps gnome-music gnome-screenshot
-      gnome-system-monitor gnome-weather gnome-disk-utility pkgs.gnome-connections
+      geary # email client
+      seahorse # password manager
+      gnome-calculator
+      gnome-calendar
+      gnome-characters
+      gnome-clocks
+      gnome-contacts
+      gnome-font-viewer
+      gnome-logs
+      gnome-maps
+      gnome-music
+      gnome-screenshot
+      gnome-system-monitor
+      gnome-weather
+      gnome-disk-utility
+      pkgs.gnome-connections
     ]) ++ (with pkgs;[
       orca
     ]);
+
+
     # We also lose nautilus now though...
     environment.systemPackages =
-      with pkgs.gnome; [
+      (with pkgs.gnome; [
         nautilus
-    ];
+        gnome-terminal
+      ]) ++ (with pkgs;[
+        vlc
+        mplayer
+        scite
+      ]);
   };
 }

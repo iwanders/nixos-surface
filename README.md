@@ -25,8 +25,12 @@ Then, we can copy closure that with (assuming `ivor` is in `trusted-users`):
 nix copy --to "ssh://ivor@papyrus" ./result
 ```
 
+### Actually switch to the new config
+```
+nixos-rebuild switch --flake .#papyrus
+```
 
-### Format
+### Format this repo
 ```
 nix run nixpkgs/23.05#nixpkgs-fmt -- *.nix
 ```

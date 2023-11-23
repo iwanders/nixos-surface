@@ -6,13 +6,13 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = ["ivor"];
+  nix.settings.trusted-users = [ "ivor" ];
 
 
   imports =
     [
       ./hardware-configuration.nix
-      ./module-gnome-minimal.nix
+      ./module-desktop.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -70,6 +70,7 @@
   environment.systemPackages = (with pkgs; [
     vim
     wget
+    iftop
   ]);
 
   # Some programs need SUID wrappers, can be configured further or are
