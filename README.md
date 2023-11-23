@@ -20,6 +20,11 @@ nix build .#nixosConfigurations.papyrus.config.system.build.toplevel
 From Brian McGee's [post](https://bmcgee.ie/posts/2022/12/setting-up-my-new-laptop-nix-style/) on
 how to setup a nix machine.
 
+When large local builds have to happen, add `-L` for logging and set the amount of build cores;
+```
+NIX_BUILD_CORES=10 nix build .#nixosConfigurations.papyrus.config.system.build.toplevel -L
+```
+
 Then, we can copy closure that with (assuming `ivor` is in `trusted-users`):
 ```
 nix copy --to "ssh://ivor@papyrus" ./result
