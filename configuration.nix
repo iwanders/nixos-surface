@@ -47,6 +47,8 @@
   };
 
 
+  microsoft-surface.ipts.enable = true;
+
 
   # Enable sound.
   sound.enable = true;
