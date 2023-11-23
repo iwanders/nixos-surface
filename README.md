@@ -6,15 +6,25 @@ NixOS configuration for it.
 Hostname for my system is [papyrus](https://en.wikipedia.org/wiki/Papyrus), so that will pop up in
 random commands.
 
-## Useful bits;
+## Useful links;
+
+- [NixOS configuration options](https://nixos.org/manual/nixos/stable/options)
+
+## Useful Commands;
 
 ### Build top level:
-To build the top level filesystem result;
+To build the top level filesystem result, this also works from a non NixOS host;
 ```
 nix build .#nixosConfigurations.papyrus.config.system.build.toplevel
 ```
 From Brian McGee's [post](https://bmcgee.ie/posts/2022/12/setting-up-my-new-laptop-nix-style/) on
 how to setup a nix machine.
+
+Then, we can copy closure that with (assuming `ivor` is in `trusted-users`):
+```
+nix copy --to "ssh://ivor@papyrus" ./result
+```
+
 
 ### Format
 ```

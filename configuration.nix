@@ -6,6 +6,8 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = ["ivor"];
+
 
   imports =
     [
@@ -37,9 +39,6 @@
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
 
   fileSystems = {
     "/".options = [ "compress=zstd" ];
@@ -48,15 +47,40 @@
   };
 
   # Configure keymap in X11
-  # services.xserver.layout = "us";
+  services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+
+  services.gnome.core-utilities.enable = false;
+  # well, that still pulls in orca, with speech synthesis, for many megabytes.
+  # https://github.com/NixOS/nixpkgs/blob/4ecab3273592f27479a583fb6d975d4aba3486fe/nixos/modules/services/x11/desktop-managers/gnome.nix#L459
+  # https://discourse.nixos.org/t/howto-disable-most-gnome-default-applications-and-what-they-are/13505
+  environment.gnome.excludePackages = (with pkgs.gnome; [
+    baobab      # disk usage analyzer
+    eog         # image viewer
+    epiphany    # web browser
+    gedit       # text editor
+    simple-scan # document scanner
+    totem       # video player
+    yelp        # help viewer
+    evince      # document viewer
+    file-roller # archive manager
+    geary       # email client
+    seahorse    # password manager
+    gnome-calculator gnome-calendar gnome-characters gnome-clocks gnome-contacts
+    gnome-font-viewer gnome-logs gnome-maps gnome-music gnome-screenshot
+    gnome-system-monitor gnome-weather gnome-disk-utility pkgs.gnome-connections
+  ]) ++ (with pkgs;[
+    orca
+  ]);
+  # We also lose nautilus now though...
 
   # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -73,10 +97,10 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  environment.systemPackages = (with pkgs; [
+    vim
     wget
-  ];
+  ]);
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
