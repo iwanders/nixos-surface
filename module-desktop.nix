@@ -59,6 +59,8 @@
         vlc
         mplayer
         scite
+        chromium
+        gimp
       ]);
   };
 }
