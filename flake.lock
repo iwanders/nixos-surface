@@ -2,16 +2,16 @@
   "nodes": {
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1700559156,
-        "narHash": "sha256-gL4epO/qf+wo30JjC3g+b5Bs8UrpxzkhNBBsUYxpw2g=",
-        "owner": "NixOS",
+        "lastModified": 1700781134,
+        "narHash": "sha256-NwnRn04C8s+hH+KdVtGmVB1FFNIG7DtPJmQSCBDaET4=",
+        "owner": "iwanders",
         "repo": "nixos-hardware",
-        "rev": "c3abafb01cd7045dba522af29b625bd1e170c2fb",
+        "rev": "42847997ca261f22eb44afcf5e4c4f45e8908a19",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "master",
+        "owner": "iwanders",
+        "ref": "ms-surface-linux-kernel-update",
         "repo": "nixos-hardware",
         "type": "github"
       }

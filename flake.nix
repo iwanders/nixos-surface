@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-23.05";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.url = "github:iwanders/nixos-hardware/ms-surface-linux-kernel-update";
   };
 
   outputs = { self, nixpkgs, nixos-hardware }: {
