@@ -40,6 +40,22 @@ nixos-rebuild switch --flake .#papyrus
 nix run nixpkgs/23.05#nixpkgs-fmt -- *.nix
 ```
 
+### Discard old NixOS generations
+List them with;
+```
+nix-env --list-generations --profile /nix/var/nix/profiles/system
+```
+
+Discard with;
+```
+nix-env --delete-generations --profile /nix/var/nix/profiles/system <number>
+```
+
+Discard all but most recent 5;
+```
+nix-env --delete-generations --profile /nix/var/nix/profiles/system  +2
+```
+
 
 ## Installation
 
