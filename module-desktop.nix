@@ -41,7 +41,6 @@
       gnome-maps
       gnome-music
       gnome-screenshot
-      gnome-system-monitor
       gnome-weather
       gnome-disk-utility
       pkgs.gnome-connections
@@ -55,6 +54,7 @@
       (with pkgs.gnome; [
         nautilus
         gnome-terminal
+        gnome-system-monitor
       ]) ++ (with pkgs;[
         vlc
         mplayer
