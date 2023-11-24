@@ -167,10 +167,6 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 
 # Todo
 
-- Dragging gtk windows with touch makes cursor stuck
-  - [related?](https://gitlab.gnome.org/GNOME/mutter/-/issues/1603), Gnome 45 is claimed to fix it.
-  - Tried updating iptsd and linux-surface kernel, both do not change this aspect.
-  - Currently easiest to wait for nixos 23-11, which should be out shortly.
 - Investigate power consumption - somehow.
 - Figure out how to make the gnome onscreen keyboard display normal `!@#$%^&*()_+` symbols.
 - Check the false positive pen thumb button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
