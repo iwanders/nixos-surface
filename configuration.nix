@@ -9,7 +9,7 @@
   nix.settings.trusted-users = [ "ivor" ];
 
   nixpkgs.overlays = [
-    (import ./overlay-iptsd.nix)
+    #(import ./overlay-iptsd.nix)
   ];
 
   imports =
