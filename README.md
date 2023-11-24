@@ -156,3 +156,13 @@ OK
 To connect to wifi, followed by giving `root` a password with `passwd`, then ssh in from another
 machine by `ssh root@nixos`.
 
+
+
+# Todo
+
+- Dragging gtk windows with touch makes cursor stuck
+  - [related?](https://gitlab.gnome.org/GNOME/mutter/-/issues/1603), Gnome 45 is claimed to fix it.
+  - Tried updating iptsd and linux-surface kernel, both do not change this aspect.
+  - Currently easiest to wait for nixos 23-11, which should be out shortly.
+- Investigate power consumption - somehow.
+  
