@@ -50,6 +50,7 @@
 
   microsoft-surface.ipts.enable = true;
   microsoft-surface.surface-control.enable = true;
+  services.thermald.enable = true;
 
 
   # Enable sound.
