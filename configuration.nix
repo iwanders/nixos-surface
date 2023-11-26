@@ -9,7 +9,7 @@
   nix.settings.trusted-users = [ "ivor" ];
 
   nixpkgs.overlays = [
-    #(import ./overlay-iptsd.nix)
+    (import ./overlay-iptsd.nix)
   ];
 
   imports =
@@ -50,6 +50,7 @@
   };
 
 
+  # Surface related stuff.
   microsoft-surface.ipts.enable = true;
   microsoft-surface.surface-control.enable = true;
   services.thermald.enable = true;
@@ -80,6 +81,7 @@
     iftop
     lm_sensors
     screen
+    iptsd
   ]);
 
   # Some programs need SUID wrappers, can be configured further or are
