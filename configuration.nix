@@ -8,9 +8,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "ivor" ];
 
-  nixpkgs.overlays = [
-    #(import ./overlay-iptsd.nix)
-  ];
+  nixpkgs.overlays = [ ];
 
   imports =
     [
@@ -78,6 +76,7 @@
     iftop
     lm_sensors
     screen
+    surface-control
   ]);
 
   # Some programs need SUID wrappers, can be configured further or are
