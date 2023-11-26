@@ -2,16 +2,16 @@
   "nodes": {
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1700781134,
-        "narHash": "sha256-NwnRn04C8s+hH+KdVtGmVB1FFNIG7DtPJmQSCBDaET4=",
+        "lastModified": 1701031454,
+        "narHash": "sha256-4wK56xoPYZ/Ot8eJUfMBxOU4NEzFiMLlBqCDXBS4DD8=",
         "owner": "iwanders",
         "repo": "nixos-hardware",
-        "rev": "42847997ca261f22eb44afcf5e4c4f45e8908a19",
+        "rev": "3e79d9968e05db515fa8d070765f58bdf4931195",
         "type": "github"
       },
       "original": {
         "owner": "iwanders",
-        "ref": "ms-surface-linux-kernel-update",
+        "ref": "ms-surface-give-iptsd-options",
         "repo": "nixos-hardware",
         "type": "github"
       }

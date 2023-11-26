@@ -48,11 +48,18 @@
     "/home".options = [ "compress=zstd" ];
     "/nix".options = [ "compress=zstd" "noatime" ];
   };
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
 
 
   # Surface related stuff.
   microsoft-surface.ipts.enable = true;
+  microsoft-surface.ipts.config = {
+    DFT = {
+      PositionMinMag = 500;
+      ButtonMinMag = 20000;
+    };
+  };
+
   microsoft-surface.surface-control.enable = true;
   services.thermald.enable = true;
 
