@@ -8,7 +8,9 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "ivor" ];
 
-  nixpkgs.overlays = [ ];
+  nixpkgs.overlays = [
+    #(import ./overlay-iptsd.nix)
+  ];
 
   imports =
     [
