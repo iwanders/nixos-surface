@@ -48,6 +48,7 @@
     "/home".options = [ "compress=zstd" ];
     "/nix".options = [ "compress=zstd" "noatime" ];
   };
+  boot.cleanTmpDir = true;
 
 
   # Surface related stuff.
