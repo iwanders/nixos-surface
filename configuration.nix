@@ -49,6 +49,7 @@
 
 
   microsoft-surface.ipts.enable = true;
+  microsoft-surface.surface-control.enable = true;
 
 
   # Enable sound.
@@ -76,7 +77,6 @@
     iftop
     lm_sensors
     screen
-    surface-control
   ]);
 
   # Some programs need SUID wrappers, can be configured further or are
