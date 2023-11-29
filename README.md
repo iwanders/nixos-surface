@@ -165,6 +165,8 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 (Default is `appmenu:close`).
 
 
+
+
 # Todo
 
 - Figure out how to make the gnome onscreen keyboard display normal `!@#$%^&*()_+` symbols.
@@ -174,3 +176,18 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 - Make fans turn on quicker, may just be a matter of installing thermald? Even on windows things get pretty hot, maybe that's normal?
 
   
+## Notes on fan
+Surface aggregator module; https://github.com/linux-surface/surface-aggregator-module/issues/64
+
+Maybe we can sniff it with [irpmon](https://github.com/linux-surface/surface-aggregator-module/wiki/Development)?
+
+```
+sudo modprobe surface_aggregator_cdev
+```
+
+Return two bytes, zero when fan is off, increased as fan sped up, decreases as fan speeds down.
+```
+sudo python3 ctrl.py request 5 1 1 1 
+[lower byte] [upper byte]
+```
+
