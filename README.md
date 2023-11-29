@@ -191,3 +191,9 @@ sudo python3 ctrl.py request 5 1 1 1
 [lower byte] [upper byte]
 ```
 
+And fan speed control, last two bytes here:
+```
+sudo python3 ctrl.py request 5 1 11 1 0 185 20
+sudo python3 ctrl.py request 5 1 11 1 0 0 0
+```
+
