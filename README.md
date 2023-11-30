@@ -199,9 +199,21 @@ sudo python3 ctrl.py request 5 1 11 1 0 0 0
 
 Now, we need a kernel module that ties the acpi fan stuff to these commands. [fan_core](https://github.com/torvalds/linux/blob/18d46e76d7c2eedd8577fae67e3f1d4db25018b0/drivers/acpi/fan_core.c), the [surface platform_profile.c](https://github.com/linux-surface/kernel/blob/v6.5-surface-devel/drivers/platform/surface/surface_platform_profile.c) surface module seems to tie `platform_profile` to the `ssam` module, can probably follow that structure.
 
-How do we get a devshell though?
+Prepare for the development shell with
 ```
+nix build .#nixosConfigurations.papyrus.config.boot.kernelPackages.kernel.dev -L
 nix develop .#nixosConfigurations.papyrus.config.boot.kernelPackages.kernel
+```
+
+Then build the in-tree surface modules with:
+```
+export KERNELDIR=$(nix build --print-out-paths ".#nixosConfigurations.papyrus.config.boot.kernelPackages.kernel.dev")
+# go to linux surface kernel tree, copy configuration from active system.
+cp $KERNELDIR/lib/modules/*/build/.config .config
+cp $KERNELDIR/lib/modules/6.5.11/build/Module.symvers .
+# prepare build environment
+make scripts prepare modules_prepare
+make -C . M=drivers/platform/surface
 ```
 
 This [post](https://blog.thalheim.io/2022/12/17/hacking-on-kernel-modules-in-nixos/) may be helpful.
