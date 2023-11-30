@@ -61,6 +61,8 @@
   };
 
   microsoft-surface.surface-control.enable = true;
+  microsoft-surface.kernelVersion = "surface-devel";
+
   services.thermald.enable = true;
 
 
