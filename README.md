@@ -226,3 +226,92 @@ Maybe out of tree for now?
 nix develop "$(realpath /run/booted-system/flake)#nixosConfigurations.$(hostname).config.boot.kernelPackages.kernel"
 export KERNELDIR=$(nix build --print-out-paths "$(realpath /run/booted-system/flake)#nixosConfigurations.papyrus.config.boot.kernelPackages.kernel.dev")/lib/modules/*/build
 ```
+
+
+Requests;
+```
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 0 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 1 1 1
+32 11
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 2 1 1
+00 00 00 40 00 00 00 3f cd cc 4c 3e 14 64
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 3 1 1
+01
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 4 1 1
+01 00 51 75 69 65 74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b8 0b 00 00 31 0c 14 00 3b 0c bd 0c 28 00 00 00 c8 41 64 00 63 0c 00 00 00 00 00 00 00 00
+\x01\x00Quiet\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00¸\x0b\x00\x001\x0c\x14\x00;\x0c½\x0c(\x00\x00\x00ÈAd\x00c\x0c\x00\x00\x00\x00\x00\x00\x00\x00
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 5 1 1
+01 00 4f 76 65 72 72 69 64 65 00 00 00 00 00 00 00 00 00 00 00 00 f0 41 00 00 00 00 00 00 00 00 40 1f b8 0b 34 21 3b 0c 14 00 45 0c 03 0d 28 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+\x01\x00Override\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00ðA\x00\x00\x00\x00\x00\x00\x00\x00@\x1f¸\x0b4!;\x0c\x14\x00E\x0c\x03\r(\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 6 1 1
+33 33 ff ff b8 0b f8 2a ff 3f f4 01 64 00 85 ab 35 43 cd 9c 12 c4 00 00 00 00
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 7 1 1
+01 00 00 00 09 00 00 00 00 00 00 00 00 00 00 00 32 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 8 1 1
+00
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 9 1 1
+1a ae 00 00
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 10 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 11 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 12 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 13 1 1
+00 00 f0 41
+Float 30.0?!
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 14 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 15 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 16 1 1
+01
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 17 1 1
+1d
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 17 1 1
+1d
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 18 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 19 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 20 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 21 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 22 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 23 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 24 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+
+# 
+```
+
