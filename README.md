@@ -237,8 +237,12 @@ TimeoutError: [Errno 110] ETIMEDOUT
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 1 1 1
 32 11
 
+# Later, after rebooting windows;
+00 00 
+
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 2 1 1
 00 00 00 40 00 00 00 3f cd cc 4c 3e 14 64
+# unmodified after reboot.
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 3 1 1
 01
@@ -246,6 +250,7 @@ TimeoutError: [Errno 110] ETIMEDOUT
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 4 1 1
 01 00 51 75 69 65 74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b8 0b 00 00 31 0c 14 00 3b 0c bd 0c 28 00 00 00 c8 41 64 00 63 0c 00 00 00 00 00 00 00 00
 \x01\x00Quiet\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00¸\x0b\x00\x001\x0c\x14\x00;\x0c½\x0c(\x00\x00\x00ÈAd\x00c\x0c\x00\x00\x00\x00\x00\x00\x00\x00
+
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 5 1 1
 01 00 4f 76 65 72 72 69 64 65 00 00 00 00 00 00 00 00 00 00 00 00 f0 41 00 00 00 00 00 00 00 00 40 1f b8 0b 34 21 3b 0c 14 00 45 0c 03 0d 28 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -257,11 +262,21 @@ TimeoutError: [Errno 110] ETIMEDOUT
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 7 1 1
 01 00 00 00 09 00 00 00 00 00 00 00 00 00 00 00 32 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
+# After restarting windows;
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 7 1 1
+01 00 00 00 09 00 00 00 ef 04 00 00 90 00 00 00 d1 00 00 00 f3 00 00 00 05 00 00 00 05 00 00 00 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 8 1 1
 00
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 9 1 1
 1a ae 00 00
+
+# Later, after I managed to wipe it and it reported 0 0 0 1, after starting windows:
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 9 1 1
+05 10 cc 10
+
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 10 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
@@ -275,6 +290,7 @@ TimeoutError: [Errno 110] ETIMEDOUT
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 13 1 1
 00 00 f0 41
 Float 30.0?!
+# unmodified after reboot
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 14 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
@@ -284,13 +300,13 @@ TimeoutError: [Errno 110] ETIMEDOUT
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 16 1 1
 01
-
+# unmodified after reboot
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 17 1 1
 1d
-
+# unmodified after reboot
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 17 1 1
 1d
-
+# unmodified after reboot
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 18 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
 
