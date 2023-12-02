@@ -61,6 +61,7 @@
         scite
         chromium
         gimp
+        xorg.xwininfo
       ]);
   };
 }
