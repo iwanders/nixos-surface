@@ -187,7 +187,7 @@ sudo modprobe surface_aggregator_cdev
 
 Return two bytes, zero when fan is off, increased as fan sped up, decreases as fan speeds down.
 ```
-sudo python3 ctrl.py request 5 1 1 1 
+sudo python3 ctrl.py request 5 1 1 1 1
 [lower byte] [upper byte]
 ```
 
