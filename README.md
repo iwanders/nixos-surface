@@ -331,3 +331,31 @@ TimeoutError: [Errno 110] ETIMEDOUT
 # 
 ```
 
+Sniff with irpmon;
+```
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 124}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 12}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 53, "rqid_hi": 7, "cid": 3}, "payload": [3, 0, 0, 0], "time": "2023-12-03 12:42:53 AM"}, 
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 13}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 14}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 55, "rqid_hi": 7, "cid": 14}, "payload": [3], "time": "2023-12-03 12:42:53 AM"}, 
+
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 126}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 17}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 58, "rqid_hi": 7, "cid": 3}, "payload": [4, 0, 0, 0], "time": "2023-12-03 12:42:58 AM"}, 
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 18}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 19}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 60, "rqid_hi": 7, "cid": 14}, "payload": [4], "time": "2023-12-03 12:42:58 AM"}, 
+
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 130}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 24}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 65, "rqid_hi": 7, "cid": 3}, "payload": [1, 0, 0, 0], "time": "2023-12-03 12:43:01 AM"}, 
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 25}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 26}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 67, "rqid_hi": 7, "cid": 14}, "payload": [2], "time": "2023-12-03 12:43:01 AM"}, 
+
+```
+
+Shows a fan command going out with a platform change, probably switches the mode? But from the fan dump we know there's just two profiles, Quiet and Override.
+
+```
+rg '"tc": 5' cpu_load.json 
+440:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 237}}, {"ctrl": {"type": 128, "len": 8, "pad": 0, "seq": 106}, "cmd": {"type": 128, "tc": 5, "sid": 1, "tid": 0, "iid": 1, "rqid_lo": 5, "rqid_hi": 0, "cid": 10}, "payload": [], "time": "2023-12-03 1:54:47 AM"},
+442:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 107}}, {"ctrl": {"type": 128, "len": 8, "pad": 0, "seq": 238}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 23, "rqid_hi": 7, "cid": 1}, "payload": [], "time": "2023-12-03 1:54:47 AM"},
+443:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 238}}, {"ctrl": {"type": 128, "len": 10, "pad": 0, "seq": 108}, "cmd": {"type": 128, "tc": 5, "sid": 1, "tid": 0, "iid": 1, "rqid_lo": 23, "rqid_hi": 7, "cid": 1}, "payload": [73, 10], "time": "2023-12-03 1:54:47 AM"},
+444:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 108}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 239}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 24, "rqid_hi": 7, "cid": 8}, "payload": [109, 7, 60, 15], "time": "2023-12-03 1:54:47 AM"},
+445:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 239}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 109}, "cmd": {"type": 128, "tc": 5, "sid": 1, "tid": 0, "iid": 1, "rqid_lo": 24, "rqid_hi": 7, "cid": 8}, "payload": [0], "time": "2023-12-03 1:54:47 AM"},
+533:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 138}}, {"ctrl": {"type": 128, "len": 10, "pad": 0, "seq": 15}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 56, "rqid_hi": 7, "cid": 11}, "payload": [210, 11], "time": "2023-12-03 1:55:16 AM"},
+538:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 140}}, {"ctrl": {"type": 128, "len": 10, "pad": 0, "seq": 18}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 59, "rqid_hi": 7, "cid": 11}, "payload": [204, 11], "time": "2023-12-03 1:55:17 AM"},
+553:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 146}}, {"ctrl": {"type": 128, "len": 10, "pad": 0, "seq": 25}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 66, "rqid_hi": 7, "cid": 11}, "payload": [0, 0], "time": "2023-12-03 1:55:21 AM"},
+559:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 148}}, {"ctrl": {"type": 128, "len": 10, "pad": 0, "seq": 28}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 69, "rqid_hi": 7, "cid": 11}, "payload": [0, 0], "time": "2023-12-03 1:55:25 AM"},
+```
+
