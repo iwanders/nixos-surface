@@ -2,15 +2,38 @@
 
 A totally incoherent dump of things.
 
+## Current understanding
 
+Windows appears to command the fan directly, not purely relying on the system controllers. Overheat tablet on linux -> switch to windows makes the fan go faster. Likely that it uses the `override` profile, but so far it is unknown how to switch to that.
+
+Current platform profile switching does not send the appropriate fan profile switches, but manually doing so appears to do nothing.
+
+Now, we need a kernel module that ties the acpi fan stuff to these commands. [fan_core](https://github.com/torvalds/linux/blob/18d46e76d7c2eedd8577fae67e3f1d4db25018b0/drivers/acpi/fan_core.c), the [surface platform_profile.c](https://github.com/linux-surface/kernel/blob/v6.5-surface-devel/drivers/platform/surface/surface_platform_profile.c) surface module seems to tie `platform_profile` to the `ssam` module, can probably follow that structure.
+
+
+## Notes on sniffing;
 Surface aggregator module; https://github.com/linux-surface/surface-aggregator-module/issues/64
-
-
 
 Maybe we can sniff it with [irpmon](https://github.com/linux-surface/surface-aggregator-module/wiki/Development)?
 
 ```
 sudo modprobe surface_aggregator_cdev
+```
+
+
+# Command analysis
+
+### CID 0
+```
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 0 1 1
+TimeoutError: [Errno 110] ETIMEDOUT
+```
+
+### CID 1 Fan speed
+```
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 1 1 1
+32 11
+
 ```
 
 Return two bytes, zero when fan is off, increased as fan sped up, decreases as fan speeds down.
@@ -19,34 +42,25 @@ sudo python3 ctrl.py request 5 1 1 1 1
 [lower byte] [upper byte]
 ```
 
-And fan speed control, last two bytes here:
+
+### CID 2
+
 ```
-sudo python3 ctrl.py request 5 1 11 1 0 185 20
-sudo python3 ctrl.py request 5 1 11 1 0 0 0
-```
-
-Now, we need a kernel module that ties the acpi fan stuff to these commands. [fan_core](https://github.com/torvalds/linux/blob/18d46e76d7c2eedd8577fae67e3f1d4db25018b0/drivers/acpi/fan_core.c), the [surface platform_profile.c](https://github.com/linux-surface/kernel/blob/v6.5-surface-devel/drivers/platform/surface/surface_platform_profile.c) surface module seems to tie `platform_profile` to the `ssam` module, can probably follow that structure.
-
-Requests;
-```
-
-# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 0 1 1
-TimeoutError: [Errno 110] ETIMEDOUT
-
-# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 1 1 1
-32 11
-
-# Later, after rebooting windows;
-00 00 
-
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 2 1 1
  00 00 00 40 00 00 00 3f cd cc 4c 3e 14 64
 | 2.0 f32  | 0.5 f32    | 0.2 f32   |
 # unmodified after reboot.
+```
 
+### CID 3
+```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 3 1 1
 01
 
+```
+
+### CID 4 & 5, Quiet and Override profile
+```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 4 1 1
 01 00 51 75 69 65 74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b8 0b 00 00 31 0c 14 00 3b 0c bd 0c 28 00 00 00 c8 41 64 00 63 0c 00 00 00 00 00 00 00 00
 \x01\x00Quiet\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00¸\x0b\x00\x001\x0c\x14\x00;\x0c½\x0c(\x00\x00\x00ÈAd\x00c\x0c\x00\x00\x00\x00\x00\x00\x00\x00
@@ -69,21 +83,40 @@ Split in 20 bytes:
 
 40 1f b8 0b 34 21 3b 0c 14 00 45 0c 03 0d 28 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 8000u|3000u|8500u|3131u|20   |3141u|3331u|40
+```
 
+### CID 6 Coefficients?
+```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 6 1 1
 33 33 ff ff b8 0b f8 2a ff 3f f4 01 64 00 85 ab 35 43 cd 9c 12 c4 00 00 00 00
            |3000u|11e3u|                 |181.67 f32 |-586.45 f32| 
+```
 
+
+### CID 7
+```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 7 1 1
 01 00 00 00 09 00 00 00 00 00 00 00 00 00 00 00 32 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
 # After restarting windows;
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 7 1 1
 01 00 00 00 09 00 00 00 ef 04 00 00 90 00 00 00 d1 00 00 00 f3 00 00 00 05 00 00 00 05 00 00 00 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+```
 
 
+### CID 8, 9
+
+Clearly a getter / setter pair, no idea what it sets though, setting it doesn't seem to affect the fan operation from linux.
+
+```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 8 1 1
 00
+
+CID 8 sets CID 9 values;
+/home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 8 1 1 0x05 0x10 0xcc 0x10
+/home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 9 1 1
+05 10 cc 10
+
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 9 1 1
 1a ae 00 00
@@ -99,13 +132,36 @@ Split in 20 bytes:
 1901u|3900u
 
 Some temporary target? Maybe the desired setpoint??
+It is not set by command 11, 
 
+```
+
+
+### CID 10
+
+```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 10 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
+```
 
+
+### CID 11 idle fan speed?
+This is the only command found so far that actually sets the speed, but the way
+it is set means it is overwritten by controller as soon as the temperature
+reaches approximately 40 degrees.
+```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 11 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
+```
 
+And fan speed control, last two bytes here:
+```
+sudo python3 ctrl.py request 5 1 11 1 0 185 20
+sudo python3 ctrl.py request 5 1 11 1 0 0 0
+```
+
+### CID rest
+```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 12 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
 
@@ -115,6 +171,8 @@ Float 30.0?!
 # unmodified after reboot
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 14 1 1
+# This is likely the fan profile, as it goes out with the platform profile
+# change, but it doesn't affect fan speed.
 TimeoutError: [Errno 110] ETIMEDOUT
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 15 1 1
@@ -122,13 +180,8 @@ TimeoutError: [Errno 110] ETIMEDOUT
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 16 1 1
 01
-# unmodified after reboot
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 17 1 1
 1d
-# unmodified after reboot
-# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 17 1 1
-1d
-# unmodified after reboot
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 18 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
 
@@ -149,10 +202,9 @@ TimeoutError: [Errno 110] ETIMEDOUT
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 24 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
-
-# 
 ```
 
+## Notes on platform changes
 Sniff with irpmon with platform switches;
 ```
 {"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 124}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 12}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 53, "rqid_hi": 7, "cid": 3}, "payload": [3, 0, 0, 0], "time": "2023-12-03 12:42:53 AM"}, 
@@ -167,6 +219,9 @@ Sniff with irpmon with platform switches;
 ```
 
 Shows a fan command going out with a platform change, probably switches the mode? But from the fan dump we know there's just two profiles, Quiet and Override. Switching this actively from linux with a hot tablet does not change the fan speeds.
+
+
+## CID 11 being sent;
 
 ```
 rg '"tc": 5' cpu_load.json 
