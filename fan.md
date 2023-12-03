@@ -145,7 +145,7 @@ TimeoutError: [Errno 110] ETIMEDOUT
 ```
 
 
-### CID 11 idle fan speed?
+### CID 11 Override fan speed
 This is the only command found so far that actually sets the speed, but the way
 it is set means it is overwritten by controller as soon as the temperature
 reaches approximately 40 degrees.
