@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-23.11";
-    nixos-hardware.url = "github:iwanders/nixos-hardware/ms-surface-give-iptsd-options";
+    nixos-hardware.url = "github:iwanders/nixos-hardware/ms-surface-build-linux-surface-kernel-from-repo";
   };
 
   outputs = { self, nixpkgs, nixos-hardware }: {
