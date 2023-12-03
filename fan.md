@@ -1,6 +1,6 @@
 # Surface fan
 
-A totally incoherent dump of things.
+Some notes from trying to figure out how to keep the thing cool(er).
 
 ## Current understanding
 
@@ -160,6 +160,26 @@ sudo python3 ctrl.py request 5 1 11 1 0 185 20
 sudo python3 ctrl.py request 5 1 11 1 0 0 0
 ```
 
+## Cid 14 platform profile
+Sniff with irpmon with platform switches;
+
+This is likely the fan profile, as it goes out with the platform profile change, but it doesn't affect fan speed.
+
+```
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 124}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 12}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 53, "rqid_hi": 7, "cid": 3}, "payload": [3, 0, 0, 0], "time": "2023-12-03 12:42:53 AM"}, 
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 13}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 14}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 55, "rqid_hi": 7, "cid": 14}, "payload": [3], "time": "2023-12-03 12:42:53 AM"}, 
+
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 126}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 17}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 58, "rqid_hi": 7, "cid": 3}, "payload": [4, 0, 0, 0], "time": "2023-12-03 12:42:58 AM"}, 
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 18}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 19}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 60, "rqid_hi": 7, "cid": 14}, "payload": [4], "time": "2023-12-03 12:42:58 AM"}, 
+
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 130}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 24}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 65, "rqid_hi": 7, "cid": 3}, "payload": [1, 0, 0, 0], "time": "2023-12-03 12:43:01 AM"}, 
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 25}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 26}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 67, "rqid_hi": 7, "cid": 14}, "payload": [2], "time": "2023-12-03 12:43:01 AM"}, 
+
+```
+
+Shows a fan command going out with a platform change, probably switches the mode? But from the fan dump we know there's just two profiles, Quiet and Override. Switching this actively from linux with a hot tablet does not change the fan speeds.
+
+
 ### CID rest
 ```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 12 1 1
@@ -171,8 +191,6 @@ Float 30.0?!
 # unmodified after reboot
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 14 1 1
-# This is likely the fan profile, as it goes out with the platform profile
-# change, but it doesn't affect fan speed.
 TimeoutError: [Errno 110] ETIMEDOUT
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 15 1 1
@@ -203,23 +221,6 @@ TimeoutError: [Errno 110] ETIMEDOUT
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 24 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
 ```
-
-## Notes on platform changes
-Sniff with irpmon with platform switches;
-```
-{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 124}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 12}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 53, "rqid_hi": 7, "cid": 3}, "payload": [3, 0, 0, 0], "time": "2023-12-03 12:42:53 AM"}, 
-{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 13}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 14}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 55, "rqid_hi": 7, "cid": 14}, "payload": [3], "time": "2023-12-03 12:42:53 AM"}, 
-
-{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 126}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 17}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 58, "rqid_hi": 7, "cid": 3}, "payload": [4, 0, 0, 0], "time": "2023-12-03 12:42:58 AM"}, 
-{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 18}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 19}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 60, "rqid_hi": 7, "cid": 14}, "payload": [4], "time": "2023-12-03 12:42:58 AM"}, 
-
-{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 130}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 24}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 65, "rqid_hi": 7, "cid": 3}, "payload": [1, 0, 0, 0], "time": "2023-12-03 12:43:01 AM"}, 
-{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 25}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 26}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 67, "rqid_hi": 7, "cid": 14}, "payload": [2], "time": "2023-12-03 12:43:01 AM"}, 
-
-```
-
-Shows a fan command going out with a platform change, probably switches the mode? But from the fan dump we know there's just two profiles, Quiet and Override. Switching this actively from linux with a hot tablet does not change the fan speeds.
-
 
 ## CID 11 being sent;
 
