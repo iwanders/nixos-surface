@@ -92,6 +92,25 @@ Split in 20 bytes:
            |3000u|11e3u|                 |181.67 f32 |-586.45 f32| 
 ```
 
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+xpoints = np.arange(0.0, 80.0, 0.1)
+#            |3000u|11e3u|                 |181.67 f32 |-586.45 f32| 
+
+ypoints = xpoints * 181.67 - 586.45
+lower_bound = np.ones(xpoints.size) * 3000
+upper_bound = np.ones(xpoints.size) * 11000
+plt.plot(xpoints, ypoints)
+plt.plot(xpoints, lower_bound)
+plt.plot(xpoints, upper_bound)
+plt.xlabel("temperature C");
+plt.ylabel("Rpm (T * 181.67 - 586.45) ");
+plt.show()
+```
+crosses 3000 at 20 deg, 8000 at 47'ish...
+
 
 ### CID 7
 ```
