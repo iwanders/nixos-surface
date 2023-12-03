@@ -40,7 +40,8 @@ TimeoutError: [Errno 110] ETIMEDOUT
 00 00 
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 2 1 1
-00 00 00 40 00 00 00 3f cd cc 4c 3e 14 64
+ 00 00 00 40 00 00 00 3f cd cc 4c 3e 14 64
+| 2.0 f32  | 0.5 f32    | 0.2 f32   |
 # unmodified after reboot.
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 3 1 1
@@ -50,13 +51,28 @@ TimeoutError: [Errno 110] ETIMEDOUT
 01 00 51 75 69 65 74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b8 0b 00 00 31 0c 14 00 3b 0c bd 0c 28 00 00 00 c8 41 64 00 63 0c 00 00 00 00 00 00 00 00
 \x01\x00Quiet\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00¸\x0b\x00\x001\x0c\x14\x00;\x0c½\x0c(\x00\x00\x00ÈAd\x00c\x0c\x00\x00\x00\x00\x00\x00\x00\x00
 
+40 bytes total
+
+Split in 20 bytes:
+01 00 51 75 69 65 74 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     | name
+00 00 b8 0b 00 00 31 0c 14 00 3b 0c bd 0c 28 00 00 00 c8 41 64 00 63 0c 00 00 00 00 00 00 00 00
+     |3000u|     |3121|                        |25.0 f32   |     |3171u|
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 5 1 1
 01 00 4f 76 65 72 72 69 64 65 00 00 00 00 00 00 00 00 00 00 00 00 f0 41 00 00 00 00 00 00 00 00 40 1f b8 0b 34 21 3b 0c 14 00 45 0c 03 0d 28 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 \x01\x00Override\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00ðA\x00\x00\x00\x00\x00\x00\x00\x00@\x1f¸\x0b4!;\x0c\x14\x00E\x0c\x03\r(\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+40 bytes, split in 20 bytes:
+01 00 4f 76 65 72 72 69 64 65 00 00 00 00 00 00 00 00 00 00 00 00 f0 41 00 00 00 00 00 00 00 00
+                                                                 |16880u...
+                                                           |30.0 f32   |
+
+40 1f b8 0b 34 21 3b 0c 14 00 45 0c 03 0d 28 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+8000u|3000u|8500u|3131u|20   |3141u|3331u|40
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 6 1 1
 33 33 ff ff b8 0b f8 2a ff 3f f4 01 64 00 85 ab 35 43 cd 9c 12 c4 00 00 00 00
+           |3000u|11e3u|                 |181.67 f32 |-586.45 f32| 
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 7 1 1
 01 00 00 00 09 00 00 00 00 00 00 00 00 00 00 00 32 00 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -71,11 +87,18 @@ TimeoutError: [Errno 110] ETIMEDOUT
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 9 1 1
 1a ae 00 00
-
+44570|0
 # Later, after I managed to wipe it and it reported 0 0 0 1, after starting windows:
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 9 1 1
 05 10 cc 10
+4101u|4300u
 
+# Next day
+# /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 9 1 1
+6d 07 3c 0f
+1901u|3900u
+
+Some temporary target? Maybe the desired setpoint??
 
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 10 1 1
 TimeoutError: [Errno 110] ETIMEDOUT
@@ -130,7 +153,7 @@ TimeoutError: [Errno 110] ETIMEDOUT
 # 
 ```
 
-Sniff with irpmon;
+Sniff with irpmon with platform switches;
 ```
 {"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 124}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 12}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 53, "rqid_hi": 7, "cid": 3}, "payload": [3, 0, 0, 0], "time": "2023-12-03 12:42:53 AM"}, 
 {"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 13}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 14}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 55, "rqid_hi": 7, "cid": 14}, "payload": [3], "time": "2023-12-03 12:42:53 AM"}, 
