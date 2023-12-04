@@ -112,6 +112,16 @@ plt.show()
 crosses 3000 at 20 deg, 8000 at 47'ish...
 
 
+Could be lower threshold (3000), upper threshold (11e3=11000), followed by fan coefficient. Can't figure out how to set this though.
+
+Tried;
+```
+/home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 6 1 1 0x33 0x33 0xff 0xff 0xb9 0x0b 0xf8 0x2a 0xff 0x3f 0xf4 0x01 0x64 0x00 0x85 0xab 0x35 0x43 0xcd 0x9c 0x12 0xc4 0x00 0x00 0x00 0x00
+```
+
+But the b8 didn't change into a b9.
+
+
 ### CID 7
 ```
 # /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 7 1 1
@@ -198,6 +208,9 @@ This is likely the fan profile, as it goes out with the platform profile change,
 
 Shows a fan command going out with a platform change, probably switches the mode? But from the fan dump we know there's just two profiles, Quiet and Override. Switching this actively from linux with a hot tablet does not change the fan speeds.
 
+```
+/home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 14 1 0 0
+```
 
 ### CID rest
 ```
