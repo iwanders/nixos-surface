@@ -16,6 +16,7 @@
         {
           system.extraSystemBuilderCmds = ''
             ln -s ${self} $out/flake
+            ln -s ${self.nixosConfigurations.papyrus.config.boot.kernelPackages.kernel.dev} $out/kernel-dev
           '';
         }
       ];

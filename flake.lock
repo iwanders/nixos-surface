@@ -3,10 +3,10 @@
     "nixos-hardware": {
       "locked": {
         "lastModified": 1701639549,
-        "narHash": "sha256-WJ8KmYGrGnXwtrc5FVm5Ka44twm8KRQ4k6Ws5kj0Shc=",
+        "narHash": "sha256-j8iCpq7UvoZkC8fDpUMYx52mfVHkAz5ZTy7JpDPAwy8=",
         "owner": "iwanders",
         "repo": "nixos-hardware",
-        "rev": "014ea9438f8fad5331d233c49104024c620c7264",
+        "rev": "3f719ed0209478412cc49c36b33e90ccdbc4d7f7",
         "type": "github"
       },
       "original": {
