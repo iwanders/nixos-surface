@@ -268,3 +268,47 @@ rg '"tc": 5' cpu_load.json
 553:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 146}}, {"ctrl": {"type": 128, "len": 10, "pad": 0, "seq": 25}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 66, "rqid_hi": 7, "cid": 11}, "payload": [0, 0], "time": "2023-12-03 1:55:21 AM"},
 559:{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 148}}, {"ctrl": {"type": 128, "len": 10, "pad": 0, "seq": 28}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 69, "rqid_hi": 7, "cid": 11}, "payload": [0, 0], "time": "2023-12-03 1:55:25 AM"},
 ```
+
+
+
+## Some notes on tracing and logging
+
+Dtrace for windows is a thing.
+
+## Logman
+`logman` is also a thing; https://learn.microsoft.com/en-us/previous-versions/dynamicsnav-2018-developer/How-to--Use-Logman-to-Collect-Event-Trace-Data
+
+[From here](https://library.netapp.com/ecmdocs/ECMP12404601/html/GUID-6324FD89-DD16-401A-8B2D-933326B4922F.html):
+
+> Enabling boot-time tracing is done by appending "autosession" to the session name:
+
+```
+logman create trace "autosession\<session_name>"
+```
+Doesn't seem to work... 
+
+
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman-create-trace
+
+Also tried setting LogPages as per [this page](https://github.com/MicrosoftDocs/windows-driver-docs/blob/staging/windows-driver-docs-pr/wdf/using-wpp-software-tracing-in-kmdf-and-umdf-2-drivers.md)
+so;
+
+```
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SurfaceSerialHubDriver\Parameters]
+"WppRecorder_TraceGuid"="{fa755ced-72df-44db-95a3-ef1009107e54}"
+"LogPages"=dword:00000005
+```
+But that didn't allow any retrieval of events in WinDbg.
+
+```
+logman create trace IW-serial-hub -p Microsoft-Surface-SurfaceSerialHubDriver -o C:\perflogs\IW-serial-hub.etl
+```
+And then converting with;
+```
+tracerpt IW-serial-hub_000001.etl -o IW-serial-hub_000001.xml
+```
+
+Did yield some things, but not the things of interest (like the data)
+```
+<Message>Surface Serial Hub Driver get response timeout, TargetID = 2, TargetCategory = REG, TargetCategoryInstance = 0, CommandID = 2, RequestID = 1079. </Message>
+```
