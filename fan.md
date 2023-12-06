@@ -312,3 +312,10 @@ Did yield some things, but not the things of interest (like the data)
 ```
 <Message>Surface Serial Hub Driver get response timeout, TargetID = 2, TargetCategory = REG, TargetCategoryInstance = 0, CommandID = 2, RequestID = 1079. </Message>
 ```
+
+
+Maybe on the uart!?... nope, all we get is the length of the data written.
+```
+logman create trace IW-uart2 -p Intel-iaLPSS2-UART2 -o C:\perflogs\iw-uart2.etl
+tracerpt.exe .\iw-uart2_000001.etl -o .\iw-uart2_000001.xml
+```
