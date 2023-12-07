@@ -326,3 +326,5 @@ xbootmgr -trace boot -traceFlags Latency+DISPATCHER -postBootDelay 120 -stackWal
 ```
 That should at least tell us when the relevant drivers come up relative to the others.
 
+From with debugger, [irp stands for IO Request Packet](https://learn.microsoft.com/en-us/windows-hardware/drivers/debuggercmds/-irp), [tracing during boot](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/tracing-during-boot)
+
