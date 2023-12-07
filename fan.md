@@ -320,7 +320,7 @@ logman create trace IW-uart2 -p Intel-iaLPSS2-UART2 -o C:\perflogs\iw-uart2.etl
 tracerpt.exe .\iw-uart2_000001.etl -o .\iw-uart2_000001.xml
 ```
 
-May be able to trace syscalls at boot with something like [this](hhttps://techcommunity.microsoft.com/t5/core-infrastructure-and-security/becoming-an-xperf-xpert-the-slow-boot-case-of-the/ba-p/255634)
+May be able to trace syscalls at boot with something like [this](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/becoming-an-xperf-xpert-the-slow-boot-case-of-the/ba-p/255634)
 ```
 xbootmgr -trace boot -traceFlags Latency+DISPATCHER -postBootDelay 120 -stackWalk Profile+ProcessCreate+CSwitch+ReadyThread+Mark+SyscallEnter+ThreadCreate
 ```
@@ -328,3 +328,11 @@ That should at least tell us when the relevant drivers come up relative to the o
 
 From with debugger, [irp stands for IO Request Packet](https://learn.microsoft.com/en-us/windows-hardware/drivers/debuggercmds/-irp), [tracing during boot](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/tracing-during-boot)
 
+
+Performed a trace with:
+
+```
+xbootmgr -trace boot -traceFlags Latency+DISPATCHER -postBootDelay 120
+```
+
+That shows that `irpmndrv` comes up as driver line 29, at 2.567s. Our target, `iaLPSS2_UART2_ADL` comes up as driver line 57, at 5.5287s. So if we can manage to get the irpmon driver to record the UART from its creation, we should be good. That is probably easier than the other options...
