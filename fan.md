@@ -319,3 +319,10 @@ Maybe on the uart!?... nope, all we get is the length of the data written.
 logman create trace IW-uart2 -p Intel-iaLPSS2-UART2 -o C:\perflogs\iw-uart2.etl
 tracerpt.exe .\iw-uart2_000001.etl -o .\iw-uart2_000001.xml
 ```
+
+May be able to trace syscalls at boot with something like [this](hhttps://techcommunity.microsoft.com/t5/core-infrastructure-and-security/becoming-an-xperf-xpert-the-slow-boot-case-of-the/ba-p/255634)
+```
+xbootmgr -trace boot -traceFlags Latency+DISPATCHER -postBootDelay 120 -stackWalk Profile+ProcessCreate+CSwitch+ReadyThread+Mark+SyscallEnter+ThreadCreate
+```
+That should at least tell us when the relevant drivers come up relative to the others.
+
