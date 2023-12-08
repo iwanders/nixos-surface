@@ -165,6 +165,16 @@ It is not set by command 11,
 
 ```
 
+With the bootlog we get:
+```
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 30}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 2}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 43, "rqid_hi": 0, "cid": 8}, "payload": [0, 0, 0, 0], "time": "2023-12-08 12:16:08 AM"},
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 2}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 31}, "cmd": {"type": 128, "tc": 5, "sid": 1, "tid": 0, "iid": 1, "rqid_lo": 43, "rqid_hi": 0, "cid": 8}, "payload": [0], "time": "2023-12-08 12:16:08 AM"},
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 36}}, {"ctrl": {"type": 128, "len": 8, "pad": 0, "seq": 8}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 49, "rqid_hi": 0, "cid": 1}, "payload": [], "time": "2023-12-08 12:16:08 AM"},
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 8}}, {"ctrl": {"type": 128, "len": 10, "pad": 0, "seq": 37}, "cmd": {"type": 128, "tc": 5, "sid": 1, "tid": 0, "iid": 1, "rqid_lo": 49, "rqid_hi": 0, "cid": 1}, "payload": [0, 0], "time": "2023-12-08 12:16:08 AM"},
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 40}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 12}, "cmd": {"type": 128, "tc": 5, "sid": 0, "tid": 1, "iid": 1, "rqid_lo": 53, "rqid_hi": 0, "cid": 8}, "payload": [0, 0, 1, 0], "time": "2023-12-08 12:16:08 AM"},
+{"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 13}}, {"ctrl": {"type": 128, "len": 9, "pad": 0, "seq": 42}, "cmd": {"type": 128, "tc": 5, "sid": 1, "tid": 0, "iid": 1, "rqid_lo": 53, "rqid_hi": 0, "cid": 8}, "payload": [0], "time": "2023-12-08 12:16:08 AM"},
+```
+
 
 ### CID 10
 
@@ -342,11 +352,11 @@ That shows that `irpmndrv` comes up as driver line 29, at 2.567s. Our target, `i
 # Logging at boot with irpmon
 ```
 
-# To enable, logs go to C:\Windows\
+# To enable run the following, written logs go to C:\Windows\
 irpmonc.exe --input=D:\\.\irpmndrv  --hook-driver=ICD:\Driver\iaLPSS2_UART2_ADL --boot-log=1 --save-settings=1
-# Writing happens in chunks, current log may be zero bytes.
+# Writing happens in chunks, current log may be zero bytes until flushed, or just disable it and reboot.
 
 # To disable
 irpmonc.exe --input=D:\\.\irpmndrv  --unhook-driver=\Driver\iaLPSS2_UART2_ADL --boot-log=0 --save-settings=1 
-
 ```
+
