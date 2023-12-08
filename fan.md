@@ -351,6 +351,7 @@ That shows that `irpmndrv` comes up as driver line 29, at 2.567s. Our target, `i
 
 # Logging at boot with irpmon
 ```
+# Ensure driver is set to startup at boot.
 
 # To enable run the following, written logs go to C:\Windows\
 irpmonc.exe --input=D:\\.\irpmndrv  --hook-driver=ICD:\Driver\iaLPSS2_UART2_ADL --boot-log=1 --save-settings=1
