@@ -336,3 +336,17 @@ xbootmgr -trace boot -traceFlags Latency+DISPATCHER -postBootDelay 120
 ```
 
 That shows that `irpmndrv` comes up as driver line 29, at 2.567s. Our target, `iaLPSS2_UART2_ADL` comes up as driver line 57, at 5.5287s. So if we can manage to get the irpmon driver to record the UART from its creation, we should be good. That is probably easier than the other options...
+
+
+
+# Logging at boot with irpmon
+```
+
+# To enable, logs go to C:\Windows\
+irpmonc.exe --input=D:\\.\irpmndrv  --hook-driver=ICD:\Driver\iaLPSS2_UART2_ADL --boot-log=1 --save-settings=1
+# Writing happens in chunks, current log may be zero bytes.
+
+# To disable
+irpmonc.exe --input=D:\\.\irpmndrv  --unhook-driver=\Driver\iaLPSS2_UART2_ADL --boot-log=0 --save-settings=1 
+
+```
