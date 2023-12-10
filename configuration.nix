@@ -10,6 +10,8 @@
 
   nixpkgs.overlays = [
     (import ./overlay-iptsd.nix)
+
+    (import ./overlay-osk.nix)
   ];
 
   imports =
