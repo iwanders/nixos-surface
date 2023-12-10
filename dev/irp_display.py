@@ -12,7 +12,7 @@ class Direction(Enum):
     Debug = 3
     Surflink = 4
     def shortstr(self):
-        l = {0: ">", 1: "<", 2: "K", 3: "D", 4:"S"}
+        l = {0: "OUT", 1: "IN", 2: "K", 3: "D", 4:"S"}
         return l.get(self._value_, "-")
 
 class Type(Enum):
@@ -110,8 +110,6 @@ class Consolidator:
         self.entries = entries
         self.transactions = []
 
-        for e in self.entries:
-            convert_entry(e)
 
     def seek_ack(self, i, lookahead=10):
         ours = self.entries[i].get("ctrl", {}).get("seq")
@@ -194,10 +192,10 @@ class Consolidator:
             iid = entry_msg["iid"]
             cid = entry_msg["cid"]
             payload = entry.get("payload", [])
-            hexpayload = hfmt(payload)
+            hexpayload = hfmt(payload) if payload else "[]"
             pld_len = len(payload)
             ack = entry_ack.get("ctrl", {}).get("type").shortstr()
-            return f'{ack: >5} {d} {tc} t{tid:0>2x} i{iid:0>2x} c 0x{cid:0>2x} ({pld_len: >3}): {hexpayload}'
+            return f'{ack: >5} {d: >3} {tc} t{tid:0>2x} i{iid:0>2x} c 0x{cid:0>2x} ({pld_len: >3}): {hexpayload}'
     
         ts = t.src.get("time", "")
 
@@ -207,7 +205,10 @@ class Consolidator:
         pad = len(ts) * " "
 
         if initiator and response:
-            return f'{ts} {initiator}', f'{pad} {response}'
+            resp_payload = hfmt(t.response["payload"])
+            # return f'{ts} {initiator}', f'{pad} {response}'
+            return f'{ts} {initiator} => {resp_payload}', None
+
         else:
             return f'{ts} {initiator}', None
         
@@ -219,7 +220,21 @@ if __name__ == "__main__":
         print(f"{sys.argv[0]} converted_irp.json")
 
     d = load(sys.argv[1])
-    c = Consolidator(d)
+
+    for e in d:
+        convert_entry(e)
+
+    # Drop HID stuff
+    filtered = []
+    for e in d:
+        t = e.get("cmd", {}).get("tc")
+        ignore = False
+        if t in (Tc.HID, Tc.TCL):
+            ignore = True
+        if not ignore:
+            filtered.append(e)
+
+    c = Consolidator(filtered)
     c.process()
     for p in c.transactions:
         init, resp = Consolidator.format_transaction(p)
