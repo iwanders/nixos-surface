@@ -17,15 +17,6 @@
     services.xserver.displayManager.gdm.debug = true;
     services.xserver.desktopManager.gnome.enable = true;
 
-    services.xserver.displayManager.job.environment.XDG_DATA_DIRS = (pkgs.lib.makeSearchPath "share" [
-      pkgs.gnome.gdm
-      #services.xserver.displayManager.gdm.sessionData.desktops
-      pkgs.gnome.gnome-control-center 
-      pkgs.gnome.adwaita-icon-theme
-      pkgs.hicolor-icon-theme
-      
-    ]) + ":${pkgs.gnome-osk}/share:";
-
     services.gnome.core-utilities.enable = false;
 
 
