@@ -213,3 +213,15 @@ export KERNELDIR=$(nix build --print-out-paths "$(realpath /run/booted-system/fl
 ivor@eagle:/tmp$ nix build nixpkgs/release-23.11#msitools
 ivor@eagle:/tmp$ ./result/bin/msiextract SurfacePro9_Win11_22621_23.103.34762.0.msi 
 ```
+
+
+
+# Random notes
+
+These two may pertain to sleep operations, they disable touch & battery subsystems from talking back to SAM commands.
+```
+[root@papyrus:/home/ivor/Documents/Code/nixos-surface]# /home/ivor/.nix-profile/bin/python ./surface-aggregator-module/scripts/ssam/ctrl.py request 1 1 0x33 0 0 
+
+[root@papyrus:/home/ivor/Documents/Code/nixos-surface]# /home/ivor/.nix-profile/bin/python ./surface-aggregator-module/scripts/ssam/ctrl.py request 1 1 0x34 0 0 
+
+```

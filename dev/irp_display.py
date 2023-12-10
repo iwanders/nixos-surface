@@ -110,6 +110,8 @@ class Consolidator:
 
 
     def seek_ack(self, i, lookahead=10):
+        if i >= len(self.entries):
+            return
         ours = self.entries[i].get("ctrl", {}).get("seq")
         for j in range(i, i + lookahead):
             candidate = self.entries[j].get("ctrl", {}).get("seq")
@@ -192,7 +194,10 @@ class Consolidator:
             payload = entry.get("payload", [])
             hexpayload = hfmt(payload) if payload else "[]"
             pld_len = len(payload)
-            ack = entry_ack.get("ctrl", {}).get("type").shortstr()
+            if entry_ack:
+                ack = entry_ack.get("ctrl", {}).get("type").shortstr()
+            else:
+                ack = "???"
             return f'{ack: >5} {d: >3} {tc} t{tid:0>2x} i{iid:0>2x} c 0x{cid:0>2x} ({pld_len: >3}): {hexpayload}'
     
         ts = t.src.get("time", "")
@@ -205,10 +210,10 @@ class Consolidator:
         if initiator and response:
             resp_payload = hfmt(t.response["payload"])
             # return f'{ts} {initiator}', f'{pad} {response}'
-            return f'{ts} {initiator} => {resp_payload}', None
+            return f'{ts} {initiator} => {resp_payload}'
 
         else:
-            return f'{ts} {initiator}', None
+            return f'{ts} {initiator}'
         
 def load(p):
     with open(p) as f:
@@ -219,12 +224,15 @@ def load(p):
 
     return d
 
-def filter_tc(records, ignore):
-    ignored = set(Tc[z] for z in ignore.split(","))
+def filter_tc(records, ignore, allow):
+    ignored = set(Tc[z] for z in ignore.split(",") if z)
+    allow = set(Tc[z] for z in allow.split(",") if z)
     filtered = []
     for e in records:
         t = e.get("cmd", {}).get("tc")
         ignore = False
+        if allow:
+            ignore = not t in allow
         if t in ignored:
             ignore = True
         if not ignore:
@@ -233,15 +241,77 @@ def filter_tc(records, ignore):
     
 
 def run_print(args, records):
-
     c = Consolidator(records)
     c.process()
     for p in c.transactions:
-        init, resp = Consolidator.format_transaction(p)
+        init = Consolidator.format_transaction(p)
         if init:
             print(init)
-        if resp:
-            print(resp)
+
+import contextlib
+class MockSam:
+    REQUEST_HAS_RESPONSE = 1
+    @staticmethod
+    @contextlib.contextmanager
+    def Controller():
+        yield MockSam()
+
+    def request(*arg):
+        return []
+    @staticmethod
+    def Request(tc, tid, cid, iid, hasresp, data):
+        return MockSam()
+
+def run_replay(args, records):
+    try:
+        import libssam
+    except ImportError:
+        print("Using MockSam!")
+        import time
+        time.sleep(2)
+        libssam = MockSam
+
+    def sam_cmd(ctrl, tc, tid, cid, iid, data, hasresp):
+            #print('TC %02x CID %02x:' % (tc, cid), hfmt(data) if data else None)
+            req = libssam.Request(tc, tid, cid, iid, libssam.REQUEST_HAS_RESPONSE if hasresp else 0, data)
+            resp = ctrl.request(req)
+            #print('\t=>', hfmt(resp) if resp else None)
+            return resp
+
+
+
+    t = Consolidator(records)
+    t.process()
+    with libssam.Controller() as c:
+        for p in t.transactions:
+            # Only send things for which we are the source.
+            if p.src.get("cmd", {}).get("sid", "") != Direction.Host:
+                continue
+
+            # Craft the request to be sent
+            msg = p.src["cmd"]
+            tc = msg["tc"]._value_
+            tid = msg["tid"]
+            cid = msg["cid"]
+            iid = msg["iid"]
+            data = p.src["payload"]
+
+            hasresp = p.response is not None
+
+            # Actually send the request! O_o
+            result = sam_cmd(c, tc, tid, cid, iid, data, hasresp)
+            # Compare the received result with the original result.
+            if hasresp:
+                # Do a result comparison and print
+                printable = Consolidator.format_transaction(p)
+                if p.response["payload"] != result:
+                    printable += f" || {hfmt(result)}" 
+                else:
+                    printable += f" MATCH"
+                print(printable)
+            else:
+                printable = Consolidator.format_transaction(p)
+                print(printable)
 
 
 if __name__ == "__main__":
@@ -249,7 +319,8 @@ if __name__ == "__main__":
     if len(sys.argv) < 2 or (len(sys.argv) >= 2 and sys.argv[1] == "--help"):
         print(f"{sys.argv[0]} converted_irp.json")
 
-    parser.add_argument("--ignore-tc", default="HID,TCL", help="The SAM target categories to ignore at intake. Defaults to %(default)s")
+    parser.add_argument("--ignore-tc", default="HID,TCL", help="The SAM target categories to ignore at intake. Defaults to %(default)s, overrides accept")
+    parser.add_argument("--accept-tc", default="", help="The SAM target categories to accept. Defaults to %(default)s.")
 
     subparsers = parser.add_subparsers(dest="command")
 
@@ -261,11 +332,14 @@ if __name__ == "__main__":
     print_parser = subparser_with_default('print')
     print_parser.set_defaults(func=run_print)
 
+    replay_parser = subparser_with_default('replay')
+    replay_parser.set_defaults(func=run_replay)
+
     args = parser.parse_args()
 
     data = load(args.path)
 
-    data = filter_tc(data, args.ignore_tc)
+    data = filter_tc(data, args.ignore_tc, args.accept_tc)
 
     if (args.command is None):
         parser.print_help()
