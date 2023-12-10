@@ -4,6 +4,7 @@ import json
 import sys
 from enum import Enum
 from collections import namedtuple
+import argparse
 
 class Direction(Enum):
     Host = 0
@@ -68,9 +69,6 @@ class Tc(Enum):
     def shortstr(self):
         return self._name_ + f":{self._value_:0>2x}"
 
-def load(p):
-    with open(p) as f:
-        return json.load(f)
 
 def hfmt(b):
     if type(b) is int:
@@ -212,29 +210,31 @@ class Consolidator:
         else:
             return f'{ts} {initiator}', None
         
-
-
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2 or (len(sys.argv) >= 2 and sys.argv[1] == "--help"):
-        print(f"{sys.argv[0]} converted_irp.json")
-
-    d = load(sys.argv[1])
+def load(p):
+    with open(p) as f:
+        d = json.load(f)
 
     for e in d:
         convert_entry(e)
 
-    # Drop HID stuff
+    return d
+
+def filter_tc(records, ignore):
+    ignored = set(Tc[z] for z in ignore.split(","))
     filtered = []
-    for e in d:
+    for e in records:
         t = e.get("cmd", {}).get("tc")
         ignore = False
-        if t in (Tc.HID, Tc.TCL):
+        if t in ignored:
             ignore = True
         if not ignore:
             filtered.append(e)
+    return filtered
+    
 
-    c = Consolidator(filtered)
+def run_print(args, records):
+
+    c = Consolidator(records)
     c.process()
     for p in c.transactions:
         init, resp = Consolidator.format_transaction(p)
@@ -242,3 +242,35 @@ if __name__ == "__main__":
             print(init)
         if resp:
             print(resp)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="irp_tool")
+    if len(sys.argv) < 2 or (len(sys.argv) >= 2 and sys.argv[1] == "--help"):
+        print(f"{sys.argv[0]} converted_irp.json")
+
+    parser.add_argument("--ignore-tc", default="HID,TCL", help="The SAM target categories to ignore at intake. Defaults to %(default)s")
+
+    subparsers = parser.add_subparsers(dest="command")
+
+    def subparser_with_default(name):
+        sub = subparsers.add_parser(name)
+        sub.add_argument("path", help="The file to read from.")
+        return sub
+
+    print_parser = subparser_with_default('print')
+    print_parser.set_defaults(func=run_print)
+
+    args = parser.parse_args()
+
+    data = load(args.path)
+
+    data = filter_tc(data, args.ignore_tc)
+
+    if (args.command is None):
+        parser.print_help()
+        parser.exit()
+
+    args.func(args, data)
+
+    # Drop HID stuff
