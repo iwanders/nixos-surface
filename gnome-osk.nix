@@ -10,6 +10,12 @@
   # Ok, no way to run this programatically... :<
   # Manually do the thing to enable the keyboard, ugh.
 
+  # From
+  # https://github.com/NixOS/nixpkgs/pull/63790
+  # DCONF_PROFILE=/etc/dconf/profile/gdm /run/current-system/sw/bin/dbus-run-session dconf write /org.gnome.shell/enabled-extensions '[ "enhancedosk@cass00.github.io" ]'
+  # This did set it for gdm from the looks of it;
+  # DCONF_PROFILE=/etc/dconf/profile/gdm dconf dump /
+  # does make it show up.
 
 
   # https://github.com/NixOS/nixpkgs/blob/9a8c7261525fce16e990736b9a514d2aeb4ee95e/nixos/modules/programs/dconf.nix#L65-L89
