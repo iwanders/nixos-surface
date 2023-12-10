@@ -4,13 +4,13 @@
 
   # /usr/share/gnome-shell/extensions/<extension directory>/schemas
 
-  options = { };
-
   # This module is here mostly to be able to modify the extensions in 
   # gdm.
 
   # Ok, no way to run this programatically... :<
   # Manually do the thing to enable the keyboard, ugh.
+
+
 
   # https://github.com/NixOS/nixpkgs/blob/9a8c7261525fce16e990736b9a514d2aeb4ee95e/nixos/modules/programs/dconf.nix#L65-L89
 
@@ -18,5 +18,19 @@
   # ehh :< 
   config = {
     environment.systemPackages = [pkgs.gnome-osk];
+
+    # I think this should work... but it still doesn't load this keyboard.
+    # Even doing sudo -u gdm /run/current-system/sw/bin/dbus-run-session /run/current-system/sw/bin/gsettings get org.gnome.shell enabled-extensions '["enhancedosk@cass00.github.io"]'
+    # followed by systemctl restart display-manager.service  does not work.
+
+    # https://github.com/NixOS/nixpkgs/issues/54150 
+
+    # This does set the property, also for gdm at boot, but even with the symlink in /usr/share/ it does not yet load the extension.
+    services.xserver.desktopManager.gnome = {
+      extraGSettingsOverrides = ''
+          [org.gnome.shell]
+          enabled-extensions=[ 'enhancedosk@cass00.github.io']
+      '';
+    };
   };
 }

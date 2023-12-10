@@ -17,6 +17,8 @@
     services.xserver.desktopManager.gnome.enable = true;
 
     services.gnome.core-utilities.enable = false;
+
+
     # well, that still pulls in orca, with speech synthesis, for many megabytes.
     # https://github.com/NixOS/nixpkgs/blob/4ecab3273592f27479a583fb6d975d4aba3486fe/nixos/modules/services/x11/desktop-managers/gnome.nix#L459
     # https://discourse.nixos.org/t/howto-disable-most-gnome-default-applications-and-what-they-are/13505

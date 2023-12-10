@@ -67,13 +67,6 @@
 
   services.thermald.enable = true;
 
-
-  services.xserver.displayManager.gdm.settings = {
-    "org/gnome/shell" = {
-      enabled-extensions = "${pkgs.gnome-osk.uuid}";
-    };
-  };
-
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
