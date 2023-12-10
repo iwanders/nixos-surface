@@ -18,21 +18,29 @@ final: prev: {
       buildInputs = [
         prev.pkgs.glib
         prev.pkgs.zip
+        prev.pkgs.unzip
       ];
 
       name = "gnome-osk";
 
       inherit src;
 
-      # This is only here to ensure it builds.
+      # Fix the path to
+      # /share/gnome-shell/gnome-shell-osk-layouts.gresource
+      # To point at /run/current-system/sw/share/gnome-shell/gnome-shell-osk-layouts.gresource
+      patchPhase = ''
+        sed -i src/extension.js -e 's|"/share/gnome-shell/gnome-shell-osk-layouts.gresource"|"/../run/current-system/sw/share/gnome-shell/gnome-shell-osk-layouts.gresource"|g'
+      '';
+
+      # Package the extension
       buildPhase = ''
         ./package-extension.sh
       '';
 
-      # Copy the relevant files to the correct location.
+      # And then unpack it into the correct location
       installPhase = ''
         mkdir -p $out/share/gnome-shell/extensions/${extension-uuid}/
-        cp -rv $src/src/* $out/share/gnome-shell/extensions/${extension-uuid}/
+        unzip ${extension-uuid}.shell-extension.zip -d $out/share/gnome-shell/extensions/${extension-uuid}/
       '';
     };
 }
