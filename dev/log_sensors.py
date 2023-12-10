@@ -80,6 +80,10 @@ At certain moment in, after it appeared to be at steady state
 
 
 
+2023_platform_profile_performance_fan_normal_2023_12_10__14_30.json
+/home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 14 1 0 2
+Cancelled stress at 1702237369
+
 
 Noticed that the platform profile to performance doesn't switch the CPU governor
 to performance, from `cpufreq-info`... or thermald did this?
