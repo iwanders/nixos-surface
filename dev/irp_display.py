@@ -5,6 +5,7 @@ import sys
 from enum import Enum
 from collections import namedtuple
 import argparse
+import gzip
 
 class Direction(Enum):
     Host = 0
@@ -216,7 +217,8 @@ class Consolidator:
             return f'{ts} {initiator}'
         
 def load(p):
-    with open(p) as f:
+    opener = gzip.open if p.endswith("gz") else open
+    with opener(p) as f:
         d = json.load(f)
 
     for e in d:
