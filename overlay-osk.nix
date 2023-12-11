@@ -6,12 +6,12 @@ final: prev: {
   # Uid is 
   gnome-osk = let
     src = prev.fetchFromGitHub {
-      owner = "cass00";
-      repo = "enhanced-osk-gnome-ext";
-      rev = "0d4ae37d9830b823c224570c69c9a5e2f16d9ef4";
-      hash = "sha256-s2bmEoOhGfpa5hVdpLEc2aECNjn9885oaVk5SYR3JD8=";
+      owner = "iwanders";
+      repo = "gnome-enhanced-osk-extension";
+      rev = "d1fc606828e018baa61773d3fa5daa85087d078f";
+      hash = "sha256-8iTn+uzTG0vnJ/mxqJsFHDUE0b340nrOzpPeRTZIp10=";
     };
-    uuid = "enhancedosk@cass00.github.io";
+    uuid = "iwanders-gnome-enhanced-osk-extension";
   in 
     prev.stdenv.mkDerivation {
 
@@ -43,7 +43,7 @@ final: prev: {
       # And then unpack it into the correct location
       installPhase = ''
         mkdir -p $out/share/gnome-shell/extensions/${uuid}/
-        unzip ${uuid}.shell-extension.zip -d $out/share/gnome-shell/extensions/${uuid}/
+        unzip ${uuid}.zip -d $out/share/gnome-shell/extensions/${uuid}/
       '';
       passthru = {
         inherit uuid;

@@ -19,7 +19,7 @@
     services.xserver.desktopManager.gnome = {
       extraGSettingsOverrides = ''
           [org.gnome.shell]
-          enabled-extensions=[ 'enhancedosk@cass00.github.io']
+          enabled-extensions=[ '${pkgs.gnome-osk.uuid}' ]
       '';
     };
   };
