@@ -6,6 +6,8 @@ from enum import Enum
 from collections import namedtuple
 import argparse
 import gzip
+import ctypes
+import time
 
 class Direction(Enum):
     Host = 0
@@ -70,6 +72,82 @@ class Tc(Enum):
     def shortstr(self):
         return self._name_ + f":{self._value_:0>2x}"
 
+# IW(Todo) The below is copied from another project from long ago, does it need to be this complex?
+# Amazing this actually works.
+
+# Convenience mixin to allow construction of struct from a byte like object.
+class Readable:
+    @classmethod
+    def read(cls, byte_object):
+        a = cls()
+        ctypes.memmove(ctypes.addressof(a), bytes(byte_object),
+                       min(len(byte_object), ctypes.sizeof(cls)))
+        return a
+
+
+# Mixin to allow conversion of a ctypes structure to and from a dictionary.
+class Dictionary:
+    # Implement the iterator method such that dict(...) results in the correct
+    # dictionary.
+    def __iter__(self):
+        v = self.to_dict(self)
+        def gen():
+            nonlocal v
+            z = v.items()
+            for k,v in z:
+                yield (k, v)
+
+        return gen()
+
+
+    def to_dict(self, v):
+        if (isinstance(v, Dictionary)):
+            res = dict()
+            for k, t in v._fields_:
+                entry = getattr(v, k)
+                try:
+                    res[k] = entry.__iter__()
+                except (TypeError, AttributeError):
+                    res[k] = self.to_dict(entry)
+            return res
+        elif (isinstance(v, ctypes.Array)):
+            res = []
+            for x in v:
+                try:
+                    res.append(x.__iter__())
+                except (TypeError, AttributeError):
+                    res.append(self.to_dict(x))
+            return res
+        elif (isinstance(v, ctypes.Structure)):
+            res = dict()
+            for k,t in v._fields_:
+                res[k] = self.to_dict(entry)
+            return res
+        return v
+
+    # Implement the reverse method, with some special handling for dict's and
+    # lists.
+    def from_dict(self, dict_object):
+        for k, t in self._fields_:
+            set_value = dict_object[k]
+            if (isinstance(set_value, dict)):
+                v = t()
+                v.from_dict(set_value)
+                setattr(self, k, v)
+            elif (isinstance(set_value, list)):
+                v = getattr(self, k)
+                for j in range(0, len(set_value)):
+                    if (isinstance(v[j], Dictionary)):
+                        v[j].from_dict(set_value[j])
+                    else:
+                        v[j] = set_value[j]
+                setattr(self, k, v)
+            else:
+                setattr(self, k, set_value)
+
+    def __str__(self):
+        return str(self.to_dict(self))
+
 
 def hfmt(b):
     if type(b) is int:
@@ -104,6 +182,9 @@ def convert_entry(entry):
 
 Transaction = namedtuple("Transaction", ["src", "src_ack", "response", "response_ack"])
 
+"""
+    Helper class to collapse raw irp records into transactions.
+"""
 class Consolidator:
     def __init__(self, entries):
         self.entries = entries
@@ -250,6 +331,87 @@ def run_print(args, records):
         if init:
             print(init)
 
+
+class Base(ctypes.LittleEndianStructure, Dictionary, Readable):
+    _pack_ = 1
+
+class Fan_GetSpeed(Base):
+    tc = Tc.FAN
+    cid = 0x01
+    request = True
+    _fields_ = [("rpm", ctypes.c_uint16)]
+
+class Fan_SetSpeed(Base):
+    tc = Tc.FAN
+    cid = 0x0b
+    request = False
+    _fields_ = [("rpm", ctypes.c_uint16)]
+
+known_messages = [
+    Fan_GetSpeed,
+    Fan_SetSpeed
+]
+known_indexable = {}
+for v in known_messages:
+    if not v.tc in known_indexable:
+        known_indexable[v.tc] = {}
+    if not v.cid in known_indexable[v.tc]:
+        known_indexable[v.tc][v.cid] = {}
+    known_indexable[v.tc][v.cid][v.request] = v
+    
+
+def attempt_parse(msg, payload, request):
+    if not "tc" in msg or not "sid" in msg or not "cid" in msg:
+        return
+    t = known_indexable.get(msg["tc"], {}).get(msg["cid"], {}).get(request)
+    if t:
+        return t.read(bytes(payload))
+    
+
+def interpret(transaction):
+    for side, request in ((transaction.src, False), (transaction.response, True)):
+        if side and "cmd" in side:
+            msg = side["cmd"]
+            parsed = attempt_parse(msg, side.get("payload", []), request)
+            if parsed:
+                side["parsed"] = parsed
+
+def run_interpret(args, records):
+    c = Consolidator(records)
+    c.process()
+
+    parsed_records = []
+    for p in c.transactions:
+        interpret(p)
+
+        t = p.src["time"]
+        t =  time.mktime(time.strptime(t, '%Y-%m-%d %I:%M:%S %p'))
+        something = False
+        if "parsed" in p.src:
+            # print(p.src["parsed"])
+            something = True
+        if p.response and "parsed" in p.response:
+            # print(p.response["parsed"])
+            something = True
+        if something:
+            src_parsed = p.src.get("parsed")
+            src_parsed = dict(src_parsed) if src_parsed else None
+            resp_parsed = p.response.get("parsed")  if p.response else None
+            resp_parsed = dict(resp_parsed) if resp_parsed else None
+            entry = {}
+            entry["t"] = t
+            entry["src"] = src_parsed
+            entry["response"] = resp_parsed
+            entry["tc"] = p.src["cmd"]["tc"]._value_
+            entry["cid"] = p.src["cmd"]["cid"]
+    
+            parsed_records.append(entry)
+
+    if args.output:
+        with open(args.output, "w") as f:
+            json.dump(parsed_records, f)
+
+
 import contextlib
 class MockSam:
     REQUEST_HAS_RESPONSE = 1
@@ -316,6 +478,7 @@ def run_replay(args, records):
                 print(printable)
 
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="irp_tool")
     if len(sys.argv) < 2 or (len(sys.argv) >= 2 and sys.argv[1] == "--help"):
@@ -336,6 +499,10 @@ if __name__ == "__main__":
 
     replay_parser = subparser_with_default('replay')
     replay_parser.set_defaults(func=run_replay)
+
+    interpret_parser = subparser_with_default('interpret')
+    interpret_parser.add_argument("-o", "--output", default=None, help="Write json output to this path")
+    interpret_parser.set_defaults(func=run_interpret)
 
     args = parser.parse_args()
 
