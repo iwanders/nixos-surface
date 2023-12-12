@@ -261,37 +261,39 @@ class Consolidator:
             self.transactions.append(transaction)
 
 
+
+    @staticmethod
+    def format_msg(entry, entry_ack):
+        if entry is None:
+            return None
+        
+        entry_msg = entry.get("cmd")
+        if entry_msg is None:
+            return None
+
+        d = entry_msg["sid"].shortstr()
+        tid = entry_msg["tid"]
+        tc = entry_msg["tc"].shortstr()
+        iid = entry_msg["iid"]
+        cid = entry_msg["cid"]
+        payload = entry.get("payload", [])
+        hexpayload = hfmt(payload) if payload else "[]"
+        pld_len = len(payload)
+        if entry_ack:
+            ack = entry_ack.get("ctrl", {}).get("type").shortstr()
+        else:
+            ack = "???"
+        return f'{ack: >5} {d: >3} {tc} t{tid:0>2x} i{iid:0>2x} c 0x{cid:0>2x} ({pld_len: >3}): {hexpayload}'
+
     @staticmethod
     def format_transaction(t):
         # <tc> <tid> <cid> <iid>
         # ssam:dd:cc:tt:ii:ff
         # followed by domain, category, target ID, instance ID
-        def format_pair(entry, entry_ack):
-            if entry is None:
-                return None
-            
-            entry_msg = entry.get("cmd")
-            if entry_msg is None:
-                return None
-
-            d = entry_msg["sid"].shortstr()
-            tid = entry_msg["tid"]
-            tc = entry_msg["tc"].shortstr()
-            iid = entry_msg["iid"]
-            cid = entry_msg["cid"]
-            payload = entry.get("payload", [])
-            hexpayload = hfmt(payload) if payload else "[]"
-            pld_len = len(payload)
-            if entry_ack:
-                ack = entry_ack.get("ctrl", {}).get("type").shortstr()
-            else:
-                ack = "???"
-            return f'{ack: >5} {d: >3} {tc} t{tid:0>2x} i{iid:0>2x} c 0x{cid:0>2x} ({pld_len: >3}): {hexpayload}'
-    
         ts = t.src.get("time", "")
 
-        initiator = format_pair(t.src, t.src_ack)
-        response = format_pair(t.response, t.response_ack)
+        initiator = format_msg(t.src, t.src_ack)
+        response = format_msg(t.response, t.response_ack)
 
         decoded_src = str(t.src.get("decoded", ""))
         decoded_response = str(t.response.get("decoded", "[]") if t.response else "")
@@ -331,6 +333,19 @@ def filter_tc(records, ignore, allow):
             filtered.append(e)
     return filtered
     
+
+def run_hexdump(args, records):
+    for p in records:
+        p = Transaction(
+                        src = p,
+                        src_ack = None,
+                        response = None,
+                        response_ack = None
+                    )
+        interpret(p)
+        init = Consolidator.format_msg(p.src, None)
+        if init:
+            print(init)
 
 def run_print(args, records):
     c = Consolidator(records)
@@ -525,6 +540,9 @@ if __name__ == "__main__":
         sub = subparsers.add_parser(name)
         sub.add_argument("path", help="The file to read from.")
         return sub
+
+    hexdump_parser = subparser_with_default('hexdump')
+    hexdump_parser.set_defaults(func=run_hexdump)
 
     print_parser = subparser_with_default('print')
     print_parser.set_defaults(func=run_print)
