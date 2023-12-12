@@ -378,7 +378,7 @@ def cmd_matches(candidate, msg_dict):
 
 class Tmp_GetTemp(Base):
     matches = make_matcher(tc=Tc.TMP, cid=0x01, role=Role.Response)
-    _fields_ = [("temp", ctypes.c_uint16)]
+    _fields_ = [("temp", ctypes.c_uint8), ("unknown", ctypes.c_uint8)]
 
 class Tmp_GetTempProactive(Base):
     matches = make_matcher(tc=Tc.TMP, cid=0x01, role=Role.Request)

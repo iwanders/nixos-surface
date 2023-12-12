@@ -65,21 +65,22 @@ def process_windows_log(raw_json):
 def make_plot(series):
     t0 = series[list(series.keys())[0]][0][0]
 
-    def plot_series(ax, name, *args, **kwargs):
+    def plot_series(ax, name, factor=1.0,  *args, **kwargs):
         if not name in series:
             return
         this_t = [a[0] - t0 for a in series[name]]
-        this_v = [a[1] for a in series[name]]
+        this_v = [a[1] * factor for a in series[name]]
         ax.plot(this_t, this_v, *args, label=name, **kwargs)
 
     fig, ax1 = plt.subplots(figsize=[16, 9])
 
     ax1.set_xlabel('time (s)')
-    ax1.set_ylabel('temperature (C)')
+    ax1.set_ylabel('temperature (??)')
 
 
     plot_series(ax1, "tc_3_cid_1_iid_9_resp_temp")
     plot_series(ax1, "tc_3_cid_1_iid_5_resp_temp")
+    # plot_series(ax1, "tc_3_cid_1_iid_2_resp_temp")
 
     ax1.tick_params(axis='y')
 
@@ -91,10 +92,10 @@ def make_plot(series):
     ax2.set_ylabel('rpm')
     plot_series(ax2, "tc_5_cid_1_iid_1_resp_rpm", color="black", marker="+")
 
-    plot_series(ax2, "tc_5_cid_11_iid_1_req_rpm", color="red", marker="x")
+    plot_series(ax2, "tc_5_cid_11_iid_1_req_rpm", color="magenta", marker="x", linestyle='none')
 
-    plot_series(ax2, "tc_5_cid_8_iid_1_req_c8_lo", color="red", marker="*", linestyle=None)
-    plot_series(ax2, "tc_5_cid_8_iid_1_req_c8_hi", color="green", marker="o", linestyle=None)
+    plot_series(ax2, "tc_5_cid_8_iid_1_req_c8_lo", color="red", marker="*", linestyle='none')
+    plot_series(ax2, "tc_5_cid_8_iid_1_req_c8_hi", color="green", marker="o", linestyle='none')
     ax2.tick_params(axis='y')
     ax2.legend(loc="lower right")
     ax2.set_ylim([0, 8000])
@@ -122,8 +123,8 @@ if __name__ == "__main__":
     #entries = load("../../sensor_logs/windows/load_perfmode_ac_15mins_load_stop_load_with_sensors.json.gz")
     #entries = process_windows_log(entries)
 
-    irp_entries = load("../../irp_logs/load_perfmode_ac_15mins_load_stop_load_with_sensors.interpret.json")
-    # irp_entries = load("../../irp_logs/load_perfmode_battery_10min_perfmode_ac_10min_noload_15min.interpet.json")
+    # irp_entries = load("../../irp_logs/load_perfmode_ac_15mins_load_stop_load_with_sensors.interpret.json")
+    irp_entries = load("../../irp_logs/load_perfmode_battery_10min_perfmode_ac_10min_noload_15min.interpet.json")
     irp_series = make_series(irp_entries)
     print("\n".join(irp_series.keys()))
     fig = make_plot(irp_series)
