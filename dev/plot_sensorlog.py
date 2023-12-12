@@ -64,6 +64,7 @@ def make_plot(path, title, vbar=None):
     ax2.plot(t, values["fan"], color="black", label="rpm")
     ax2.tick_params(axis='y')
     ax2.legend(loc="lower right")
+    ax2.set_ylim([0, 8000])
     fig.tight_layout()
 
     fig.suptitle(title, fontsize=10)
@@ -81,6 +82,8 @@ if True:
     ax.plot(f1_values["t"], f1_values["fan"], label="normal")
     ax.plot(f2_values["t"], f2_values["fan"], label="best")
     ax.legend()
+    ax.set_ylim([0, 8000])
+    ax.set_xlim([0, 1800])
     fig.tight_layout()
     fig.savefig("/tmp/fans.svg", figsize=(100, 200))
 

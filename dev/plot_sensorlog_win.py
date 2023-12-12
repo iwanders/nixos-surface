@@ -66,6 +66,8 @@ def make_plot(series):
     t0 = series[list(series.keys())[0]][0][0]
 
     def plot_series(ax, name, *args, **kwargs):
+        if not name in series:
+            return
         this_t = [a[0] - t0 for a in series[name]]
         this_v = [a[1] for a in series[name]]
         ax.plot(this_t, this_v, *args, label=name, **kwargs)
@@ -89,10 +91,13 @@ def make_plot(series):
     ax2.set_ylabel('rpm')
     plot_series(ax2, "tc_5_cid_1_tid_1_resp_rpm", color="black", marker="+")
 
-    # plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_lo", color="red", marker="*", linestyle=None)
-    # plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_hi", color="green", marker="o", linestyle=None)
+    plot_series(ax2, "tc_5_cid_11_tid_1_req_rpm", color="red", marker="x")
+
+    plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_lo", color="red", marker="*", linestyle=None)
+    plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_hi", color="green", marker="o", linestyle=None)
     ax2.tick_params(axis='y')
     ax2.legend(loc="lower right")
+    ax2.set_ylim([0, 8000])
     fig.tight_layout()
 
     return fig
@@ -118,6 +123,7 @@ if __name__ == "__main__":
     #entries = process_windows_log(entries)
 
     irp_entries = load("../../irp_logs/load_perfmode_ac_15mins_load_stop_load_with_sensors.interpret.json")
+    # irp_entries = load("../../irp_logs/load_perfmode_battery_10min_perfmode_ac_10min_noload_15min.interpet.json")
     irp_series = make_series(irp_entries)
     print("\n".join(irp_series.keys()))
     fig = make_plot(irp_series)
