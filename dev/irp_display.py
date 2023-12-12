@@ -8,6 +8,7 @@ import argparse
 import gzip
 import ctypes
 import time
+import glob
 
 class Direction(Enum):
     Host = 0
@@ -182,6 +183,9 @@ def convert_entry(entry):
 
 Transaction = namedtuple("Transaction", ["src", "src_ack", "response", "response_ack"])
 
+class Role(Enum):
+    Request = 0
+    Response = 1
 """
     Helper class to collapse raw irp records into transactions.
 """
@@ -228,6 +232,7 @@ class Consolidator:
             current_ack = self.entries[ack_index]
             if current is not None:
                 current["processed"] = True
+                current["cmd"]["role"] = Role.Request
             if ack_index is None:
                 fail(f"could not find ack or nak for: {current}")
             else:
@@ -240,6 +245,7 @@ class Consolidator:
             response_ack = None
             if response_index is not None:
                 response = self.entries[response_index]
+                response.get("cmd", {})["role"] = Role.Response
                 response["processed"] = True
                 resp_ack_index = self.seek_ack(response_index + 1)
                 if resp_ack_index is not None:
@@ -332,47 +338,59 @@ def run_print(args, records):
             print(init)
 
 
+
+
 class Base(ctypes.LittleEndianStructure, Dictionary, Readable):
     _pack_ = 1
 
-class Fan_GetSpeed(Base):
-    tc = Tc.FAN
-    cid = 0x01
-    request = True
-    _fields_ = [("rpm", ctypes.c_uint16)]
+MatchTuple = namedtuple("MatchTuple", ["tc", "cid", "role"])
+def make_matcher(tc=None, cid=None, role=None):
+    return MatchTuple(tc=tc, cid=cid, role=role)
+
+def cmd_matches(candidate, msg_dict):
+    if candidate.tc != msg_dict.get("tc", None):
+        return False
+    if candidate.cid != msg_dict.get("cid", None):
+        return False
+    if candidate.role != msg_dict.get("role", None):
+        return False
+    return True
+
+
+class Tmp_GetTemp(Base):
+    matches = make_matcher(tc=Tc.TMP, cid=0x01, role=Role.Response)
+    _fields_ = [("temp", ctypes.c_uint16)]
 
 class Fan_SetSpeed(Base):
-    tc = Tc.FAN
-    cid = 0x0b
-    request = False
+    matches = make_matcher(tc=Tc.FAN, cid=0x0b, role=Role.Request)
+    _fields_ = [("rpm", ctypes.c_uint16)]
+
+
+class Fan_GetSpeed(Base):
+    matches = make_matcher(tc=Tc.FAN, cid=0x01, role=Role.Response)
     _fields_ = [("rpm", ctypes.c_uint16)]
 
 known_messages = [
     Fan_GetSpeed,
-    Fan_SetSpeed
+    Fan_SetSpeed,
+    Tmp_GetTemp,
 ]
-known_indexable = {}
-for v in known_messages:
-    if not v.tc in known_indexable:
-        known_indexable[v.tc] = {}
-    if not v.cid in known_indexable[v.tc]:
-        known_indexable[v.tc][v.cid] = {}
-    known_indexable[v.tc][v.cid][v.request] = v
-    
+def get_msg_handler(msg):
+    for v in known_messages:
+        if cmd_matches(v.matches, msg):
+            return v
 
-def attempt_parse(msg, payload, request):
-    if not "tc" in msg or not "sid" in msg or not "cid" in msg:
-        return
-    t = known_indexable.get(msg["tc"], {}).get(msg["cid"], {}).get(request)
+def attempt_parse(msg, payload):
+    t = get_msg_handler(msg)
     if t:
         return t.read(bytes(payload))
     
 
 def interpret(transaction):
-    for side, request in ((transaction.src, False), (transaction.response, True)):
+    for side in (transaction.src, transaction.response):
         if side and "cmd" in side:
             msg = side["cmd"]
-            parsed = attempt_parse(msg, side.get("payload", []), request)
+            parsed = attempt_parse(msg, side.get("payload", []))
             if parsed:
                 side["parsed"] = parsed
 
@@ -404,6 +422,7 @@ def run_interpret(args, records):
             entry["response"] = resp_parsed
             entry["tc"] = p.src["cmd"]["tc"]._value_
             entry["cid"] = p.src["cmd"]["cid"]
+            entry["tid"] = p.src["cmd"]["tid"]
     
             parsed_records.append(entry)
 

@@ -62,5 +62,8 @@ def process_windows_log(raw_json):
     return clean
 
 if __name__ == "__main__":
-    entries = load("../../sensor_logs/windows/load_perfmode_ac_15mins_load_stop_load_with_sensors.json.gz")
-    entries = process_windows_log(entries)
+    #entries = load("../../sensor_logs/windows/load_perfmode_ac_15mins_load_stop_load_with_sensors.json.gz")
+    #entries = process_windows_log(entries)
+
+    
+    
