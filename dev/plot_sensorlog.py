@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import sys
 import json
+from plot_sensorlog_win import make_series
 
 
 def load(d):
@@ -19,16 +20,13 @@ def retrieve_series(d, key):
         return v
     return [ret(v, key) for v in d]
 
-def make_plot(path, title, vbar=None):
-
+def load_values(path):
     d = load(path)
 
     t0 = d[0][0]
     t = [a[0] - t0 for a in d]
 
     readings = [a[1] for a in d]
-
-    print(d[0][1])
 
     values = {
         "fan": retrieve_series(readings, ["fan-virtual-0", "fan1", "fan1_input"]),
@@ -37,9 +35,15 @@ def make_plot(path, title, vbar=None):
         "wifi": retrieve_series(readings, ["iwlwifi_1-virtual-0", "temp1", "temp1_input"]),
         "package0": retrieve_series(readings, ["coretemp-isa-0000", "Package id 0", "temp1_input"]),
         "core0": retrieve_series(readings, ["coretemp-isa-0000", "Core 0", "temp2_input"]),
+        "t": t,
     }
 
+    return values
 
+def make_plot(values, title, vbar=None):
+    t = values["t"]
+    t0 = t[0]
+    
     fig, ax1 = plt.subplots(figsize=[16, 9])
 
     ax1.set_xlabel('time (s)')
@@ -72,18 +76,44 @@ def make_plot(path, title, vbar=None):
     values["t"] = t
     return fig, values
 
-if True:
-    f1, f1_values = make_plot("../../sensor_logs/platform_profile_performance_fan_normal_2023_12_10__14_30.json.gz", "fan normal", vbar=1702237369)
+
+# 
+
+if False:
+    f1_values = load_values("../../sensor_logs/platform_profile_performance_fan_normal_2023_12_10__14_30.json.gz")
+    f1,f1_values  = make_plot(f1_values, "fan normal", vbar=1702237369)
     f1.savefig("/tmp/normal.svg", figsize=(100, 200))
-    f2, f2_values = make_plot("../../sensor_logs/sensors_log_platform_profile_performance_fan_best_2023_12_10__13_33.json.gz", "fan best", vbar=1702233740)
+    f2_values = load_values("../../sensor_logs/sensors_log_platform_profile_performance_fan_best_2023_12_10__13_33.json.gz")
+    f2, f2_values = make_plot(f2_values, "fan best", vbar=1702233740)
     f2.savefig("/tmp/best.svg", figsize=(100, 200))
 
+if True:
+    f1_values = load_values("../../sensor_logs/platform_profile_performance_fan_normal_2023_12_10__14_30.json.gz")
+    f2_values = load_values("../../sensor_logs/sensors_log_platform_profile_performance_fan_best_2023_12_10__13_33.json.gz")
     fig, ax = plt.subplots(figsize=[16,9])
-    ax.plot(f1_values["t"], f1_values["fan"], label="normal")
-    ax.plot(f2_values["t"], f2_values["fan"], label="best")
+    ax.plot(f1_values["t"], f1_values["fan"], label="linux_normal", linewidth=0.4)
+    ax.plot(f2_values["t"], f2_values["fan"], label="linux_best", linewidth=0.4)
+
+    win_battery = make_series(load("../../irp_logs/load_perfmode_battery_10min_perfmode_ac_10min_noload_15min.interpet.json"))
+    win_ac_15min = make_series(load("../../irp_logs/load_perfmode_ac_15mins_load_stop_load_with_sensors.interpret.json"))
+    win_ac_15min_2nd = make_series(load("../../irp_logs/load_perfmode_ac_15mins_load_start_at_profile_stop_at_1702422833_utc_time_is_EST.interpret.json.gz"))
+
+    def plot_series(ax, data, series, name, factor=1.0, shift=0.0,  *args, **kwargs):
+        if not series in data:
+            return
+        t0 = data[series][0][0]
+        this_t = [a[0] - t0 + shift for a in data[series]]
+        this_v = [a[1] * factor for a in data[series]]
+        ax.plot(this_t, this_v, *args, label=name, **kwargs)
+    # ax.plot(f2_values["t"], f2_values["fan"], label="linux_best")
+    plot_series(ax, win_battery, series="tc_5_cid_1_iid_1_resp_rpm", name="win_battery", marker="+", shift=-545.0) 
+    plot_series(ax, win_ac_15min, series="tc_5_cid_1_iid_1_resp_rpm", name="win_ac_15min", marker="+", shift=77.0) 
+    plot_series(ax, win_ac_15min_2nd, series="tc_5_cid_1_iid_1_resp_rpm", name="win_ac_15min_2nd", marker="o", shift=77.0) 
+
     ax.legend()
     ax.set_ylim([0, 8000])
     ax.set_xlim([0, 1800])
     fig.tight_layout()
     fig.savefig("/tmp/fans.svg", figsize=(100, 200))
+    plt.show()
 

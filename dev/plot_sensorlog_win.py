@@ -124,6 +124,7 @@ if __name__ == "__main__":
     #entries = process_windows_log(entries)
 
     # irp_entries = load("../../irp_logs/load_perfmode_ac_15mins_load_stop_load_with_sensors.interpret.json")
+    # irp_entries = load("../../irp_logs/load_perfmode_ac_15mins_load_start_at_profile_stop_at_1702422833_utc_time_is_EST.interpret.json.gz")
     irp_entries = load("../../irp_logs/load_perfmode_battery_10min_perfmode_ac_10min_noload_15min.interpet.json")
     irp_series = make_series(irp_entries)
     print("\n".join(irp_series.keys()))
