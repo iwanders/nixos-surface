@@ -292,8 +292,8 @@ class Consolidator:
         # followed by domain, category, target ID, instance ID
         ts = t.src.get("time", "")
 
-        initiator = format_msg(t.src, t.src_ack)
-        response = format_msg(t.response, t.response_ack)
+        initiator = Consolidator.format_msg(t.src, t.src_ack)
+        response = Consolidator.format_msg(t.response, t.response_ack)
 
         decoded_src = str(t.src.get("decoded", ""))
         decoded_response = str(t.response.get("decoded", "[]") if t.response else "")
@@ -451,6 +451,7 @@ def run_interpret(args, records):
             entry["tc"] = p.src["cmd"]["tc"]._value_
             entry["cid"] = p.src["cmd"]["cid"]
             entry["tid"] = p.src["cmd"]["tid"]
+            entry["iid"] = p.src["cmd"]["iid"]
     
             parsed_records.append(entry)
 

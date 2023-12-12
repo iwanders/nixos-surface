@@ -78,8 +78,8 @@ def make_plot(series):
     ax1.set_ylabel('temperature (C)')
 
 
-    # plot_series(ax1, "tc_3_cid_1_tid_1_resp_temp")
-    # plot_series(ax1, "tc_3_cid_1_tid_0_req_temp")
+    plot_series(ax1, "tc_3_cid_1_iid_9_resp_temp")
+    plot_series(ax1, "tc_3_cid_1_iid_5_resp_temp")
 
     ax1.tick_params(axis='y')
 
@@ -89,12 +89,12 @@ def make_plot(series):
 
     ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
     ax2.set_ylabel('rpm')
-    plot_series(ax2, "tc_5_cid_1_tid_1_resp_rpm", color="black", marker="+")
+    plot_series(ax2, "tc_5_cid_1_iid_1_resp_rpm", color="black", marker="+")
 
-    plot_series(ax2, "tc_5_cid_11_tid_1_req_rpm", color="red", marker="x")
+    plot_series(ax2, "tc_5_cid_11_iid_1_req_rpm", color="red", marker="x")
 
-    plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_lo", color="red", marker="*", linestyle=None)
-    plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_hi", color="green", marker="o", linestyle=None)
+    plot_series(ax2, "tc_5_cid_8_iid_1_req_c8_lo", color="red", marker="*", linestyle=None)
+    plot_series(ax2, "tc_5_cid_8_iid_1_req_c8_hi", color="green", marker="o", linestyle=None)
     ax2.tick_params(axis='y')
     ax2.legend(loc="lower right")
     ax2.set_ylim([0, 8000])
@@ -107,7 +107,7 @@ def make_series(z):
     series = {}
     for e in z:
         t = e["t"]
-        src_token = f"tc_{e['tc']}_cid_{e['cid']}_tid_{e['tid']}"
+        src_token = f"tc_{e['tc']}_cid_{e['cid']}_iid_{e['iid']}"
         for (role, rolestr) in (("src", "req"), ("response", "resp")):
             if e[role] is not None:
                 for k, v in e[role].items():
