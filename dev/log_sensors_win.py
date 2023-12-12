@@ -7,6 +7,8 @@ import time
 import os
 import json
 
+#load_perfmode_ac_15mins_load_stop_load_with_sensors
+
 def powershell(cmdline):
     as_arg = cmdline
     res = subprocess.run(["powershell", "-Command", as_arg], stdout=subprocess.PIPE)
