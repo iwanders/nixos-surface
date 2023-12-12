@@ -33,12 +33,25 @@ def parse_freq(s):
         name = name.replace("\\\\papyrus\\processor information(", "").replace(")\\processor frequency", "")
         freqs[name] = clock
     res =  (t, freqs)
-    print(res)
+    # print(res)
     return res
 
 def parse_temp(s):
-    # print(s)
-    pass
+    # First, split on __GENUS, all records have this.
+    zones = s.split("__GENUS")
+    temperatures = {}
+    for z in zones:
+        name = None
+        temperature = None
+        for l in z.split("\n"):
+            if l.startswith("InstanceName"):
+                name = l.split(": ")[1]
+            if l.startswith("CurrentTemperature"):
+                temperature = int(l.split(": ")[1])
+        if name and temperature is not None:
+            temperatures[name] = temperature
+    print(temperatures)
+    return temperatures
 
 def process_windows_log(raw_json):
     clean = []
