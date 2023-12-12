@@ -365,6 +365,9 @@ class Fan_SetSpeed(Base):
     matches = make_matcher(tc=Tc.FAN, cid=0x0b, role=Role.Request)
     _fields_ = [("rpm", ctypes.c_uint16)]
 
+class Fan_Set08(Base):
+    matches = make_matcher(tc=Tc.FAN, cid=0x08, role=Role.Request)
+    _fields_ = [("c8_lo", ctypes.c_uint16), ("c8_hi", ctypes.c_uint16)]
 
 class Fan_GetSpeed(Base):
     matches = make_matcher(tc=Tc.FAN, cid=0x01, role=Role.Response)
@@ -374,6 +377,7 @@ known_messages = [
     Fan_GetSpeed,
     Fan_SetSpeed,
     Tmp_GetTemp,
+    Fan_Set08,
 ]
 def get_msg_handler(msg):
     for v in known_messages:
