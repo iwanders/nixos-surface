@@ -76,7 +76,8 @@ def make_plot(series):
     ax1.set_ylabel('temperature (C)')
 
 
-    plot_series(ax1, "tc_3_cid_1_tid_1_resp_temp")
+    # plot_series(ax1, "tc_3_cid_1_tid_1_resp_temp")
+    # plot_series(ax1, "tc_3_cid_1_tid_0_req_temp")
 
     ax1.tick_params(axis='y')
 
@@ -88,8 +89,8 @@ def make_plot(series):
     ax2.set_ylabel('rpm')
     plot_series(ax2, "tc_5_cid_1_tid_1_resp_rpm", color="black", marker="+")
 
-    plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_lo", color="red", marker="*", linestyle=None)
-    plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_hi", color="green", marker="o", linestyle=None)
+    # plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_lo", color="red", marker="*", linestyle=None)
+    # plot_series(ax2, "tc_5_cid_8_tid_1_req_c8_hi", color="green", marker="o", linestyle=None)
     ax2.tick_params(axis='y')
     ax2.legend(loc="lower right")
     fig.tight_layout()
@@ -120,6 +121,7 @@ if __name__ == "__main__":
     irp_series = make_series(irp_entries)
     print("\n".join(irp_series.keys()))
     fig = make_plot(irp_series)
+    fig.savefig("/tmp/windows_fan.svg", figsize=(100, 200))
     plt.show()
     
     

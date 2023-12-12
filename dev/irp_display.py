@@ -293,15 +293,18 @@ class Consolidator:
         initiator = format_pair(t.src, t.src_ack)
         response = format_pair(t.response, t.response_ack)
 
+        decoded_src = str(t.src.get("decoded", ""))
+        decoded_response = str(t.response.get("decoded", "[]") if t.response else "")
+
         pad = len(ts) * " "
 
         if initiator and response:
             resp_payload = hfmt(t.response["payload"])
             # return f'{ts} {initiator}', f'{pad} {response}'
-            return f'{ts} {initiator} => {resp_payload}'
+            return f'{ts} {initiator} => {resp_payload}   {decoded_src} -> {decoded_response}'
 
         else:
-            return f'{ts} {initiator}'
+            return f'{ts} {initiator} {decoded_src}'
         
 def load(p):
     opener = gzip.open if p.endswith("gz") else open
@@ -333,6 +336,7 @@ def run_print(args, records):
     c = Consolidator(records)
     c.process()
     for p in c.transactions:
+        interpret(p)
         init = Consolidator.format_transaction(p)
         if init:
             print(init)
@@ -361,6 +365,10 @@ class Tmp_GetTemp(Base):
     matches = make_matcher(tc=Tc.TMP, cid=0x01, role=Role.Response)
     _fields_ = [("temp", ctypes.c_uint16)]
 
+class Tmp_GetTempProactive(Base):
+    matches = make_matcher(tc=Tc.TMP, cid=0x01, role=Role.Request)
+    _fields_ = [("temp", ctypes.c_uint16)]
+
 class Fan_SetSpeed(Base):
     matches = make_matcher(tc=Tc.FAN, cid=0x0b, role=Role.Request)
     _fields_ = [("rpm", ctypes.c_uint16)]
@@ -377,6 +385,7 @@ known_messages = [
     Fan_GetSpeed,
     Fan_SetSpeed,
     Tmp_GetTemp,
+    Tmp_GetTempProactive,
     Fan_Set08,
 ]
 def get_msg_handler(msg):
@@ -396,7 +405,7 @@ def interpret(transaction):
             msg = side["cmd"]
             parsed = attempt_parse(msg, side.get("payload", []))
             if parsed:
-                side["parsed"] = parsed
+                side["decoded"] = parsed
 
 def run_interpret(args, records):
     c = Consolidator(records)
@@ -409,16 +418,16 @@ def run_interpret(args, records):
         t = p.src["time"]
         t =  time.mktime(time.strptime(t, '%Y-%m-%d %I:%M:%S %p'))
         something = False
-        if "parsed" in p.src:
+        if "decoded" in p.src:
             # print(p.src["parsed"])
             something = True
-        if p.response and "parsed" in p.response:
+        if p.response and "decoded" in p.response:
             # print(p.response["parsed"])
             something = True
         if something:
-            src_parsed = p.src.get("parsed")
+            src_parsed = p.src.get("decoded")
             src_parsed = dict(src_parsed) if src_parsed else None
-            resp_parsed = p.response.get("parsed")  if p.response else None
+            resp_parsed = p.response.get("decoded")  if p.response else None
             resp_parsed = dict(resp_parsed) if resp_parsed else None
             entry = {}
             entry["t"] = t
