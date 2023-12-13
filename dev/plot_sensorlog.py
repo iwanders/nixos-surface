@@ -105,14 +105,17 @@ if True:
         this_t = [a[0] - t0 + shift for a in data[series]]
         this_v = [a[1] * factor for a in data[series]]
         ax.plot(this_t, this_v, *args, label=name, **kwargs)
-    # ax.plot(f2_values["t"], f2_values["fan"], label="linux_best")
-    plot_series(ax, win_battery, series="tc_5_cid_1_iid_1_resp_rpm", name="win_battery", marker="+", shift=-545.0) 
+
+
+    plot_series(ax, win_battery, series="tc_5_cid_1_iid_1_resp_rpm", name="win_battery_then_ac", marker="+", shift=-545.0) 
     plot_series(ax, win_ac_15min, series="tc_5_cid_1_iid_1_resp_rpm", name="win_ac_15min", marker="+", shift=77.0) 
     plot_series(ax, win_ac_15min_2nd, series="tc_5_cid_1_iid_1_resp_rpm", name="win_ac_15min_2nd", marker="o", shift=77.0) 
 
+    fig.suptitle("fans from tc_5_cid_1_iid_1_resp_rpm", fontsize=20, y=0.95)
     ax.legend()
     ax.set_ylim([0, 8000])
     ax.set_xlim([0, 1800])
+    ax.set_ylabel('rpm')
     fig.tight_layout()
     fig.savefig("/tmp/fans.svg", figsize=(100, 200))
     plt.show()

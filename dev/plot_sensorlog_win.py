@@ -68,8 +68,8 @@ def make_plot(series):
     def plot_series(ax, name, factor=1.0,  *args, **kwargs):
         if not name in series:
             return
-        this_t = [a[0] - t0 for a in series[name]]
-        this_v = [a[1] * factor for a in series[name]]
+        this_t = [a[0] - t0 for a in series[name]][1:-1]
+        this_v = [a[1] * factor for a in series[name]][1:-1]
         ax.plot(this_t, this_v, *args, label=name, **kwargs)
 
     fig, ax1 = plt.subplots(figsize=[16, 9])
