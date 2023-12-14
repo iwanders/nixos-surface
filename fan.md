@@ -2,6 +2,10 @@
 
 Some notes from trying to figure out how to keep the thing cool(er).
 
+Lots of analysis on https://github.com/linux-surface/kernel/pull/144
+
+Windows does NOT command the fan directly, it does switch the fan profile when the platform profile is switched. This does affect the fan's rotation speed.
+
 ## Current understanding
 
 Windows appears to command the fan directly, not purely relying on the system controllers. Overheat tablet on linux -> switch to windows makes the fan go faster. Likely that it uses the `override` profile, but so far it is unknown how to switch to that.
@@ -199,10 +203,13 @@ sudo python3 ctrl.py request 5 1 11 1 0 185 20
 sudo python3 ctrl.py request 5 1 11 1 0 0 0
 ```
 
+
+Seems to only really be used to provide an indication to the firmware, even in Windows this is never seen above 4500.
+
 ## Cid 14 platform profile
 Sniff with irpmon with platform switches;
 
-This is likely the fan profile, as it goes out with the platform profile change, but it doesn't affect fan speed.
+This is likely the fan profile, as it goes out with the platform profile change, ~but it doesn't affect fan speed.~ Does affect fan speed.
 
 ```
 {"ctrl": {"type": 64, "len": 0, "pad": 0, "seq": 124}}, {"ctrl": {"type": 128, "len": 12, "pad": 0, "seq": 12}, "cmd": {"type": 128, "tc": 3, "sid": 0, "tid": 1, "iid": 0, "rqid_lo": 53, "rqid_hi": 7, "cid": 3}, "payload": [3, 0, 0, 0], "time": "2023-12-03 12:42:53 AM"}, 
@@ -216,7 +223,7 @@ This is likely the fan profile, as it goes out with the platform profile change,
 
 ```
 
-Shows a fan command going out with a platform change, probably switches the mode? But from the fan dump we know there's just two profiles, Quiet and Override. Switching this actively from linux with a hot tablet does not change the fan speeds.
+Shows a fan command going out with a platform change, probably switches the mode? But from the fan dump we know there's just two profiles, Quiet and Override. ~Switching this actively from linux with a hot tablet does not change the fan speeds.~
 
 ```
 /home/ivor/.nix-profile/bin/python ./ctrl.py request 5 1 14 1 0 0
