@@ -171,7 +171,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 
 - On screen keyboard
   - [x] Figure out how to make the gnome onscreen keyboard display normal `!@#$%^&*()_+` symbols. Forked [enhanced osk](https://github.com/iwanders/gnome-enhanced-osk-extension).
-  - [ ] Make on screen keyboard not waste precious pixels.
+  - [x] Make on screen keyboard not waste precious pixels. Filed https://github.com/cass00/enhanced-osk-gnome-ext/pull/7
 
 - Pen
   - [ ] Check the false positive pen thumb-button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
@@ -199,3 +199,4 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 - Platform profile, switch fan profile. https://github.com/linux-surface/kernel/pull/145
 - Surface Aggregator Module: IRPMon conversion script improvements. https://github.com/linux-surface/surface-aggregator-module/pull/66
 - Forked gnome OSK to https://github.com/iwanders/gnome-enhanced-osk-extension
+- Contribute back enhanced OSK suggestions bar: https://github.com/cass00/enhanced-osk-gnome-ext/pull/7
