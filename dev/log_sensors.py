@@ -28,7 +28,23 @@ def get_fan_speed_directly():
         speed_bytes = Fan_GetSpeed.read(bytes(fan_cmd(c, 1, [], hasresp=True)))
         return speed_bytes.rpm
 
-
+def get_top_percentages():
+    # top -n 2 -b -d 0.2
+    res = subprocess.run(["top", "-n", "2", "-b", "-d", "0.2"], stdout=subprocess.PIPE)
+    if res.returncode == 0:
+        lines = res.stdout.decode("ascii").split("\n")
+        pctline = [l for l in lines if l.startswith("%Cpu")]
+        if not pctline:
+            return {}
+        rel = pctline[0]
+        header, rem = rel.split(":")
+        elements = [x.strip() for x in rem.split(",")]
+        res = {}
+        for z in elements:
+            num, name = z.split(" ")
+            res[name] = float(num)
+        return res
+    return {}
 
 def get_sensors(sensors_bin):
     # nixos 23.11's sensors supports json output!
@@ -38,19 +54,15 @@ def get_sensors(sensors_bin):
         return parsed
 
 
-def get_sensors_with_speed(sensors_bin):
-    # nixos 23.11's sensors supports json output!
-    res = subprocess.run([sensors_bin, "-j"], stdout=subprocess.PIPE)
-    if res.returncode == 0:
-        parsed = json.loads(res.stdout)
-        parsed["fan_rpm"] = get_fan_speed_directly()
-        return parsed
+def capture(sensors_bin, with_speed=False, with_load=False):
+    sensors = get_sensors(sensors_bin)
 
-def capture(sensors_bin, with_speed=False):
     if with_speed:
-        sensors = get_sensors_with_speed(sensors_bin)
-    else:
-        sensors = get_sensors(sensors_bin)
+        sensors["fan_rpm"] = get_fan_speed_directly()
+
+    if with_load:
+        sensors["system_load"] = get_top_percentages()
+
     t = time.time()
     return (t, sensors)
 
@@ -74,6 +86,7 @@ if __name__ == "__main__":
     parser.add_argument("--delay", type=float, default=1.0, help="period between records")
     parser.add_argument("--sensors-path", default="sensors", help="binary to sensors")
     parser.add_argument("--with-speed", default=False, action="store_true", help="Record the fan speed from the cdev plugin")
+    parser.add_argument("--with-load", default=False, action="store_true", help="Store system load")
     parser.add_argument("output", help="The path to write to.")
     args = parser.parse_args()
 
