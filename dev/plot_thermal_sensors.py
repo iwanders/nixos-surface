@@ -38,9 +38,20 @@ def load_values(path):
         "t": t,
     }
 
+    def t_shifter(t):
+        # Salvage recorded value.
+        r = int(t * 100.0)
+        print(r)
+
+        offset = -273.15
+        res = 0.1
+        r = r * res + offset
+        return r
+
     # print(readings)
     for i in range(1, 11):
         values[f"temp_{i}"] = retrieve_series(readings, ["ssam_thermal-virtual-0", f"temp{i}", f"temp{i}_input"])
+        values[f"temp_{i}"] = [t_shifter(t) for t in values[f"temp_{i}"]]
 
     # values["usr%"] = retrieve_series(readings, ["system_load", "us"]),
 
@@ -57,11 +68,14 @@ def make_plot(values, title):
 
     for i in range(1, 11):
         name = f"temp_{i}"
-        print(values[name])
+        # print(values[name])
         ax1.plot(tshifted, values[name], label=name)
 
+
+    for name in ("wifi", "pci1", "pci2"):
+        ax1.plot(tshifted, values[name], label=name, linewidth=1, linestyle=":")
     ax1.tick_params(axis='y')
-    ax1.set_ylim([0, 40])
+    # ax1.set_ylim([0, 100])
     # ax1.set_xlim([-100, 900])
     ax1.legend(loc="upper right")
 
