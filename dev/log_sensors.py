@@ -91,7 +91,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     while True:
-        new_record = capture(args.sensors_path, with_speed=args.with_speed)
+        new_record = capture(args.sensors_path, with_speed=args.with_speed, with_load=args.with_load)
         records = load_current(args.output)
         time.sleep(args.delay)
         records.append(new_record)
