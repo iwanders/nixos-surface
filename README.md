@@ -169,59 +169,33 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 
 # Todo
 
-- Figure out how to make the gnome onscreen keyboard display normal `!@#$%^&*()_+` symbols.
-- Check the false positive pen thumb-button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
-- Ensure pen talks libwacom? [libwacom-surface](https://github.com/linux-surface/libwacom-surface/tree/master) and [libwacom](https://github.com/linux-surface/libwacom), linux-surface [wiki](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup) mentions [this flake](https://github.com/hpfr/system/blob/2e5b3b967b0436203d7add6adbd6b6f55e87cf3c/hosts/linux-surface.nix).
-- Suspended over night, drained 68% to 45%, did not wake from suspend in the morning, this type cover issue [where it can't wake from suspend in some conditions seems applicable](https://github.com/linux-surface/linux-surface/issues/1183).
-- Make fans turn on quicker, may just be a matter of installing thermald? Even on windows things get pretty hot, maybe that's normal? Filed [this PR](https://github.com/linux-surface/kernel/pull/144), outcome is fan control is not possible. Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald).
-- Check platform profile for display, `powercfg` on windows seems to give options [source](https://superuser.com/a/1595179). [Devcon](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/devcon) may be helpful as well. CPU temp with `get-wmiobject MSAcpi_ThermalZoneTemperature -namespace "root/wmi"`, is there more we can use?
-  
-## Kernel module development
+- On screen keyboard
+  - [x] Figure out how to make the gnome onscreen keyboard display normal `!@#$%^&*()_+` symbols. Forked [enhanced osk](https://github.com/iwanders/gnome-enhanced-osk-extension).
+  - [ ] Make on screen keyboard not waste precious pixels.
 
+- Pen
+  - [ ] Check the false positive pen thumb-button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
+  - [ ] Ensure pen talks libwacom? [libwacom-surface](https://github.com/linux-surface/libwacom-surface/tree/master) and [libwacom](https://github.com/linux-surface/libwacom), linux-surface [wiki](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup) mentions [this flake](https://github.com/hpfr/system/blob/2e5b3b967b0436203d7add6adbd6b6f55e87cf3c/hosts/linux-surface.nix).
 
-Prepare for the development shell with
-```
-nix build .#nixosConfigurations.papyrus.config.boot.kernelPackages.kernel.dev -L
-nix develop .#nixosConfigurations.papyrus.config.boot.kernelPackages.kernel
-```
+- Power / Battery
+  - [ ] Suspended over night, drained 68% to 45%, did not wake from suspend in the morning, this type cover issue [where it can't wake from suspend in some conditions seems applicable](https://github.com/linux-surface/linux-surface/issues/1183).
+  - [ ] Can we investigate trickle charging / not keeping battery at 100% for longevity? Battery charge IC likely is `BQ25713`.
 
-Then build the in-tree surface modules with:
-```
-export KERNELDIR=$(nix build --print-out-paths ".#nixosConfigurations.papyrus.config.boot.kernelPackages.kernel.dev")
-# go to linux surface kernel tree, copy configuration from active system.
-cp $KERNELDIR/lib/modules/*/build/.config .config
-cp $KERNELDIR/lib/modules/6.5.11/build/Module.symvers .
-# prepare build environment
-make scripts prepare modules_prepare
-make -C . M=drivers/platform/surface
-```
+- Thermal stuff
+  - [x] Make fans turn on quicker, may just be a matter of installing thermald? Even on windows things get pretty hot, maybe that's normal? Research!
+  - [x] Logging messages from windows, all the way from boot. [irpmon wiki improvements](https://github.com/MartinDrab/IRPMon/issues/113)
+  - [ ] Make fan rpm monitoring module: https://github.com/linux-surface/kernel/pull/144
+  - [ ] Make platform profile switch the fan profile: https://github.com/linux-surface/kernel/pull/145
+  - [ ] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald).
 
-This [post](https://blog.thalheim.io/2022/12/17/hacking-on-kernel-modules-in-nixos/) may be helpful.
+- OS / System / Nix stuff
+  - [ ] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir.
+  - [ ] Look at home manager
 
-Ah... the linux kernel tree I built in does not match the tree that my os is running; I branched from the surface kernel, which is different from the one used from my nixos configuration. I think.
+# Contribution / PR tracking
 
-Maybe out of tree for now?
-
-```
-nix develop "$(realpath /run/booted-system/flake)#nixosConfigurations.$(hostname).config.boot.kernelPackages.kernel"
-export KERNELDIR=$(nix build --print-out-paths "$(realpath /run/booted-system/flake)#nixosConfigurations.papyrus.config.boot.kernelPackages.kernel.dev")/lib/modules/*/build
-```
-
-
-
-```
-ivor@eagle:/tmp$ nix build nixpkgs/release-23.11#msitools
-ivor@eagle:/tmp$ ./result/bin/msiextract SurfacePro9_Win11_22621_23.103.34762.0.msi 
-```
-
-
-
-# Random notes
-
-These two may pertain to sleep operations, they disable touch & battery subsystems from talking back to SAM commands.
-```
-[root@papyrus:/home/ivor/Documents/Code/nixos-surface]# /home/ivor/.nix-profile/bin/python ./surface-aggregator-module/scripts/ssam/ctrl.py request 1 1 0x33 0 0 
-
-[root@papyrus:/home/ivor/Documents/Code/nixos-surface]# /home/ivor/.nix-profile/bin/python ./surface-aggregator-module/scripts/ssam/ctrl.py request 1 1 0x34 0 0 
-
-```
+- Added instructions for boot logging to the IRPMon wiki: https://github.com/MartinDrab/IRPMon/issues/113
+- Surface Fan module. https://github.com/linux-surface/kernel/pull/144
+- Platform profile, switch fan profile. https://github.com/linux-surface/kernel/pull/145
+- Surface Aggregator Module: IRPMon conversion script improvements. https://github.com/linux-surface/surface-aggregator-module/pull/66
+- Forked gnome OSK to https://github.com/iwanders/gnome-enhanced-osk-extension

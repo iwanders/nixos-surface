@@ -143,4 +143,6 @@ if True:
     }
     fig = make_rpm_plot(z, title="fan profile comparison")
     fig.savefig("/tmp/comparison.png", figsize=(100, 200))
+    fig.show()
+    plt.show()
     # plt.show()
