@@ -77,7 +77,10 @@ def make_plot(values, title, vbar=None):
     return fig, values
 
 
-# 
+def make_temperature_plot(values):
+
+
+
 
 if False:
     f1_values = load_values("../../sensor_logs/platform_profile_performance_fan_normal_2023_12_10__14_30.json.gz")
