@@ -8,8 +8,8 @@ final: prev: {
     src = prev.fetchFromGitHub {
       owner = "iwanders";
       repo = "gnome-enhanced-osk-extension";
-      rev = "d1fc606828e018baa61773d3fa5daa85087d078f";
-      hash = "sha256-8iTn+uzTG0vnJ/mxqJsFHDUE0b340nrOzpPeRTZIp10=";
+      rev = "544584cec5f84058e5507133f326f20b9dfcde27";
+      hash = "sha256-1mJgRQFljhVapO6RAZPFb9nX0KmZpZED68Fs6Aa8M/I=";
     };
     uuid = "iwanders-gnome-enhanced-osk-extension";
   in 
@@ -33,6 +33,10 @@ final: prev: {
         sed -i src/extension.js -e 's|"/share/gnome-shell/gnome-shell-osk-layouts.gresource"|"/../run/current-system/sw/share/gnome-shell/gnome-shell-osk-layouts.gresource"|g'
         # Allow using this in gdm.
         sed -i src/metadata.json -e 's|}|,"session-modes": ["user", "gdm", "unlock-dialog"]}|g'
+
+        # Super ugly way to change the default sizes to work well with this screen.
+        sed -i src/schemas/org.gnome.shell.extensions.enhancedosk.gschema.xml -e 's|33|39|g'
+        sed -i src/schemas/org.gnome.shell.extensions.enhancedosk.gschema.xml -e 's|16|21|g'
       '';
 
       # Package the extension
