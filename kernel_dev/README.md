@@ -28,3 +28,39 @@ This [post](https://blog.thalheim.io/2022/12/17/hacking-on-kernel-modules-in-nix
 
 Ah... the linux kernel tree I built in does not match the tree that my os is running; I branched from the surface kernel, which is different from the one used from my nixos configuration. I think.
 
+
+
+### Patches
+
+Some notes for myself.
+
+#### Setup
+First, install `git send-email`, follow [this excellent tutorial](https://git-send-email.io/). Including the advice:
+
+> Warning! Some people think that they can get away with sending patches through some means other than git send-email, but you can't. Your patches will be broken and a nuisance to the maintainers whose inbox they land in. Follow the golden rule: just use git send-email.
+
+
+#### Preparing the patches
+From [this comment](https://github.com/linux-surface/kernel/pull/144#issuecomment-1863385341), we learn that it is possible to use a cover letter, which is not really described in [the submitting patches](https://www.kernel.org/doc/html/v6.6/process/submitting-patches.html) guide.
+
+So, we run:
+
+````
+git format-patch -2 --cover-letter
+```
+
+This generates three files, the first being `0000-cover-letter.patch`, we can populate this to hold our explanation of why this change is proposed.
+
+Always run the checkpatch script!
+```
+./scripts/checkpatch.pl
+```
+
+From the forementioned comment (and some testing) we learn that we can add `To` headers to each patch file, allowing us to specify which mailing list each file will go to, while all emails still keep the same `in-reply-to` header. (This probably ties them all together on the mailing list archive?)
+
+#### Send it out
+```
+git send-email <files>
+```
+
+
