@@ -45,7 +45,7 @@ From [this comment](https://github.com/linux-surface/kernel/pull/144#issuecommen
 
 So, we run:
 
-````
+```
 git format-patch -2 --cover-letter
 ```
 
@@ -62,5 +62,18 @@ From the forementioned comment (and some testing) we learn that we can add `To` 
 ```
 git send-email <files>
 ```
+
+When copying the send mail command from lore, by default it drops the original 'to' fields to the 'cc', always re-evaluate these.
+
+### Versions
+Make versions with
+```
+git format-patch -# -v2 --cover-letter
+```
+
+**Always use a cover letter for follow up versions to describe the changes**.
+
+If sending a v2 inline with other entries, be sure to re-evaluate the suggested recipients from lore.
+
 
 
