@@ -46,7 +46,6 @@
       gnome-music
       gnome-screenshot
       gnome-weather
-      gnome-disk-utility
       pkgs.gnome-connections
     ]) ++ (with pkgs;[
       orca
@@ -59,6 +58,7 @@
         nautilus
         gnome-terminal
         gnome-system-monitor
+        gnome-disk-utility
       ]) ++ (with pkgs;[
         vlc
         mplayer
