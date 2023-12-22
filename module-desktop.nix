@@ -25,7 +25,6 @@
     # https://discourse.nixos.org/t/howto-disable-most-gnome-default-applications-and-what-they-are/13505
     environment.gnome.excludePackages = (with pkgs.gnome; [
       baobab # disk usage analyzer
-      eog # image viewer
       epiphany # web browser
       gedit # text editor
       simple-scan # document scanner
@@ -55,10 +54,11 @@
     # We also lose nautilus now though...
     environment.systemPackages =
       (with pkgs.gnome; [
-        nautilus
+        eog # image viewer
         gnome-terminal
         gnome-system-monitor
         gnome-disk-utility
+        nautilus
       ]) ++ (with pkgs;[
         vlc
         mplayer
