@@ -4,6 +4,7 @@ final: prev: {
   iptsd = prev.iptsd.overrideAttrs (old: rec {
     buildInputs = old.buildInputs ++ [
       prev.cairomm
+      prev.SDL2
     ];
     mesonFlags = [
       "-Dservice_manager=systemd"
