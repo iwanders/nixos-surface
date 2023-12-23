@@ -19,6 +19,12 @@
             ln -s ${self.nixosConfigurations.papyrus.config.boot.kernelPackages.kernel.dev} $out/kernel-dev
           '';
         }
+
+        # This here adds the current nixpkgs to the global flake registry
+        # such that nix build nixpkgs#... refers to the pinned version.
+        {
+          nix.registry.nixpkgs.flake = nixpkgs;
+        }
       ];
     };
     inherit nixpkgs;
