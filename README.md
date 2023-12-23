@@ -173,6 +173,11 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 0
 $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
 ```
 
+# Flake reminders
+
+- This flake is always available in `/run/booted-system/flake/`, flake `current` is that.
+- The `current#pkgs` points to `nixosConfigurations.papyrus.pkgs`.
+- The `nixpkgs#` flake points at the pinned upstream nixpkgs without overlays.
 
 
 # Todo
