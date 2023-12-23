@@ -4,7 +4,7 @@
     nixos-hardware.url = "github:iwanders/nixos-hardware/ms-surface-build-linux-surface-kernel-from-repo";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware }: {
+  outputs = { self, nixpkgs, nixos-hardware }: rec {
     nixosConfigurations.papyrus = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -25,8 +25,18 @@
         {
           nix.registry.nixpkgs.flake = nixpkgs;
         }
+        # nix develop /nix/store/v9vnzqrpfx4qpn4zygcyg1bbw9b54m92-source#nixosConfigurations.papyrus.pkgs.iptsd
+        # And this one here adds 'current' that has all the os specific overrides.
+        {
+          nix.registry.current.to =  {
+            type = "path";
+            path = "/run/booted-system/flake/";
+          };
+        }
       ];
     };
-    inherit nixpkgs;
+    #inherit nixpkgs;
+    # Such that we can do current#pkgs.<our overlayd nixpkgs>
+    pkgs = nixosConfigurations.papyrus.pkgs;
   };
 }
