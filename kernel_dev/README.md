@@ -58,6 +58,8 @@ Always run the checkpatch script!
 
 From the forementioned comment (and some testing) we learn that we can add `To` headers to each patch file, allowing us to specify which mailing list each file will go to, while all emails still keep the same `in-reply-to` header. (This probably ties them all together on the mailing list archive?)
 
+Ensure signed off by is present, use `git commit -s`.
+
 #### Send it out
 ```
 git send-email <files>
@@ -73,7 +75,7 @@ git format-patch -# -v2 --cover-letter
 
 **Always use a cover letter for follow up versions to describe the changes**.
 
-If sending a v2 inline with other entries, be sure to re-evaluate the suggested recipients from lore.
+If sending a v2 inline with other entries (don't do this, its not common), be sure to re-evaluate the suggested recipients from lore.
 
-
+Put version log in the diff, convention is adding a `---` section at the end of the commit message (after the signed off by)
 
