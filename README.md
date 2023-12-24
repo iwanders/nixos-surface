@@ -187,7 +187,9 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
   - [x] Make on screen keyboard not waste precious pixels. Filed https://github.com/cass00/enhanced-osk-gnome-ext/pull/7
 
 - Pen
-  - [ ] Check the false positive pen thumb-button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
+  - [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
+  - [x] Check the false positive pen thumb-button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. 
+  - [ ] Pen contact detection is also glitchy.
   - [ ] Ensure pen talks libwacom? [libwacom-surface](https://github.com/linux-surface/libwacom-surface/tree/master) and [libwacom](https://github.com/linux-surface/libwacom), linux-surface [wiki](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup) mentions [this flake](https://github.com/hpfr/system/blob/2e5b3b967b0436203d7add6adbd6b6f55e87cf3c/hosts/linux-surface.nix).
 
 - Power / Battery
