@@ -58,7 +58,9 @@
   microsoft-surface.ipts.config = {
     DFT = {
       PositionMinMag = 500;
-      ButtonMinMag = 20000;
+      ButtonMinMag = 10000;
+      ButtonBinMax = 1;
+      ButtonUsesFSK = true;
     };
   };
 
