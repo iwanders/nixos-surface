@@ -28,7 +28,8 @@ This [post](https://blog.thalheim.io/2022/12/17/hacking-on-kernel-modules-in-nix
 
 Ah... the linux kernel tree I built in does not match the tree that my os is running; I branched from the surface kernel, which is different from the one used from my nixos configuration. I think.
 
-
+#### Building
+Try to do a `W=1` build next time, [fan module patchset](https://lore.kernel.org/linux-hwmon/202402031253.JPVKEF5X-lkp@intel.com/T/#u) got a warning back. Easily reproduced with `-Wmissing-prototypes`.
 
 ### Patches
 
