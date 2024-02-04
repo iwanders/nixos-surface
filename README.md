@@ -199,7 +199,7 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
 - Thermal stuff
   - [x] Make fans turn on quicker, may just be a matter of installing thermald? Even on windows things get pretty hot, maybe that's normal? Research!
   - [x] Logging messages from windows, all the way from boot. [irpmon wiki improvements](https://github.com/MartinDrab/IRPMon/issues/113)
-  - [ ] Make fan rpm monitoring module: https://github.com/linux-surface/kernel/pull/144
+  - [x] Make fan rpm monitoring module: https://github.com/linux-surface/kernel/pull/144
   - [ ] Make platform profile switch the fan profile: https://github.com/linux-surface/kernel/pull/145
   - [ ] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald).
 
