@@ -195,6 +195,7 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
 - Power / Battery
   - [ ] Suspended over night, drained 68% to 45%, did not wake from suspend in the morning, this type cover issue [where it can't wake from suspend in some conditions seems applicable](https://github.com/linux-surface/linux-surface/issues/1183).
   - [ ] Can we investigate trickle charging / not keeping battery at 100% for longevity? Battery charge IC likely is `BQ25713`.
+  - [x] Disabled `enable_psr` for now to mitigate screen flickering, could pursue it against latest kernel, intel seems to be [doing work on it](https://lore.kernel.org/all/PH7PR11MB59817424A663BFE56322E1ADF9472@PH7PR11MB5981.namprd11.prod.outlook.com/).
 
 - Thermal stuff
   - [x] Make fans turn on quicker, may just be a matter of installing thermald? Even on windows things get pretty hot, maybe that's normal? Research!
