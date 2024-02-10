@@ -23,6 +23,14 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # Boot kernel parameters:
+  boot.kernelParams = [
+    # Mitigate screen flickering, see:
+    # https://wiki.archlinux.org/title/intel_graphics#Screen_flickering
+    # https://github.com/linux-surface/linux-surface/issues/862
+    "i915.enable_psr=0"
+  ]; 
+
 
   networking.hostName = "papyrus"; # Define your hostname.
   # Pick only one of the below networking options.
