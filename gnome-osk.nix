@@ -1,7 +1,5 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   imports = [ ];
-
 
   # https://github.com/NixOS/nixpkgs/blob/9a8c7261525fce16e990736b9a514d2aeb4ee95e/nixos/modules/programs/dconf.nix#L65-L89
 
@@ -9,17 +7,18 @@
 
   config = {
     # Add the new gnome on screen keyboard to the packages.
-    environment.systemPackages = [pkgs.gnome-osk];
+    environment.systemPackages = [ pkgs.gnome-osk ];
 
     # Ensure gdm has access to the module by adding it to the XDG_DATA_DIRS path.
     # This string addition is pretty terrible, but it's necessary to avoid incorrect concatenation.
-    services.xserver.displayManager.job.environment.XDG_DATA_DIRS = ":${pkgs.gnome-osk}/share:";
+    services.xserver.displayManager.job.environment.XDG_DATA_DIRS =
+      ":${pkgs.gnome-osk}/share:";
 
     # This does set the property, also for gdm at boot.
     services.xserver.desktopManager.gnome = {
       extraGSettingsOverrides = ''
-          [org.gnome.shell]
-          enabled-extensions=[ '${pkgs.gnome-osk.uuid}' ]
+        [org.gnome.shell]
+        enabled-extensions=[ '${pkgs.gnome-osk.uuid}' ]
       '';
     };
   };

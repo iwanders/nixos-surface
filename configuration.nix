@@ -14,11 +14,7 @@
     (import ./overlay-osk.nix)
   ];
 
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./module-desktop.nix
-    ];
+  imports = [ ./hardware-configuration.nix ./module-desktop.nix ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -29,8 +25,7 @@
     # https://wiki.archlinux.org/title/intel_graphics#Screen_flickering
     # https://github.com/linux-surface/linux-surface/issues/862
     "i915.enable_psr=0"
-  ]; 
-
+  ];
 
   networking.hostName = "papyrus"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -52,14 +47,12 @@
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
-
   fileSystems = {
     "/".options = [ "compress=zstd" ];
     "/home".options = [ "compress=zstd" ];
     "/nix".options = [ "compress=zstd" "noatime" ];
   };
   boot.tmp.cleanOnBoot = true;
-
 
   # Surface related stuff.
   microsoft-surface.ipts.enable = true;
@@ -96,16 +89,8 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = (with pkgs; [
-    vim
-    wget
-    iftop
-    lm_sensors
-    screen
-    iptsd
-    file
-    binutils
-  ]);
+  environment.systemPackages =
+    (with pkgs; [ vim wget iftop lm_sensors screen iptsd file binutils ]);
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

@@ -10,15 +10,12 @@ final: prev: {
       hash = "sha256-w5+fwfcTLJu6TTrSzhbPBZCFFUs4VIOYNOih11L93fY=";
     };
 
-    buildInputs = old.buildInputs ++ [
-      prev.cairomm
-      prev.SDL2
-    ];
+    buildInputs = old.buildInputs ++ [ prev.cairomm prev.SDL2 ];
     mesonFlags = [
       "-Dservice_manager=systemd"
       "-Dsample_config=false"
       "-Ddebug_tools=calibrate,dump,perf,plot"
-      "-Db_lto=false"  # plugin needed to handle lto object -> undefined reference to ...
+      "-Db_lto=false" # plugin needed to handle lto object -> undefined reference to ...
     ];
   });
 }

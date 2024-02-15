@@ -12,45 +12,38 @@ final: prev: {
       hash = "sha256-1mJgRQFljhVapO6RAZPFb9nX0KmZpZED68Fs6Aa8M/I=";
     };
     uuid = "iwanders-gnome-enhanced-osk-extension";
-  in 
-    prev.stdenv.mkDerivation {
+  in prev.stdenv.mkDerivation {
 
-      buildInputs = [
-        prev.pkgs.glib
-        prev.pkgs.zip
-        prev.pkgs.unzip
-      ];
+    buildInputs = [ prev.pkgs.glib prev.pkgs.zip prev.pkgs.unzip ];
 
-      name = "gnome-osk";
+    name = "gnome-osk";
 
-      inherit src;
+    inherit src;
 
-      # Fix the path to
-      # /share/gnome-shell/gnome-shell-osk-layouts.gresource
-      # To point at /run/current-system/sw/share/gnome-shell/gnome-shell-osk-layouts.gresource
-      patchPhase = ''
-        # Fix the resource path, /../ to walk up from the 'usr' prefix.
-        sed -i src/extension.js -e 's|"/share/gnome-shell/gnome-shell-osk-layouts.gresource"|"/../run/current-system/sw/share/gnome-shell/gnome-shell-osk-layouts.gresource"|g'
-        # Allow using this in gdm.
-        sed -i src/metadata.json -e 's|}|,"session-modes": ["user", "gdm", "unlock-dialog"]}|g'
+    # Fix the path to
+    # /share/gnome-shell/gnome-shell-osk-layouts.gresource
+    # To point at /run/current-system/sw/share/gnome-shell/gnome-shell-osk-layouts.gresource
+    patchPhase = ''
+      # Fix the resource path, /../ to walk up from the 'usr' prefix.
+      sed -i src/extension.js -e 's|"/share/gnome-shell/gnome-shell-osk-layouts.gresource"|"/../run/current-system/sw/share/gnome-shell/gnome-shell-osk-layouts.gresource"|g'
+      # Allow using this in gdm.
+      sed -i src/metadata.json -e 's|}|,"session-modes": ["user", "gdm", "unlock-dialog"]}|g'
 
-        # Super ugly way to change the default sizes to work well with this screen.
-        sed -i src/schemas/org.gnome.shell.extensions.enhancedosk.gschema.xml -e 's|33|39|g'
-        sed -i src/schemas/org.gnome.shell.extensions.enhancedosk.gschema.xml -e 's|16|21|g'
-      '';
+      # Super ugly way to change the default sizes to work well with this screen.
+      sed -i src/schemas/org.gnome.shell.extensions.enhancedosk.gschema.xml -e 's|33|39|g'
+      sed -i src/schemas/org.gnome.shell.extensions.enhancedosk.gschema.xml -e 's|16|21|g'
+    '';
 
-      # Package the extension
-      buildPhase = ''
-        ./package-extension.sh
-      '';
+    # Package the extension
+    buildPhase = ''
+      ./package-extension.sh
+    '';
 
-      # And then unpack it into the correct location
-      installPhase = ''
-        mkdir -p $out/share/gnome-shell/extensions/${uuid}/
-        unzip ${uuid}.zip -d $out/share/gnome-shell/extensions/${uuid}/
-      '';
-      passthru = {
-        inherit uuid;
-      };
-    };
+    # And then unpack it into the correct location
+    installPhase = ''
+      mkdir -p $out/share/gnome-shell/extensions/${uuid}/
+      unzip ${uuid}.zip -d $out/share/gnome-shell/extensions/${uuid}/
+    '';
+    passthru = { inherit uuid; };
+  };
 }
