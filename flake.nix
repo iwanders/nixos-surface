@@ -36,7 +36,11 @@
       ];
     };
     #inherit nixpkgs;
+
     # Such that we can do current#pkgs.<our overlayd nixpkgs>
     pkgs = nixosConfigurations.papyrus.pkgs;
+
+    # Allow formatting with `nix fmt`
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
   };
 }
