@@ -57,11 +57,12 @@
   # Surface related stuff.
   microsoft-surface.ipts.enable = true;
   microsoft-surface.ipts.config = {
+    Stylus = {
+      MPPVersion = "v2";
+    };
     DFT = {
       PositionMinMag = 500;
-      ButtonMinMag = 10000;
-      ButtonBinMax = 1;
-      ButtonUsesFSK = true;
+      ButtonMinMag = 1000;
     };
   };
 
