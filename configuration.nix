@@ -27,6 +27,10 @@
     "i915.enable_psr=0"
   ];
 
+  # enable core dumps.
+  systemd.coredump.enable = true;
+
+
   networking.hostName = "papyrus"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -56,15 +60,15 @@
 
   # Surface related stuff.
   microsoft-surface.ipts.enable = true;
-  microsoft-surface.ipts.config = {
-    Stylus = {
-      MPPVersion = "v2";
-    };
-    DFT = {
-      PositionMinMag = 500;
-      ButtonMinMag = 1000;
-    };
-  };
+  #microsoft-surface.ipts.config = {
+  #  Stylus = {
+  #    MPPVersion = "v2";
+  #  };
+  #  DFT = {
+  #    PositionMinMag = 500;
+  #    ButtonMinMag = 50000;
+  #  };
+  #};
 
   microsoft-surface.surface-control.enable = true;
   microsoft-surface.kernelVersion = "surface-devel";
@@ -91,7 +95,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
-    (with pkgs; [ vim wget iftop lm_sensors screen iptsd file binutils ]);
+    (with pkgs; [ vim wget iftop lm_sensors screen iptsd file binutils mosh ]);
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -105,6 +109,9 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # Enable mosh, and open firewall as appropriate.
+  programs.mosh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
