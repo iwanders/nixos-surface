@@ -6,8 +6,8 @@ final: prev: {
     src = prev.fetchFromGitHub {
       owner = "iwanders";
       repo = "linux-surface-iptsd";
-      rev = "b66f68b28b3c98143a39a1c9e6cd69ff8b835858";
-      hash = "sha256-v2fS2OCeBUqABdfEra0bNB2qJCKya+vixmetieawVvM=";
+      rev = "5f399fee731786d990e3e2982455efa4bf299621";
+      hash = "sha256-LwQRGdiSwOr4t7klOXYsBRs7E0YOIELeRPPRFjWtWtM=";
     };
 
     buildInputs = old.buildInputs ++ [ prev.cairomm prev.SDL2 ];
