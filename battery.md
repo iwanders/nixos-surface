@@ -80,3 +80,70 @@ Hands us loads of things on a silver platter, the irpmon dump from that is;
 Numbers seem to match up perfectly, should get a few recordings where it's not on the charger to obtain location of charging voltage and current.
 
 
+On battery:
+```
+  ???  IN BAT:02 t00 i00 c 0x22 (119): 01 c0 00 87 03 40 00 04 04 00 00 40 19 09 00 00 00 00 00 00 00 00 00 48 00 64 00 60 22 fd 0b b1 1e 6e f9 18 00 e8 b7 67 0f 4b 0f 00 00 00 00 6f 34 ed 1e 50 00 2e 1f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+$ cat 2024_02_29_uart_battery_general_on_battery.txt 
+PS C:\Users\ivor> sdmc batterypropget GeneralStandard AnythingType
+GeneralStandard : [Complex (23 Properties]
+BatteryPhysicalDetect   1 (uint)
+BatteryStatus           192 (uint)
+OperationStatus         4195207 (uint)
+ChargingStatus          1028 (uint)
+GaugingStatus           596288 (uint)
+SafetyStatus            0 (uint)
+PfStatus                0 (uint)
+RelativeStateOfCharge   72 (uint)
+StateOfHealth           100 (uint)
+ChargingVoltage_mV      8800 (uint)
+ChargingCurrent_mA      3069 (uint)
+Voltage_mV              7857 (uint)
+Current_mA              63854 (uint)
+TemperatureRaw_dC       24 (uint)
+TemperatureVtsMax_dC    47080 (uint)
+CellVoltage1_mV         3943 (uint)
+CellVoltage2_mV         3915 (uint)
+CellVoltage3_mV         0 (uint)
+CellVoltage4_mV         0 (uint)
+MaxTurboPwr_cW          13423 (uint)
+SusTurboPwr_cW          7917 (uint)
+TurboRhfEffective_mOhm  80 (uint)
+TurboVload              7982 (uint)
+
+```
+
+on AC
+
+```
+  ???  IN BAT:02 t00 i00 c 0x22 (119): 01 80 00 87 03 40 10 08 04 00 00 10 18 09 00 00 00 00 00 00 00 00 00 47 00 64 00 60 22 c8 10 f6 20 c6 0f 1a 00 e8 b7 73 10 7b 10 00 00 00 00 c1 35 96 1f 50 00 54 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+$ cat 2024_02_29_uart_battery_general_on_ac.txt 
+PS C:\Users\ivor> sdmc batterypropget GeneralStandard AnythingType
+GeneralStandard : [Complex (23 Properties]
+BatteryPhysicalDetect   1 (uint)
+BatteryStatus           128 (uint)
+OperationStatus         272630663 (uint)
+ChargingStatus          1032 (uint)
+GaugingStatus           595984 (uint)
+SafetyStatus            0 (uint)
+PfStatus                0 (uint)
+RelativeStateOfCharge   71 (uint)
+StateOfHealth           100 (uint)
+ChargingVoltage_mV      8800 (uint)
+ChargingCurrent_mA      4296 (uint)
+Voltage_mV              8438 (uint)
+Current_mA              4038 (uint)
+TemperatureRaw_dC       26 (uint)
+TemperatureVtsMax_dC    47080 (uint)
+CellVoltage1_mV         4211 (uint)
+CellVoltage2_mV         4219 (uint)
+CellVoltage3_mV         0 (uint)
+CellVoltage4_mV         0 (uint)
+MaxTurboPwr_cW          13761 (uint)
+SusTurboPwr_cW          8086 (uint)
+TurboRhfEffective_mOhm  80 (uint)
+TurboVload              8276 (uint)
+
+```
+
