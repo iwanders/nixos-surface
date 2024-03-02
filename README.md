@@ -209,7 +209,7 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
 - OS / System / Nix stuff
   - [ ] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir. See also [this](https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption)
   - [ ] Look at home manager
-  - [ ] Fix multiboot clock, perhaps by setting windows to UTC `REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /t REG_DWORD /d 1 /f`.
+  - [x] Fix multiboot clock, done by setting the registry key found in the [windows](./windows) subdirectory.
 
 
 
