@@ -216,7 +216,7 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
 # Contribution / PR tracking
 
 - Added instructions for boot logging to the IRPMon wiki: https://github.com/MartinDrab/IRPMon/issues/113
-- Surface Fan module. https://github.com/linux-surface/kernel/pull/144
+- Surface Fan module. https://github.com/linux-surface/kernel/pull/144  [upstream kernel v5 thread](https://lore.kernel.org/linux-hwmon/20240131005856.10180-1-ivor@iwanders.net/T/)
 - Platform profile, switch fan profile. https://github.com/linux-surface/kernel/pull/145
 - Surface Aggregator Module: IRPMon conversion script improvements. https://github.com/linux-surface/surface-aggregator-module/pull/66
 - Forked gnome OSK to https://github.com/iwanders/gnome-enhanced-osk-extension
