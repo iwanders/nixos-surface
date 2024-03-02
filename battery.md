@@ -5,6 +5,10 @@
 
 It still (after weeks on the charger) hasn't enabled...
 
+Manually enabling smart charging is a no go:
+
+> ruled out by `BatteryDm.cs`, it explicitly throws when trying to ste it to true.
+
 ### BatteryPropGet
 
 ```

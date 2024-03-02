@@ -185,16 +185,17 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
 - On screen keyboard
   - [x] Figure out how to make the gnome onscreen keyboard display normal `!@#$%^&*()_+` symbols. Forked [enhanced osk](https://github.com/iwanders/gnome-enhanced-osk-extension).
   - [x] Make on screen keyboard not waste precious pixels. Filed https://github.com/cass00/enhanced-osk-gnome-ext/pull/7
+  - [ ] Make the new on screen keyboard appear in lock screen.
 
 - Pen
   - [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
-  - [x] Check the false positive pen thumb-button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. 
-  - [ ] Pen contact detection is also glitchy.
+  - [x] Check the false positive pen thumb-button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. Filed [this](https://github.com/linux-surface/iptsd/pull/156).
+  - [x] Pen contact detection is also glitchy.
   - [ ] Ensure pen talks libwacom? [libwacom-surface](https://github.com/linux-surface/libwacom-surface/tree/master) and [libwacom](https://github.com/linux-surface/libwacom), linux-surface [wiki](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup) mentions [this flake](https://github.com/hpfr/system/blob/2e5b3b967b0436203d7add6adbd6b6f55e87cf3c/hosts/linux-surface.nix).
 
 - Power / Battery
   - [ ] Suspended over night, drained 68% to 45%, did not wake from suspend in the morning, this type cover issue [where it can't wake from suspend in some conditions seems applicable](https://github.com/linux-surface/linux-surface/issues/1183).
-  - [ ] Can we investigate trickle charging / not keeping battery at 100% for longevity? Battery charge IC likely is `BQ25713`. See [smart charging](https://support.microsoft.com/en-us/surface/smart-charging-on-surface-dda48e48-950b-421c-a436-c48c55e158c4)
+  - [x] Can we investigate trickle charging / not keeping battery at 100% for longevity? Battery charge IC likely is `BQ25713`. See [smart charging](https://support.microsoft.com/en-us/surface/smart-charging-on-surface-dda48e48-950b-421c-a436-c48c55e158c4), ruled out by `BatteryDm.cs`, it explicitly throws when trying to ste it to true.
   - [x] Disabled `enable_psr` for now to mitigate screen flickering, could pursue it against latest kernel, intel seems to be [doing work on it](https://lore.kernel.org/all/PH7PR11MB59817424A663BFE56322E1ADF9472@PH7PR11MB5981.namprd11.prod.outlook.com/).
 
 - Thermal stuff
@@ -205,7 +206,7 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
   - [ ] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald).
 
 - OS / System / Nix stuff
-  - [ ] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir.
+  - [ ] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir. See also [this](https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption)
   - [ ] Look at home manager
   - [ ] Fix multiboot clock, perhaps by setting windows to UTC `REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /t REG_DWORD /d 1 /f`.
 
@@ -219,3 +220,5 @@ $/home/ivor/.nix-profile/bin/python ./ctrl.py request 0x17 2 1 1 0 1
 - Surface Aggregator Module: IRPMon conversion script improvements. https://github.com/linux-surface/surface-aggregator-module/pull/66
 - Forked gnome OSK to https://github.com/iwanders/gnome-enhanced-osk-extension
 - Contribute back enhanced OSK suggestions bar: https://github.com/cass00/enhanced-osk-gnome-ext/pull/7
+- Contribute mppv2+ / Slim Pen 2 fixes to iptsd: https://github.com/linux-surface/iptsd/pull/156
+
