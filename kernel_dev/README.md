@@ -31,6 +31,12 @@ Ah... the linux kernel tree I built in does not match the tree that my os is run
 #### Building
 Try to do a `W=1` build next time, [fan module patchset](https://lore.kernel.org/linux-hwmon/202402031253.JPVKEF5X-lkp@intel.com/T/#u) got a warning back. Easily reproduced with `-Wmissing-prototypes`.
 
+Yes, build with;
+```
+make W=1
+```
+
+
 ### Patches
 
 Some notes for myself.
@@ -42,6 +48,9 @@ First, install `git send-email`, follow [this excellent tutorial](https://git-se
 
 
 #### Preparing the patches
+
+Rebase them on the latest `master` from Torvald's upstream repo.
+
 From [this comment](https://github.com/linux-surface/kernel/pull/144#issuecomment-1863385341), we learn that it is possible to use a cover letter, which is not really described in [the submitting patches](https://www.kernel.org/doc/html/v6.6/process/submitting-patches.html) guide.
 
 So, we run:
@@ -60,6 +69,12 @@ Always run the checkpatch script!
 From the forementioned comment (and some testing) we learn that we can add `To` headers to each patch file, allowing us to specify which mailing list each file will go to, while all emails still keep the same `in-reply-to` header. (This probably ties them all together on the mailing list archive?)
 
 Ensure signed off by is present, use `git commit -s`.
+
+#### Determine the receipients
+```
+./scripts/get_maintainer.pl *.patch
+```
+Gives a list of maintainers based on the modified files.
 
 #### Send it out
 ```
