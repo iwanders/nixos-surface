@@ -11,6 +11,7 @@
     # services.xserver.xkbOptions = "eurosign:e,caps:escape";
     services.xserver.enable = true;
     services.xserver.displayManager.gdm.enable = true;
+    services.xserver.displayManager.gdm.autoSuspend = false;
 
     # This block is here to ensure we get GDM with the custom on screen keyboard extension
     # in the settings I want.
