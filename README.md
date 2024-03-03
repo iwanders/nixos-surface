@@ -285,7 +285,8 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
   - [x] Figure out how to make the gnome onscreen keyboard display normal `!@#$%^&*()_+` symbols. Forked [enhanced osk](https://github.com/iwanders/gnome-enhanced-osk-extension).
   - [x] Make on screen keyboard not waste precious pixels. Filed https://github.com/cass00/enhanced-osk-gnome-ext/pull/7
   - [x] Make the new on screen keyboard appear in lock screen. Magically solved itself with the reinstall...
-  - [ ] Give it an 'inhibit' option, where it doesn't automatically pops up when you click text, for when you have the typecover attached.
+  - [x] Give it an 'inhibit' option, where it doesn't automatically pops up when you click text, for when you have the typecover attached.
+  - [ ] Extension is again gone in gdm.
 
 - Pen
   - [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
