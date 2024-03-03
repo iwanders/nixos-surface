@@ -236,6 +236,33 @@ OK
 To connect to wifi, followed by giving `root` a password with `passwd`, then ssh in from another
 machine by `ssh root@nixos`.
 
+### Recovery if Windows uninstalls / disables the bootloader
+Boot live cd, then manually mount the partitions with:
+```
+cryptsetup luksOpen /dev/nvme0n1p5 cryptroot
+mount -o compress=zstd,subvol=root /dev/mapper/cryptroot /mnt
+mount -o compress=zstd,subvol=home /dev/mapper/cryptroot /mnt/home
+mount -o compress=zstd,noatime,subvol=nix /dev/mapper/cryptroot /mnt/nix
+mount /dev/nvme0n1p1 /mnt/boot
+```
+
+Chroot with:
+```
+nixos-enter
+```
+
+First attempt was:
+```
+# nixos-rebuild switch --flake .#papyrus
+```
+But that complained about systemd-boot not being installed in ESP, which
+was likely the problem in the first place, that was fixed with:
+```
+bootctl install
+```
+
+Boot now succeeded.
+
 ## Misc config
 
 Give gnome minimize and maximize buttons;
