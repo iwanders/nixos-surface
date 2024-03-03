@@ -90,7 +90,6 @@
   microsoft-surface.surface-control.enable = true;
   microsoft-surface.kernelVersion = "surface-devel";
 
-
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;

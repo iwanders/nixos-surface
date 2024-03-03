@@ -19,22 +19,22 @@
       {
         lockAll = true;
         settings."org/gnome/shell/extensions/enhancedosk" = {
-          show-statusbar-icon=true;
-          locked=true;
+          show-statusbar-icon = true;
+          locked = true;
         };
       }
 
       {
         lockAll = true;
         settings."org/gnome/shell" = {
-          enabled-extensions=["iwanders-gnome-enhanced-osk-extension"];
+          enabled-extensions = [ "iwanders-gnome-enhanced-osk-extension" ];
         };
       }
 
       {
         lockAll = true;
         settings."org/gnome/desktop/a11y/applications" = {
-          screen-keyboard-enabled=true;
+          screen-keyboard-enabled = true;
         };
       }
     ];

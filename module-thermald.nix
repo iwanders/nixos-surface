@@ -1,10 +1,8 @@
-{ config, lib, pkgs, ... }: 
+{ config, lib, pkgs, ... }:
 
-let
-  cfg = config.services.thermald;
-in
-{
-  imports = [  ];
+let cfg = config.services.thermald;
+in {
+  imports = [ ];
 
   options = { };
 
