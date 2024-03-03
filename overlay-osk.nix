@@ -8,8 +8,8 @@ final: prev: {
     src = prev.fetchFromGitHub {
       owner = "iwanders";
       repo = "gnome-enhanced-osk-extension";
-      rev = "ac4b99676df412a1216ff545f6d0c9171f70205c";
-      hash = "sha256-CB3UZC8QdCDFWN0i+jWlbpaB4pvOG/KpRYohils0/pg=";
+      rev = "cf2317035b31a4c7d746c0b2ef58a4c6ba2e85d8";
+      hash = "sha256-suFJkw+5o0Xxx+M9X+gLg/BvYB9UkVUi5KOtReq/AMM=";
     };
     uuid = "iwanders-gnome-enhanced-osk-extension";
   in prev.stdenv.mkDerivation {
