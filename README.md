@@ -40,7 +40,7 @@ nixos-rebuild switch --flake .#papyrus
 
 ### Format this repo
 ```
-nix run nixpkgs/23.05#nixpkgs-fmt -- *.nix
+nix fmt
 ```
 
 ### Discard old NixOS generations
