@@ -78,7 +78,7 @@
   #    MPPVersion = "v2";
   #  };
   #  DFT = {
-  #    PositionMinMag = 500;
+  #    PositionMinMag = 5000000;
   #    ButtonMinMag = 50000;
   #  };
   #};
