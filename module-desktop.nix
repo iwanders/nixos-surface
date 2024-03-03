@@ -17,7 +17,7 @@
     # in the settings I want.
     programs.dconf.profiles.gdm.databases = [
       {
-        lockAll = true;
+        #lockAll = false;
         settings."org/gnome/shell/extensions/enhancedosk" = {
           show-statusbar-icon = true;
           locked = true;
@@ -25,14 +25,14 @@
       }
 
       {
-        lockAll = true;
+        #lockAll = false;
         settings."org/gnome/shell" = {
           enabled-extensions = [ "iwanders-gnome-enhanced-osk-extension" ];
         };
       }
 
       {
-        lockAll = true;
+        #lockAll = false;
         settings."org/gnome/desktop/a11y/applications" = {
           screen-keyboard-enabled = true;
         };
