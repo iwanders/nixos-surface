@@ -283,7 +283,8 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 - On screen keyboard
   - [x] Figure out how to make the gnome onscreen keyboard display normal `!@#$%^&*()_+` symbols. Forked [enhanced osk](https://github.com/iwanders/gnome-enhanced-osk-extension).
   - [x] Make on screen keyboard not waste precious pixels. Filed https://github.com/cass00/enhanced-osk-gnome-ext/pull/7
-  - [ ] Make the new on screen keyboard appear in lock screen.
+  - [x] Make the new on screen keyboard appear in lock screen. Magically solved itself with the reinstall...
+  - [ ] Give it an 'inhibit' option, where it doesn't automatically pops up when you click text, for when you have the typecover attached.
 
 - Pen
   - [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
@@ -305,7 +306,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
   - [ ] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald).
 
 - OS / System / Nix stuff
-  - [ ] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir. See also [this](https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption)
+  - [x] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir. See also [this](https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption), now using LUKS2, typecover works with appropriate kernel modules.
   - [ ] Look at home manager
   - [x] Fix multiboot clock, done by setting the registry key found in the [windows](./windows) subdirectory.
 
