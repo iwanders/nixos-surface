@@ -141,11 +141,12 @@ Create subvolume '/mnt/home'
 [root@nixos:/mnt]# btrfs subvolume create /mnt/nix
 Create subvolume '/mnt/nix'
 
-# Now unmount this all.
+# Now unmount /mnt;
+umount /mnt
 
 ```
 
-Followed by mounting;
+Followed by mounting the respectivy btrfs subvolumes:
 ```
 [root@nixos:/]# mount -o compress=zstd,subvol=root /dev/mapper/cryptroot /mnt
 
