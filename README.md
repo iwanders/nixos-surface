@@ -305,7 +305,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
   - [x] Logging messages from windows, all the way from boot. [irpmon wiki improvements](https://github.com/MartinDrab/IRPMon/issues/113)
   - [x] Make fan rpm monitoring module: https://github.com/linux-surface/kernel/pull/144
   - [ ] Make platform profile switch the fan profile: https://github.com/linux-surface/kernel/pull/145
-  - [ ] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald).
+  - [ ] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald). Thermald is really hard to configure, are there alternatives?
 
 - OS / System / Nix stuff
   - [x] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir. See also [this](https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption), now using LUKS2, typecover works with appropriate kernel modules.
