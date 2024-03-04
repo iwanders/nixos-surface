@@ -4,6 +4,22 @@
     <Name>Surface Pro 9</Name>
     <ProductName>*</ProductName>
     <Preference>QUIET</Preference>
+    <!-- 
+      From: https://github.com/intel/thermal_daemon/blob/9ac497badd88d9a31b0dfde98d8a9054a4087008/man/thermal-conf.xml.5
+      It seems that <TargetState>2147483647</TargetState> is necessary, otherwise it immediately throttles to minimum.
+    -->
+    <PPCC>
+      <!--
+        Real power limits don't seem to be picked up well.
+        This is in milliwatts, while sysfs is in microwatts.
+      -->
+      <PowerLimitIndex>0</PowerLimitIndex>
+      <PowerLimitMaximum>15000</PowerLimitMaximum>
+      <PowerLimitMinimum>2000</PowerLimitMinimum>
+      <TimeWindowMinimum>27328</TimeWindowMinimum>
+      <TimeWindowMaximum>27328</TimeWindowMaximum>
+      <StepSize>1000</StepSize>
+    </PPCC>
     <ThermalZones>
       <ThermalZone>
         <Type>cpu</Type>
@@ -26,8 +42,13 @@
         <Type>wifi</Type>
         <TripPoints>
           <TripPoint>
+            <!-- Below 35C; unlimited -->
+            <SensorType>iwlwifi_1</SensorType><Temperature>35000</Temperature><type>passive</type><ControlType>SEQUENTIAL</ControlType>
+            <CoolingDevice><TargetState>2147483647</TargetState><index>1</index><type>rapl_controller</type><influence>100</influence><SamplingPeriod>10</SamplingPeriod></CoolingDevice>
+          </TripPoint>
+          <TripPoint>
             <SensorType>iwlwifi_1</SensorType>
-            <Temperature>35000</Temperature>
+            <Temperature>40000</Temperature>
             <type>passive</type>
             <ControlType>SEQUENTIAL</ControlType>
             <CoolingDevice>

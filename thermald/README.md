@@ -20,3 +20,6 @@ Mar 03 16:30:39 papyrus thermald[24306]: [1709501439][DEBUG]Need to switch to ne
 ```
 
 Well, that's odd... it states `iwlwifi_1` is at `31000` and then the trip point is applicable? The [source code](https://github.com/intel/thermal_daemon/blob/9ac497badd88d9a31b0dfde98d8a9054a4087008/src/thd_trip_point.cpp#L234-L242) is confusing to me, we have both an `off` and an `on` boolean... The cooling device is clearly active, as seen from `Need to switch to next cdev`.
+
+
+With `PPCC` config specified it definitely does something. It throttles everything tremendously.

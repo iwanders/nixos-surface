@@ -17,7 +17,7 @@
   imports = [
     ./hardware-configuration.nix
     ./module-desktop.nix
-    #./module-thermald.nix
+    ./module-thermald.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
