@@ -14,11 +14,8 @@
     (import ./overlay-osk.nix)
   ];
 
-  imports = [
-    ./hardware-configuration.nix
-    ./module-desktop.nix
-    ./module-thermald.nix
-  ];
+  imports =
+    [ ./hardware-configuration.nix ./module-desktop.nix ./module-thermald.nix ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

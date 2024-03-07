@@ -36,6 +36,25 @@
         }
       ];
     };
+
+    # Custom recovery image that has this repo embedded in it, for easy debugging.
+    # nix build .#nixosConfigurations.recovery.config.system.build.isoImage
+    nixosConfigurations.recovery = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+        ({ pkgs, ... }: { environment.systemPackages = [ pkgs.vim ]; })
+        ({ pkgs, ... }: {
+          services.getty.helpLine = ''The repo can be found at /home/ivor/repo.'';
+        })
+        ({# Not sure if this here works... can't figure out how to avoid building the squashfs yet.
+          system.extraSystemBuilderCmds = ''
+            mkdir -p /home/ivor/repo
+            ln -s ${self} /home/ivor/repo
+          '';
+        })
+      ];
+    };
     #inherit nixpkgs;
 
     # Such that we can do current#pkgs.<our overlayd nixpkgs>
