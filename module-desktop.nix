@@ -1,9 +1,28 @@
 { config, pkgs, ... }: {
+
   imports = [ ./gnome-osk.nix ];
 
   options = { };
 
   config = {
+
+
+    # Surface related stuff.
+    microsoft-surface.ipts.enable = true;
+    #microsoft-surface.ipts.config = {
+    #  Stylus = {
+    #    MPPVersion = "v2";
+    #  };
+    #  DFT = {
+    #    PositionMinMag = 5000000;
+    #    ButtonMinMag = 50000;
+    #  };
+    #};
+    # Enable sound.
+    sound.enable = true;
+    hardware.pulseaudio.enable = true;
+
+
     # https://github.com/NixOS/nixpkgs/blob/4ecab3273592f27479a583fb6d975d4aba3486fe/nixos/modules/services/x11/desktop-managers/gnome.nix#L459
 
     # Configure keymap in X11

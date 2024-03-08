@@ -9,6 +9,7 @@
     nixosConfigurations.papyrus = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
+        ./configuration-base.nix
         ./configuration.nix
         nixos-hardware.nixosModules.microsoft-surface-pro-intel
 
@@ -42,6 +43,9 @@
     nixosConfigurations.recovery = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
+        ./configuration-base.nix
+        nixos-hardware.nixosModules.microsoft-surface-pro-intel
+
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
         ({ pkgs, ... }: { environment.systemPackages = [ pkgs.vim ]; })
         ({ pkgs, ... }: {

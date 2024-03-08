@@ -6,41 +6,15 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "ivor" ];
 
   nixpkgs.overlays = [
     (import ./overlay-iptsd.nix)
-
     (import ./overlay-osk.nix)
   ];
 
   imports =
-    [ ./hardware-configuration.nix ./module-desktop.nix ./module-thermald.nix ];
+    [  ./module-desktop.nix ./hardware-configuration.nix ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  # Boot kernel parameters:
-  boot.kernelParams = [
-    # Mitigate screen flickering, see:
-    # https://wiki.archlinux.org/title/intel_graphics#Screen_flickering
-    # https://github.com/linux-surface/linux-surface/issues/862
-    "i915.enable_psr=0"
-  ];
-  # Add the kernel modules such that we have a working keyboard for the 
-  # LUKS full disk encryption.
-  # https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption
-  boot.initrd.kernelModules = [
-    "surface_aggregator"
-    "surface_aggregator_registry"
-    "surface_aggregator_hub"
-    "surface_hid_core"
-    "surface_hid"
-    "pinctrl_tigerlake"
-    "intel_lpss"
-    "intel_lpss_pci"
-    "8250_dw"
-  ];
 
   # enable core dumps.
   systemd.coredump.enable = true;
@@ -72,27 +46,6 @@
   };
   boot.tmp.cleanOnBoot = true;
 
-  # Surface related stuff.
-  microsoft-surface.ipts.enable = true;
-  #microsoft-surface.ipts.config = {
-  #  Stylus = {
-  #    MPPVersion = "v2";
-  #  };
-  #  DFT = {
-  #    PositionMinMag = 5000000;
-  #    ButtonMinMag = 50000;
-  #  };
-  #};
-
-  microsoft-surface.surface-control.enable = true;
-  microsoft-surface.kernelVersion = "surface-devel";
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ivor = {
@@ -103,6 +56,7 @@
     # tree
     #];
   };
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
