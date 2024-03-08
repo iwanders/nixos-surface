@@ -42,7 +42,11 @@
   microsoft-surface.surface-control.enable = true;
   microsoft-surface.kernelVersion = "surface-devel";
 
-
+  # Disable the problematic suspend kernel module, it makes waking up
+  # impossible after closing the cover.
+  boot.blacklistedKernelModules = [
+    "surface_gpe"
+  ];
 
 }
 

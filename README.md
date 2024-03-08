@@ -56,7 +56,7 @@ nix-env --delete-generations --profile /nix/var/nix/profiles/system <number>
 
 Discard all but most recent 5;
 ```
-nix-env --delete-generations --profile /nix/var/nix/profiles/system  +2
+nix-env --delete-generations --profile /nix/var/nix/profiles/system  +5
 ```
 
 
@@ -311,6 +311,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
   - [x] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir. See also [this](https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption), now using LUKS2, typecover works with appropriate kernel modules.
   - [x] Fix multiboot clock, done by setting the registry key found in the [windows](./windows) subdirectory.
   - [ ] Create live cd with this readme and config, in case we need to recover.
+  - [ ] Sometimes we can't type at the full disk encryption page, if we use USB keyboard, only half of the kernel modules get loaded, platform profile for example is missing.
 
 
 
