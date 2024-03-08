@@ -46,8 +46,32 @@
         ./configuration-base.nix
         nixos-hardware.nixosModules.microsoft-surface-pro-intel
 
+      # "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
         ({ pkgs, ... }: { environment.systemPackages = [ pkgs.vim ]; })
+
+        {
+
+          boot.supportedFilesystems = nixpkgs.lib.mkForce [
+            "btrfs"
+            "ext4"
+            "f2fs"
+            "ntfs"
+            "vfat"
+            "xfs"
+            # Why do we need to comment this out to prevent rebuilding a kernel with zfs
+            # as compared to my default config? That doesn't have to do this?
+            #"zfs"
+          ];
+        }
+
+        # This here adds the current nixpkgs to the global flake registry
+        # such that nix build nixpkgs#... refers to the pinned version.
+        {
+          nix.registry.nixpkgs.flake = nixpkgs;
+          nix.settings.experimental-features = [ "nix-command" "flakes" ];
+        }
+
         ({ pkgs, ... }: {
           services.getty.helpLine = ''The repo can be found at /home/ivor/repo.'';
         })
