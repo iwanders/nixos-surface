@@ -51,7 +51,12 @@
         ({ pkgs, ... }: { environment.systemPackages = [ pkgs.vim ]; })
 
         {
+          # Faster but larger squashfs, significant change in speed.
+          isoImage.squashfsCompression = "gzip -Xcompression-level 1";
 
+          # Drop zfs support from the kernel to avoid a kernel rebuild.
+          # Why do we need to comment this out to prevent rebuilding a kernel with zfs
+          # as compared to my default config? That doesn't have to do this?
           boot.supportedFilesystems = nixpkgs.lib.mkForce [
             "btrfs"
             "ext4"
@@ -59,8 +64,6 @@
             "ntfs"
             "vfat"
             "xfs"
-            # Why do we need to comment this out to prevent rebuilding a kernel with zfs
-            # as compared to my default config? That doesn't have to do this?
             #"zfs"
           ];
         }
@@ -73,12 +76,15 @@
         }
 
         ({ pkgs, ... }: {
-          services.getty.helpLine = ''The repo can be found at /home/ivor/repo.'';
-        })
-        ({# Not sure if this here works... can't figure out how to avoid building the squashfs yet.
-          system.extraSystemBuilderCmds = ''
-            mkdir -p /home/ivor/repo
-            ln -s ${self} /home/ivor/repo
+          services.getty.helpLine =
+      ''
+        Exit the prompt to see this help again.
+        The nixos-surface repo can be found at /home/nixos/nixos-surface/.
+      '';
+
+        boot.postBootCommands =
+          ''
+            ln -s ${self} /home/nixos/nixos-surface
           '';
         })
       ];

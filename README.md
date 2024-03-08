@@ -247,10 +247,11 @@ mount -o compress=zstd,noatime,subvol=nix /dev/mapper/cryptroot /mnt/nix
 mount /dev/nvme0n1p1 /mnt/boot
 ```
 
-Chroot with:
+Chroot to our real system that's now at `/mnt/`:
 ```
 nixos-enter
 ```
+Calling it without arguments uses the root at `/mnt`
 
 First attempt was:
 ```
@@ -310,7 +311,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 - OS / System / Nix stuff
   - [x] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir. See also [this](https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption), now using LUKS2, typecover works with appropriate kernel modules.
   - [x] Fix multiboot clock, done by setting the registry key found in the [windows](./windows) subdirectory.
-  - [ ] Create live cd with this readme and config, in case we need to recover.
+  - [x] Create live cd with this readme and config, in case we need to recover.
   - [ ] Sometimes we can't type at the full disk encryption page, if we use USB keyboard, only half of the kernel modules get loaded, platform profile for example is missing.
 
 
