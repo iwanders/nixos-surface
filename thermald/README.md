@@ -1,5 +1,34 @@
 # Thermald configuration for surface pro 9
 
+## Documentation
+
+https://www.kernel.org/doc/html/next/power/powercap/powercap.html
+
+## The SP9:
+```
+.
+├── intel-rapl -> ../../devices/virtual/powercap/intel-rapl
+├── intel-rapl:0 -> ../../devices/virtual/powercap/intel-rapl/intel-rapl:0
+├── intel-rapl:0:0 -> ../../devices/virtual/powercap/intel-rapl/intel-rapl:0/intel-rapl:0:0
+├── intel-rapl:0:1 -> ../../devices/virtual/powercap/intel-rapl/intel-rapl:0/intel-rapl:0:1
+└── intel-rapl:1 -> ../../devices/virtual/powercap/intel-rapl/intel-rapl:1
+```
+
+Names:
+ - `intel-rapl:0`: `package-0`
+   - `intel-rapl:0:0`: `core`
+   - `intel-rapl:0:0`: `uncore`
+ - `intel-rapl:1`: `psys`
+
+Uncore may be the gpu, psys is the entire soc.
+
+`rapl-read` is useful.
+
+
+## Thermald configuration
+
+
+
 ```
 Mar 03 15:31:52 papyrus thermald[24232]: [1709497912][INFO]--adaptive option failed on this platform
 Mar 03 15:31:52 papyrus thermald[24232]: [1709497912][INFO]Ignoring --adaptive option
@@ -23,3 +52,4 @@ Well, that's odd... it states `iwlwifi_1` is at `31000` and then the trip point 
 
 
 With `PPCC` config specified it definitely does something. It throttles everything tremendously.
+

@@ -7,7 +7,7 @@ in {
   options = { };
 
   config = {
-    services.thermald.enable = true;
+    services.thermald.enable = false;
     services.thermald.debug = true;
     services.thermald.configFile = ./thermald/thermal-conf.xml;
 
