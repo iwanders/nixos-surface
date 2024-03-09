@@ -240,7 +240,7 @@ machine by `ssh root@nixos`.
 ### Recovery if Windows uninstalls / disables the bootloader
 Boot live cd, then manually mount the partitions with:
 ```
-cryptsetup luksOpen /dev/nvme0n1p5 cryptroot
+cryptsetup luksOpen /dev/nvme0n1p6 cryptroot
 mount -o compress=zstd,subvol=root /dev/mapper/cryptroot /mnt
 mount -o compress=zstd,subvol=home /dev/mapper/cryptroot /mnt/home
 mount -o compress=zstd,noatime,subvol=nix /dev/mapper/cryptroot /mnt/nix
