@@ -62,7 +62,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
-    (with pkgs; [ vim wget iftop lm_sensors screen iptsd file binutils mosh ]);
+    (with pkgs; [ vim wget iftop lm_sensors screen iptsd file binutils mosh git ]);
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
