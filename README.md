@@ -265,6 +265,8 @@ bootctl install
 
 Boot now succeeded.
 
+Build the recovery image with `nix build .#nixosConfigurations.recovery.config.system.build.isoImage`.
+
 ## Misc config
 
 Give gnome minimize and maximize buttons;
