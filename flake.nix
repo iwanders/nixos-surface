@@ -2,7 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-23.11";
     nixos-hardware.url =
-      "github:iwanders/nixos-hardware/ms-surface-build-linux-surface-kernel-from-repo";
+      "github:iwanders/nixos-hardware/master-iw";
   };
 
   outputs = { self, nixpkgs, nixos-hardware }: rec {

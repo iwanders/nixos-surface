@@ -2,16 +2,16 @@
   "nodes": {
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1701639549,
-        "narHash": "sha256-fEaBQizlAh6YclA4Uex3Lul20alPht/5tmnYGOVj6m0=",
+        "lastModified": 1710091513,
+        "narHash": "sha256-aCgHUYTIPPGBOEHJdHe09GprGmduKrR4CEYEhwYXXQU=",
         "owner": "iwanders",
         "repo": "nixos-hardware",
-        "rev": "9387d721ad626198e861f02cffd84bd3bd7423cc",
+        "rev": "cf462d6d1bb8d3c023ccabdb56e5c0af1a1802ed",
         "type": "github"
       },
       "original": {
         "owner": "iwanders",
-        "ref": "ms-surface-build-linux-surface-kernel-from-repo",
+        "ref": "master-iw",
         "repo": "nixos-hardware",
         "type": "github"
       }
