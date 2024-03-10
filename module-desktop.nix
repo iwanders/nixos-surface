@@ -9,16 +9,7 @@
 
     # Surface related stuff.
     microsoft-surface.ipts.enable = true;
-    #microsoft-surface.ipts.config = {
-    #  Stylus = {
-    #    MPPVersion = "v2";
-    #  };
-    #  DFT = {
-    #    PositionMinMag = 5000000;
-    #    ButtonMinMag = 50000;
-    #  };
-    #};
-    # Enable sound.
+
     sound.enable = true;
     hardware.pulseaudio.enable = true;
 
@@ -97,6 +88,6 @@
       gnome-system-monitor
       gnome-disk-utility
       nautilus
-    ]) ++ (with pkgs; [ vlc mplayer scite chromium gimp xorg.xwininfo ]);
+    ]) ++ (with pkgs; [ vlc mplayer scite chromium gimp xorg.xwininfo thunderbird ]);
   };
 }
