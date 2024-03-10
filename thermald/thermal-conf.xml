@@ -43,7 +43,7 @@
         <Type>wifi</Type>
         <TripPoints>
           <TripPoint>
-            <!-- Above 50C, start throttling -->
+            <!-- Above 45 only allow 25W.-->
             <SensorType>iwlwifi_1</SensorType>
             <Temperature>45000</Temperature>
             <type>passive</type>
@@ -52,14 +52,26 @@
               <index>1</index>
               <type>rapl_controller</type>
               <influence>100</influence>
-              <!-- tenth of a second here, so 100 is 10s, ramp up slow such that
-                   we don't set unlimited within a second -->
-              <SamplingPeriod>100</SamplingPeriod>
+              <SamplingPeriod>10</SamplingPeriod>
               <TargetState>25000000</TargetState>
             </CoolingDevice>
           </TripPoint>
           <TripPoint>
-            <!-- Above 50C, start throttling -->
+            <!-- Above 47 only allow 15W.-->
+            <SensorType>iwlwifi_1</SensorType>
+            <Temperature>47000</Temperature>
+            <type>passive</type>
+            <ControlType>SEQUENTIAL</ControlType>
+            <CoolingDevice>
+              <index>1</index>
+              <type>rapl_controller</type>
+              <influence>100</influence>
+              <SamplingPeriod>10</SamplingPeriod>
+              <TargetState>15000000</TargetState>
+            </CoolingDevice>
+          </TripPoint>
+          <TripPoint>
+            <!-- Above 50C, just reduce power all the way -->
             <SensorType>iwlwifi_1</SensorType>
             <Temperature>50000</Temperature>
             <type>passive</type>
