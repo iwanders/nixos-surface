@@ -24,11 +24,14 @@ Uncore may be the gpu, psys is the entire soc.
 
 `rapl-read` is useful.
 
+- Combination of the independent fan controller with our thermal limiting makes for stacked controllers.
+
 
 ## Thermald configuration
 
 - Trip points are really trip points, below it it just resets the limits to the previous trip point or unlimited.
 - It does not gracefully ramp up power limits once we drop below a setpoint.
+- Currently just made a bunch of trip points, to throttle incrementally.
 
 
 ```

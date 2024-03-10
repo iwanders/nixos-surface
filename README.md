@@ -293,7 +293,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
   - [This tool is probably helpful](https://patrickhlauke.github.io/touch/pen-tracker/)
   - [x] Check the false positive pen thumb-button clicks in gimp, [these](https://github.com/linux-surface/iptsd/issues/102) and [issues](https://github.com/quo/iptsd/issues/5) may be applicable. Filed [this](https://github.com/linux-surface/iptsd/pull/156).
   - [x] Pen contact detection is also glitchy.
-  - [ ] Ensure pen talks libwacom? [libwacom-surface](https://github.com/linux-surface/libwacom-surface/tree/master) and [libwacom](https://github.com/linux-surface/libwacom), linux-surface [wiki](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup) mentions [this flake](https://github.com/hpfr/system/blob/2e5b3b967b0436203d7add6adbd6b6f55e87cf3c/hosts/linux-surface.nix). Is this relevant?
+  - [x] Ensure pen talks libwacom? [libwacom-surface](https://github.com/linux-surface/libwacom-surface/tree/master) and [libwacom](https://github.com/linux-surface/libwacom), linux-surface [wiki](https://github.com/linux-surface/linux-surface/wiki/Installation-and-Setup) mentions [this flake](https://github.com/hpfr/system/blob/2e5b3b967b0436203d7add6adbd6b6f55e87cf3c/hosts/linux-surface.nix). Is this relevant? Not really, marking as done.
 
 - Power / Battery
   - [x] Suspended over night, drained 68% to 45%, did not wake from suspend in the morning, this type cover issue [where it can't wake from suspend in some conditions seems applicable](https://github.com/linux-surface/linux-surface/issues/1183). Currently disabled the buttons, see also [this issue](https://github.com/linux-surface/linux-surface/issues/1224) and [wiki entry](https://github.com/linux-surface/linux-surface/wiki/Known-Issues-and-FAQ#suspend-aka-sleep-vs-lid-closingopening-events). Likely caused by incorrect suspend from cover.
@@ -306,7 +306,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
   - [x] Logging messages from windows, all the way from boot. [irpmon wiki improvements](https://github.com/MartinDrab/IRPMon/issues/113)
   - [x] Make fan rpm monitoring module: https://github.com/linux-surface/kernel/pull/144
   - [ ] Make platform profile switch the fan profile: https://github.com/linux-surface/kernel/pull/145
-  - [ ] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald). Thermald is really hard to configure, are there alternatives?
+  - [x] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald). Thermald is really hard to configure, are there alternatives? Can't find alternatives, current profile is clunky, but at least we don't to the overheat stage. Currently piggybacks off of wifi, should revisit once [this](https://github.com/linux-surface/surface-aggregator-module/issues/59) is merged. Good enough for now, but should get more tuning before contrib upstream.
 
 - OS / System / Nix stuff
   - [x] Deploy some encryption, either LUKS & TPM or ecryptfs on the homedir. See also [this](https://github.com/linux-surface/linux-surface/wiki/Disk-Encryption), now using LUKS2, typecover works with appropriate kernel modules.
