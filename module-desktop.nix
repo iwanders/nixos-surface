@@ -63,8 +63,6 @@
       simple-scan # document scanner
       totem # video player
       yelp # help viewer
-      evince # document viewer
-      file-roller # archive manager
       geary # email client
       seahorse # password manager
       gnome-calculator
@@ -84,10 +82,12 @@
     # We also lose nautilus now though, so we add back stuff we actually care about...
     environment.systemPackages = (with pkgs.gnome; [
       eog # image viewer
+      evince # document viewer
+      file-roller # archive manager
       gnome-terminal
       gnome-system-monitor
       gnome-disk-utility
       nautilus
-    ]) ++ (with pkgs; [ vlc mplayer scite chromium gimp xorg.xwininfo thunderbird ]);
+    ]) ++ (with pkgs; [ vlc mplayer scite chromium gimp xorg.xwininfo thunderbird firefox ]);
   };
 }
