@@ -1,5 +1,11 @@
 { config, pkgs, ... }: {
 
+
+  # https://github.com/fthx/no-overview/tree/main
+  # is also helpful to ensure we end up on a desktop instead of the launcher.
+  # Forked to https://github.com/iwanders/gnome-no-overview-extension
+  # Currently installed through the gnome extension system.
+
   imports = [ ./gnome-osk.nix ];
 
   options = { };

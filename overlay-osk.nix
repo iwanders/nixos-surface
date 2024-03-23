@@ -1,7 +1,5 @@
 final: prev: {
 
-  # https://github.com/fthx/no-overview/tree/main
-  # is also helpful to ensure we end up on a desktop instead of the launcher.
 
   # https://github.com/cass00/enhanced-osk-gnome-ext
   # # /usr/share/gnome-shell/extensions/<extension directory>/schemas
