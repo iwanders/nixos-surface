@@ -2,7 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-23.11";
     nixos-hardware.url =
-      "github:iwanders/nixos-hardware/master-iw";
+      "github:tracteurblinde/nixos-hardware/surface-linux-6.8.1";
   };
 
   outputs = { self, nixpkgs, nixos-hardware }: rec {

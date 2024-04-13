@@ -2,16 +2,16 @@
   "nodes": {
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1710091513,
-        "narHash": "sha256-aCgHUYTIPPGBOEHJdHe09GprGmduKrR4CEYEhwYXXQU=",
-        "owner": "iwanders",
+        "lastModified": 1713023887,
+        "narHash": "sha256-/yHl8Toy1BsQMGrQ76/vqai+C4tC7r1CbByJMOvguTY=",
+        "owner": "tracteurblinde",
         "repo": "nixos-hardware",
-        "rev": "cf462d6d1bb8d3c023ccabdb56e5c0af1a1802ed",
+        "rev": "76ffc98d61d81f7dbcb27290d811063be36300eb",
         "type": "github"
       },
       "original": {
-        "owner": "iwanders",
-        "ref": "master-iw",
+        "owner": "tracteurblinde",
+        "ref": "surface-linux-6.8.1",
         "repo": "nixos-hardware",
         "type": "github"
       }
