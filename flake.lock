@@ -2,27 +2,27 @@
   "nodes": {
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1713023887,
-        "narHash": "sha256-/yHl8Toy1BsQMGrQ76/vqai+C4tC7r1CbByJMOvguTY=",
-        "owner": "tracteurblinde",
+        "lastModified": 1713521961,
+        "narHash": "sha256-EwR8wW9AqJhSIY+0oxWRybUZ32BVKuZ9bjlRh8SJvQ8=",
+        "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "76ffc98d61d81f7dbcb27290d811063be36300eb",
+        "rev": "5d48925b815fd202781bfae8fb6f45c07112fdb2",
         "type": "github"
       },
       "original": {
-        "owner": "tracteurblinde",
-        "ref": "surface-linux-6.8.1",
+        "owner": "NixOS",
+        "ref": "master",
         "repo": "nixos-hardware",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1700814814,
-        "narHash": "sha256-Wqmj6iJjWZ0dHsA/Hjs8+1Sco/eo9f1qVvlSVfaQqWM=",
+        "lastModified": 1713599872,
+        "narHash": "sha256-QNFC7n+YWx+cjhDwJ9TyAEpZOS35P25HE7mUxL167eo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ffcadd021d929dd87dcc3a3fc39098e13cbc8f60",
+        "rev": "bd31ea93a1fa31048247a77b515b01d92a3a1f96",
         "type": "github"
       },
       "original": {
