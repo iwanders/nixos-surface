@@ -307,7 +307,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
   - [x] Make fans turn on quicker, may just be a matter of installing thermald? Even on windows things get pretty hot, maybe that's normal? Research!
   - [x] Logging messages from windows, all the way from boot. [irpmon wiki improvements](https://github.com/MartinDrab/IRPMon/issues/113)
   - [x] Make fan rpm monitoring module: https://github.com/linux-surface/kernel/pull/144
-  - [ ] Make platform profile switch the fan profile: https://github.com/linux-surface/kernel/pull/145
+  - [x] Make platform profile switch the fan profile: https://github.com/linux-surface/kernel/pull/145
   - [x] Have to make `thermald` do the thing instead, figure this out, contrib config to [thermald contrib dir](https://github.com/linux-surface/linux-surface/tree/master/contrib/thermald). Thermald is really hard to configure, are there alternatives? Can't find alternatives, current profile is clunky, but at least we don't to the overheat stage. Currently piggybacks off of wifi, should revisit once [this](https://github.com/linux-surface/surface-aggregator-module/issues/59) is merged. Good enough for now, but should get more tuning before contrib upstream.
 
 - OS / System / Nix stuff
