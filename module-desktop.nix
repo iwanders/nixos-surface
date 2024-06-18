@@ -14,7 +14,7 @@
 
 
     # Surface related stuff.
-    microsoft-surface.ipts.enable = true;
+    services.iptsd.enable = true;
 
     sound.enable = true;
     hardware.pulseaudio.enable = true;
