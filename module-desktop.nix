@@ -59,6 +59,8 @@
 
     services.gnome.core-utilities.enable = false;
 
+    services.usbmuxd.enable = true; # For mounting ios devices.
+
     # well, that (utilities false) still pulls in orca, with speech synthesis, for many megabytes.
     # https://github.com/NixOS/nixpkgs/blob/4ecab3273592f27479a583fb6d975d4aba3486fe/nixos/modules/services/x11/desktop-managers/gnome.nix#L459
     # https://discourse.nixos.org/t/howto-disable-most-gnome-default-applications-and-what-they-are/13505
@@ -94,6 +96,19 @@
       gnome-system-monitor
       gnome-disk-utility
       nautilus
-    ]) ++ (with pkgs; [ vlc mplayer scite chromium gimp xorg.xwininfo thunderbird firefox ]);
+      gvfs # for mounting ios devices.
+    ]) ++ (with pkgs; [
+      vlc
+      mplayer
+      scite
+      chromium
+      gimp
+      xorg.xwininfo
+      thunderbird
+      firefox
+      # For mounting ios devices:
+      libimobiledevice
+      ifuse # optional, to mount using 'ifuse'
+    ]);
   };
 }
