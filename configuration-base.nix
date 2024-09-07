@@ -6,8 +6,7 @@
 
 {
 
-  imports =
-    [ ./module-thermald.nix ];
+  imports = [ ./module-thermald.nix ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -38,15 +37,12 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-
   microsoft-surface.surface-control.enable = true;
   microsoft-surface.kernelVersion = "surface-devel";
 
   # Disable the problematic suspend kernel module, it makes waking up
   # impossible after closing the cover.
-  boot.blacklistedKernelModules = [
-    "surface_gpe"
-  ];
+  boot.blacklistedKernelModules = [ "surface_gpe" ];
 
 }
 

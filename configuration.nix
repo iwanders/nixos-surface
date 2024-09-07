@@ -8,14 +8,10 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "ivor" ];
 
-  nixpkgs.overlays = [
-    (import ./overlay-iptsd.nix)
-    (import ./overlay-osk.nix)
-  ];
+  nixpkgs.overlays =
+    [ (import ./overlay-iptsd.nix) (import ./overlay-osk.nix) ];
 
-  imports =
-    [  ./module-desktop.nix ./hardware-configuration.nix ];
-
+  imports = [ ./module-desktop.nix ./hardware-configuration.nix ];
 
   # enable core dumps.
   systemd.coredump.enable = true;
@@ -47,7 +43,6 @@
   };
   boot.tmp.cleanOnBoot = true;
 
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ivor = {
     isNormalUser = true;
@@ -58,11 +53,20 @@
     #];
   };
 
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages =
-    (with pkgs; [ vim wget iftop lm_sensors screen iptsd file binutils mosh git ]);
+  environment.systemPackages = (with pkgs; [
+    vim
+    wget
+    iftop
+    lm_sensors
+    screen
+    iptsd
+    file
+    binutils
+    mosh
+    git
+  ]);
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

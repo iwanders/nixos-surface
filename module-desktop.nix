@@ -1,6 +1,5 @@
 { config, pkgs, ... }: {
 
-
   # https://github.com/fthx/no-overview/tree/main
   # is also helpful to ensure we end up on a desktop instead of the launcher.
   # Forked to https://github.com/iwanders/gnome-no-overview-extension
@@ -12,13 +11,11 @@
 
   config = {
 
-
     # Surface related stuff.
     services.iptsd.enable = true;
 
     sound.enable = true;
     hardware.pulseaudio.enable = true;
-
 
     # https://github.com/NixOS/nixpkgs/blob/4ecab3273592f27479a583fb6d975d4aba3486fe/nixos/modules/services/x11/desktop-managers/gnome.nix#L459
 

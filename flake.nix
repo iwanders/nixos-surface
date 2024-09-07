@@ -1,8 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-23.11";
-    nixos-hardware.url =
-      "github:NixOS/nixos-hardware/master";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs = { self, nixpkgs, nixos-hardware }: rec {
@@ -46,7 +45,7 @@
         ./configuration-base.nix
         nixos-hardware.nixosModules.microsoft-surface-pro-intel
 
-      # "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+        # "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
         ({ pkgs, ... }: { environment.systemPackages = [ pkgs.vim ]; })
 
@@ -76,14 +75,12 @@
         }
 
         ({ pkgs, ... }: {
-          services.getty.helpLine =
-      ''
-        Exit the prompt to see this help again.
-        The nixos-surface repo can be found at /home/nixos/nixos-surface/.
-      '';
+          services.getty.helpLine = ''
+            Exit the prompt to see this help again.
+            The nixos-surface repo can be found at /home/nixos/nixos-surface/.
+          '';
 
-        boot.postBootCommands =
-          ''
+          boot.postBootCommands = ''
             ln -s ${self} /home/nixos/nixos-surface
           '';
         })

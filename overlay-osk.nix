@@ -1,6 +1,5 @@
 final: prev: {
 
-
   # https://github.com/cass00/enhanced-osk-gnome-ext
   # # /usr/share/gnome-shell/extensions/<extension directory>/schemas
   # /usr/share/gnome-shell/extensions/uuid
