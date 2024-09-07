@@ -59,6 +59,13 @@ Discard all but most recent 5;
 nix-env --delete-generations --profile /nix/var/nix/profiles/system  +5
 ```
 
+### Build the recovery image
+The `flake.nix` file has some custom settings for generating a recovery image that includes this repository in the `/home/nixos/nixos-surface/` path.
+
+The USB image can be built with:
+```
+nix build .#nixosConfigurations.recovery.config.system.build.isoImage --out-link recovery.priv.result -L
+```
 
 ## Installation
 
