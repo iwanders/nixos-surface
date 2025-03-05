@@ -15,7 +15,13 @@
     services.iptsd.enable = true;
 
     sound.enable = true;
-    hardware.pulseaudio.enable = true;
+
+    hardware.pulseaudio.enable = false;
+    # https://discourse.nixos.org/t/bluetooth-a2dp-sink-not-showing-up-in-pulseaudio-on-nixos/32447/3
+    services.pipewire = {
+        enable = true;
+        pulse.enable = true;
+    };
 
     # https://github.com/NixOS/nixpkgs/blob/4ecab3273592f27479a583fb6d975d4aba3486fe/nixos/modules/services/x11/desktop-managers/gnome.nix#L459
 
