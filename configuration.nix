@@ -46,7 +46,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ivor = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "dialout" ]; # Wheel; ‘sudo’ for the user, dialout; serial ports.
     #packages = with pkgs; [
     # vim
     # tree
