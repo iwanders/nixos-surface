@@ -19,7 +19,9 @@
   networking.hostName = "papyrus"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;  # IW; most confusing comment, it seems to be enabled on nixos as well by default.
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
@@ -46,7 +48,10 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ivor = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "dialout" ]; # Wheel; ‘sudo’ for the user, dialout; serial ports.
+    # Wheel; ‘sudo’ for the user
+    # dialout; serial ports.
+    # networkmanager; change wifi settings without password.
+    extraGroups = [ "wheel" "dialout" "networkmanager" ];
     #packages = with pkgs; [
     # vim
     # tree
