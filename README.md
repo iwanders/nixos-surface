@@ -335,3 +335,8 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 - Contribute back enhanced OSK suggestions bar: https://github.com/cass00/enhanced-osk-gnome-ext/pull/7
 - Contribute mppv2+ / Slim Pen 2 fixes to iptsd: https://github.com/linux-surface/iptsd/pull/156
 
+
+# Todo
+- eog [plugins](https://wiki.gnome.org/Apps(2f)EyeOfGnome(2f)Plugins.html) for [slideshowshuffle](https://help.gnome.org/users/eog/stable/plugin-slideshow-shuffle.html.en)
+
+
