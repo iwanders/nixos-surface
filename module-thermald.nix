@@ -8,7 +8,7 @@ in {
 
   config = {
     services.thermald.enable = true;
-    services.thermald.debug = true;
+    services.thermald.debug = false;
     services.thermald.configFile = ./thermald/thermal-conf.xml;
 
     #systemd.services.thermald.serviceConfig.ExecStart = lib.mkForce  ''
