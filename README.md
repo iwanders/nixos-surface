@@ -282,6 +282,12 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 ```
 (Default is `appmenu:close`).
 
+Ensure the file explorer always gives the location/path as a text box with a string instead of buttons;
+```
+gsettings set org.gnome.nautilus.preferences always-use-location-entry true
+```
+From [here](https://www.reddit.com/r/gnome/comments/8m2kf9/enable_url_bar_in_gnome_files/).
+
 # Flake reminders
 
 - This flake is always available in `/run/booted-system/flake/`, flake `current` is that.
@@ -338,7 +344,6 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 
 # Todo
 - eog [plugins](https://wiki.gnome.org/Apps(2f)EyeOfGnome(2f)Plugins.html) for [slideshowshuffle](https://help.gnome.org/users/eog/stable/plugin-slideshow-shuffle.html.en)
-- caja address bar to text
 - caja heic thumbnails?
 - Does 'declutter' exist for gnome 45?
 
