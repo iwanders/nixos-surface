@@ -338,5 +338,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 
 # Todo
 - eog [plugins](https://wiki.gnome.org/Apps(2f)EyeOfGnome(2f)Plugins.html) for [slideshowshuffle](https://help.gnome.org/users/eog/stable/plugin-slideshow-shuffle.html.en)
-
+- caja address bar to text
+- caja heic thumbnails?
+- Does 'declutter' exist for gnome 45?
 
