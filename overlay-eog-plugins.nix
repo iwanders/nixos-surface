@@ -79,4 +79,12 @@ final: prev: {
       mainProgram = "eog";
     };
   };
+
+  eog-with-plugins = prev.gnome.eog.overrideAttrs(old: {
+    postInstall = ''
+        wrapProgram $out/bin/eog \
+          --prefix XDG_DATA_DIRS : ${final.gnome-eog-plugins}/lib \
+          --prefix PYTHONPATH :  ${prev.python3.pkgs.makePythonPath [ prev.python3Packages.pygobject3 ]} 
+    '';
+  });
 }

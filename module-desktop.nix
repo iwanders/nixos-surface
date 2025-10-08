@@ -94,7 +94,7 @@
 
     # We also lose nautilus now though, so we add back stuff we actually care about...
     environment.systemPackages = (with pkgs.gnome; [
-      eog # image viewer
+      #eog # image viewer
       evince # document viewer
       file-roller # archive manager
       gnome-terminal
@@ -114,6 +114,7 @@
       # For mounting ios devices:
       libimobiledevice
       ifuse # optional, to mount using 'ifuse'
+      eog-with-plugins # Eye of gnome with plugins.
     ]);
   };
 }
