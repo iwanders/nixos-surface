@@ -5,7 +5,9 @@
   # Forked to https://github.com/iwanders/gnome-no-overview-extension
   # Currently installed through the gnome extension system.
 
-  imports = [ ./gnome-osk.nix ];
+  imports = [
+    ./gnome-osk.nix
+  ];
 
   options = { };
 

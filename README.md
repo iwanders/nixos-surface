@@ -67,6 +67,11 @@ The USB image can be built with:
 nix build .#nixosConfigurations.recovery.config.system.build.isoImage --out-link recovery.priv.result -L
 ```
 
+### Build specific packages from the overlays
+```
+nix build .#nixosConfigurations.papyrus.pkgs.gnome-eog-plugins
+```
+
 ## Installation
 
 Some quick notes for myself.

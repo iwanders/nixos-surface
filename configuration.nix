@@ -9,7 +9,11 @@
   nix.settings.trusted-users = [ "ivor" ];
 
   nixpkgs.overlays =
-    [ (import ./overlay-iptsd.nix) (import ./overlay-osk.nix) ];
+    [
+      (import ./overlay-iptsd.nix)
+      (import ./overlay-osk.nix)
+      (import ./overlay-eog-plugins.nix)
+    ];
 
   imports = [ ./module-desktop.nix ./hardware-configuration.nix ];
 
