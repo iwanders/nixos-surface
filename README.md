@@ -348,7 +348,6 @@ From [here](https://www.reddit.com/r/gnome/comments/8m2kf9/enable_url_bar_in_gno
 
 
 # Todo
-- eog [plugins](https://wiki.gnome.org/Apps(2f)EyeOfGnome(2f)Plugins.html) for [slideshowshuffle](https://help.gnome.org/users/eog/stable/plugin-slideshow-shuffle.html.en)
 - caja heic thumbnails?
 - Does 'declutter' exist for gnome 45?
 - Make machine shut down if on LUKS password in initram fs for 'n' seconds. To avoid draining battery if accidentally powered on. Perhaps with [something like this](https://bbs.archlinux.org/viewtopic.php?pid=2176578#p2176578).
