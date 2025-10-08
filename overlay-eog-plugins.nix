@@ -56,7 +56,7 @@ final: prev: {
       #cp ${prev.gnome.eog}/bin/eog $out/bin/
       makeWrapper ${prev.gnome.eog}/bin/eog $out/bin/eog \
         --prefix XDG_DATA_DIRS : $out/lib \
-        --prefix-each PYTHONPATH : [] \
+        --prefix PYTHONPATH :  ${prev.python3.pkgs.makePythonPath [ prev.python3Packages.pygobject3 ]} 
   '';
     preFixup = ''
     '';
