@@ -48,7 +48,7 @@ final: prev: {
   # build the plugins, the second one to use them... but that's light and this is easy and still results
   # in desktop integration and the like.
   eog-with-plugins = prev.gnome.eog.overrideAttrs(old: {
-    postInstall = ''
+    postInstall = old.postInstall + ''
         wrapProgram $out/bin/eog \
           --prefix XDG_DATA_DIRS : ${final.gnome-eog-plugins}/lib \
           --prefix PYTHONPATH :  ${prev.python3.pkgs.makePythonPath [ prev.python3Packages.pygobject3 ]} 
