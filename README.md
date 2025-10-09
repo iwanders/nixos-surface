@@ -137,7 +137,7 @@ From [here](https://www.reddit.com/r/gnome/comments/8m2kf9/enable_url_bar_in_gno
   - [x] Eye of Gnome [plugins](https://wiki.gnome.org/Apps(2f)EyeOfGnome(2f)Plugins.html) for [slideshowshuffle](https://help.gnome.org/users/eog/stable/plugin-slideshow-shuffle.html.en), [commit](https://github.com/iwanders/nixos-surface/commit/7c06fe62928fd5f073e84ece7eb42ccc5638da5c).
   - [x] Changing wifi settings without password [commit](https://github.com/iwanders/nixos-surface/commit/59a8c4ebf5c25628c7428d1b1af00276d49b7587).
   - [x] Caja show location as textbox [commit](https://github.com/iwanders/nixos-surface/commit/dd60564e8ebd76a722f231fb073518a579e65f22).
-  - [ ] Caja HEIC thumbnails?
+  - [x] Caja HEIC thumbnails? [commit](https://github.com/iwanders/nixos-surface/commit/d5c2f17de997607ec0d10abb4cb18f7c44680fca)
   - [ ] Does 'declutter' exist to hide the cursor?
   - [ ] mpv volume persistance [this](https://github.com/mpv-player/mpv/issues/1913#issuecomment-1127102576).
 
