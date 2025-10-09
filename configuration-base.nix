@@ -6,7 +6,13 @@
 
 {
 
-  imports = [ ./module-thermald.nix ];
+  imports = [
+    ./module-thermald.nix
+    ./module-initrd-shutdown.nix
+  ];
+  #./module-timestamps.nix this errors on the sed line, something is different, ignore this for now.
+
+  services.initrd-shutdown.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -32,6 +38,9 @@
     "intel_lpss_pci"
     "8250_dw"
   ];
+
+  boot.initrd.systemd.enable = true;
+  #boot.initrd.systemd.additionalUpstreamUnits = [ "initram-shutdown.target" ];
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
