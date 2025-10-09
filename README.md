@@ -131,7 +131,7 @@ From [here](https://www.reddit.com/r/gnome/comments/8m2kf9/enable_url_bar_in_gno
   - [x] Fix multiboot clock, done by setting the registry key found in the [windows](./windows) subdirectory.
   - [x] Create live cd with this readme and config, in case we need to recover.
   - [x] Sometimes we can't type at the full disk encryption page, if we use USB keyboard, only half of the kernel modules get loaded, platform profile for example is missing. Not seen since kernel update.
-  - [ ] Machine shut down if on LUKS password in initram fs for 'n' seconds. To avoid draining battery if accidentally powered on. Perhaps with [something like this](https://bbs.archlinux.org/viewtopic.php?pid=2176578#p2176578).
+  - [x] Machine shut down if on LUKS password in initram fs for 'n' seconds. To avoid draining battery if accidentally powered on. Perhaps with [something like this](https://bbs.archlinux.org/viewtopic.php?pid=2176578#p2176578). [Commit](https://github.com/iwanders/nixos-surface/commit/e11f0b5bea073063dc8ba2b5c48cf775b770c9d4), we now start systemd in initrd stage, we have a one shot service that monitors for `initrd-root-device.target` completing, if that completes it exits, if it reaches a timer it shuts down the machine again.
 
 - Misc usability
   - [x] Eye of Gnome [plugins](https://wiki.gnome.org/Apps(2f)EyeOfGnome(2f)Plugins.html) for [slideshowshuffle](https://help.gnome.org/users/eog/stable/plugin-slideshow-shuffle.html.en), [commit](https://github.com/iwanders/nixos-surface/commit/7c06fe62928fd5f073e84ece7eb42ccc5638da5c).
