@@ -115,6 +115,10 @@
       libimobiledevice
       ifuse # optional, to mount using 'ifuse'
       eog-with-plugins # Eye of gnome with plugins.
+
+      # for thumbnailing heic files. https://github.com/NixOS/nixpkgs/issues/164021#issuecomment-2120161608
+      libheif 
+      libheif.out 
     ]);
   };
 }
