@@ -140,6 +140,7 @@ From [here](https://www.reddit.com/r/gnome/comments/8m2kf9/enable_url_bar_in_gno
   - [x] Caja HEIC thumbnails? [commit](https://github.com/iwanders/nixos-surface/commit/d5c2f17de997607ec0d10abb4cb18f7c44680fca)
   - [x] mpv volume persistance [this](https://github.com/mpv-player/mpv/issues/1913#issuecomment-1127102576); Cloned [this repo](https://github.com/d87/mpv-persist-properties) into `~/.config/mpv/scripts/`, followed by `ln -s persist-properties.lua  main.lua`.
   - [x] Does 'declutter' exist to hide the cursor? [This one](https://github.com/elcste/hide-cursor.git), clone into `~/.local/share/gnome-shell/extensions` with name `hide-cursor@elcste.com`, be sure to check out `v.1.3.0` for gnome 45.
+  - [ ] Hotspot / local wifi where devices can see each other (not like iOS hotspot) to transfer files.
 
 # Contribution / PR tracking
 
